@@ -1,0 +1,96 @@
+name: mandir
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2
+  carousel_slider: ^5.1.1
+  shared_preferences: ^2.5.3
+  device_info_plus: ^11.5.0
+  permission_handler: ^12.0.1
+  lottie: ^3.3.1
+  fluttertoast: ^8.2.12
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+
+
+  uses-material-design: true
+
+
+
+  assets:
+    - assets/
+    - assets/fonts/
+    - assets/icons/
+    - assets/animations/
+
+  fonts:
+    - family: poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+
+    - family: graphik
+      fonts:
+        - asset: assets/fonts/graphik/Graphik-Bold.otf
+        - asset: assets/fonts/graphik/Graphik-Light.otf
+        - asset: assets/fonts/graphik/Graphik-Medium.otf
+        - asset: assets/fonts/graphik/Graphik-Regular.otf
+        - asset: assets/fonts/graphik/Graphik-Semibold.otf
+        - asset: assets/fonts/graphik/Graphik-Thin.otf
+
+    - family: oswand
+      fonts:
+        - asset: assets/fonts/oswald/Oswald-Bold.ttf
+        - asset: assets/fonts/oswald/Oswald-ExtraLight.ttf
+        - asset: assets/fonts/oswald/Oswald-Light.ttf
+        - asset: assets/fonts/oswald/Oswald-Medium.ttf
+        - asset: assets/fonts/oswald/Oswald-Regular.ttf
+        - asset: assets/fonts/oswald/Oswald-SemiBold.ttf
+
+    - family: nunito
+      fonts:
+        - asset: assets/fonts/nunito/NunitoSans-Black.ttf
+        - asset: assets/fonts/nunito/NunitoSans-Bold.ttf
+        - asset: assets/fonts/nunito/NunitoSans-ExtraBold.ttf
+        - asset: assets/fonts/nunito/NunitoSans-ExtraLight.ttf
+        - asset: assets/fonts/nunito/NunitoSans-Light.ttf
+        - asset: assets/fonts/nunito/NunitoSans-Regular.ttf
+        - asset: assets/fonts/nunito/NunitoSans-SemiBold.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/static/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto/static/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto/static/Roboto_SemiCondensed-ThinItalic.ttf
+
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Bold.ttf
+        - asset: assets/fonts/inter/Inter_18pt-Black.ttf
+        - asset: assets/fonts/inter/Inter_28pt-ThinItalic.ttf
+
