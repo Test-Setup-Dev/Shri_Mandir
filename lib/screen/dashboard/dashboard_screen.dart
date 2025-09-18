@@ -3,6 +3,8 @@ import 'package:mandir/screen/blog/blog_screen.dart';
 import 'package:mandir/screen/home/home.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
 import 'package:mandir/screen/profile/profile_screen.dart';
+import 'package:mandir/screen/shop/shop_screen.dart';
+import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/widget/widgets.dart';
 
@@ -27,8 +29,9 @@ class _DashboardState extends State<Dashboard> {
 
   final List<NavigationItem> _items = [
     NavigationItem('assets/icons/home.png', Text('Home'), 0),
+    NavigationItem('assets/icons/shop_icon.png', Text('Shop'), 0),
     NavigationItem('assets/icons/dashboard_outline.png', Text('Blog'), 0),
-    NavigationItem('assets/icons/notification_outline.png', Text('Notification'), 0),
+    NavigationItem('assets/icons/donation.png', Text('Donation'), 0),
     NavigationItem('assets/icons/user_outline.png', Text('Profile'), 0),
   ];
 
@@ -47,16 +50,18 @@ class _DashboardState extends State<Dashboard> {
               case 0:
                 return HomeScreen();
               case 1:
-                return BlogScreen();
+                return ShopScreen();
               case 2:
-                return NotificationScreen();
+                return BlogScreen();
               case 3:
+                return NotificationScreen();
+              case 4:
                 return ProfileScreen();
               default:
                 return HomeScreen();
             }
           },
-          itemCount: 4,
+          itemCount: 5,
         ),
         bottomNavigationBar: _bottomNav(),
       ),
@@ -78,18 +83,19 @@ class _DashboardState extends State<Dashboard> {
       width: 100.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: _items.map((item) {
-          var itemIndex = _items.indexOf(item);
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedIndex = itemIndex;
-                _pageController.jumpToPage(_selectedIndex);
-              });
-            },
-            child: navItem(item, _selectedIndex == itemIndex),
-          );
-        }).toList(),
+        children:
+            _items.map((item) {
+              var itemIndex = _items.indexOf(item);
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = itemIndex;
+                    _pageController.jumpToPage(_selectedIndex);
+                  });
+                },
+                child: navItem(item, _selectedIndex == itemIndex),
+              );
+            }).toList(),
       ),
     );
   }

@@ -1,204 +1,367 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mandir/dialogs/alert_dialog.dart';
-import 'package:mandir/model/bottom_navItem.dart';
-import 'package:mandir/model/puja.dart';
-import 'package:mandir/model/service_cat.dart';
-import 'package:mandir/model/special_event.dart';
-import 'package:mandir/screen/home/home.dart';
+import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
+import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
+import 'package:mandir/screen/test2.dart';
 import 'package:mandir/utils/helper.dart';
-import 'package:mandir/values/theme_colors.dart';
 
 class HomeController extends GetxController {
   var isLoading = false.obs;
   var searchQuery = ''.obs;
+  var selectedMediaType = MediaType.audio.obs;
 
-  var serviceCategories = <ServiceCategory>[].obs;
-  var pujaServices = <PujaService>[].obs;
-  var specialEvents = <SpecialEvent>[].obs;
-  var featuredServices = <PujaService>[].obs;
-  var favoriteServices = <String>[].obs;
+  var allMediaItems = <MediaItem>[].obs;
+  var favoriteItems = <String>[].obs;
+  var categories = <MediaCategory>[].obs;
+
   var banners = <String>[
-    'https://uicreative.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2019/11/23101032/image_preview_WB_11.jpg',
-    'https://img.freepik.com/free-psd/creative-business-partner-banner-template_23-2148938802.jpg',
-    'https://img.freepik.com/free-psd/business-development-banner-template-with-photo_23-2149063833.jpg',
-    'https://img.freepik.com/free-psd/creative-business-partner-banner-template_23-2148938802.jpg',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=200&fit=crop',
   ].obs;
+
+  List<MediaItem> get filteredMediaItems {
+    var filtered = allMediaItems.where((item) {
+      bool matchesType = item.type == selectedMediaType.value;
+      bool matchesSearch =
+          searchQuery.value.isEmpty ||
+              item.title.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
+              item.artist.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
+              item.category.toLowerCase().contains(searchQuery.value.toLowerCase());
+
+      return matchesType && matchesSearch;
+    }).toList();
+
+    return filtered;
+  }
 
   @override
   void onInit() {
     super.onInit();
-    loadHomeData();
+    loadMediaData();
   }
 
-  void loadHomeData() {
+  void loadMediaData() {
     isLoading.value = true;
-    _loadServiceCategories();
-    _loadPujaServices();
-    _loadSpecialEvents();
+    _loadMediaItems();
+    _loadCategories();
     isLoading.value = false;
   }
 
-  void _loadServiceCategories() {
-    serviceCategories.value = [
-      ServiceCategory(
+  void _loadMediaItems() {
+    allMediaItems.value = [
+      // Audio Items
+      MediaItem(
         id: '1',
-        name: 'Panchang',
-        icon: '📅',
-        description: 'Daily Hindu Calendar',
-      ),
-      ServiceCategory(
-        id: '2',
-        name: 'Library',
-        icon: '📚',
-        description: 'Sacred Texts',
-      ),
-      ServiceCategory(
-        id: '3',
-        name: 'Kundali',
-        icon: '⭐',
-        description: 'Horoscope Services',
-      ),
-      ServiceCategory(
-        id: '4',
-        name: 'Wallpaper',
-        icon: '🖼️',
-        description: 'Divine Images',
-      ),
-      ServiceCategory(
-        id: '5',
-        name: 'Astrology',
-        icon: '🔮',
-        description: 'Vedic Consultation',
-      ),
-      ServiceCategory(
-        id: '6',
-        name: 'Rushifal',
-        icon: '🌟',
-        description: 'Predictions',
-      ),
-      ServiceCategory(
-        id: '7',
-        name: 'Gemstones',
-        icon: '💎',
-        description: 'Sacred Stones',
-      ),
-      ServiceCategory(
-        id: '8',
-        name: 'Yantra',
-        icon: '🕉️',
-        description: 'Sacred Designs',
-      ),
-    ];
-  }
-
-  void _loadPujaServices() {
-    pujaServices.value = [
-      PujaService(
-        id: '1',
-        name: 'Shani Til-Tel Abhishekam',
-        description: 'For removing obstacles',
-        image: 'https://i.imgur.com/tXyOMMG.png',
-        price: 251.0,
-        rating: 4.5,
-        duration: '30 min',
-        category: 'Shani',
-        isSpecial: true,
-      ),
-      PujaService(
-        id: '2',
-        name: 'Kundali Navgrah Shanti',
-        description: 'Planetary peace ritual',
-        image: 'https://finebuy.co.in/wp-content/uploads/2022/07/top13.webp',
-        price: 501.0,
+        title: 'Om Namah Shivaya',
+        artist: 'Sacred Chants',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio1.mp3',
+        type: MediaType.audio,
+        duration: '5:30',
+        category: 'Mantras',
         rating: 4.8,
-        duration: '45 min',
-        category: 'Navgrah',
-      ),
-      PujaService(
-        id: '3',
-        name: 'Shani Amavasya Ganga',
-        description: 'Special Ganga offering',
-        image: 'https://i.imgur.com/R2PN9Wq.jpeg',
-        price: 351.0,
-        rating: 4.6,
-        duration: '25 min',
-        category: 'Shani',
-      ),
-      PujaService(
-        id: '4',
-        name: 'Pitru Shanti Dosha Nivaran',
-        description: 'Ancestral peace ritual',
-        image:
-            'https://i.imgur.com/JfyZlnO.png',
-        price: 751.0,
-        rating: 4.9,
-        duration: '60 min',
-        category: 'Pitru',
-      ),
-    ];
-  }
-
-  void _loadSpecialEvents() {
-    specialEvents.value = [
-      SpecialEvent(
-        id: '1',
-        title: 'Ashtami Shani Amavasya 2025 Special',
-        description: 'Join us for special prayers and rituals',
-        image:
-            'https://i.imgur.com/tXyOMMG.png',
-        date: DateTime.now().add(Duration(days: 7)),
-        location: 'Main Temple',
         isFeatured: true,
       ),
-      SpecialEvent(
+      MediaItem(
         id: '2',
-        title: 'Sacred Temple Ritual Experience',
-        description: 'Experience divine energy in our ceremony',
-        image:
-            'https://plus.unsplash.com/premium_photo-1698500034742-098f7fc04163',
-        date: DateTime.now().add(Duration(days: 14)),
-        location: 'Shani Temple',
+        title: 'Gayatri Mantra',
+        artist: 'Vedic Sounds',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1593225457124-a3eb161ffa5f?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio2.mp3',
+        type: MediaType.audio,
+        duration: '3:15',
+        category: 'Mantras',
+        rating: 4.9,
+      ),
+      MediaItem(
+        id: '3',
+        title: 'Hanuman Chalisa',
+        artist: 'Devotional Collection',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio3.mp3',
+        type: MediaType.audio,
+        duration: '8:45',
+        category: 'Bhajans',
+        rating: 4.7,
+      ),
+      MediaItem(
+        id: '4',
+        title: 'Shree Ram Bhajan',
+        artist: 'Divine Melodies',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio4.mp3',
+        type: MediaType.audio,
+        duration: '6:20',
+        category: 'Bhajans',
+        rating: 4.6,
         isFeatured: true,
+      ),
+      MediaItem(
+        id: '5',
+        title: 'Krishna Flute Music',
+        artist: 'Instrumental Bliss',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio5.mp3',
+        type: MediaType.audio,
+        duration: '12:30',
+        category: 'Instrumental',
+        rating: 4.5,
+      ),
+      MediaItem(
+        id: '6',
+        title: 'Meditation Music',
+        artist: 'Peaceful Sounds',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/audio6.mp3',
+        type: MediaType.audio,
+        duration: '15:00',
+        category: 'Meditation',
+        rating: 4.8,
+      ),
+
+      // Video Items
+      MediaItem(
+        id: '7',
+        title: 'Ganga Aarti Live',
+        artist: 'Temple Videos',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1605792657660-596af9009e82?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/video1.mp4',
+        type: MediaType.video,
+        duration: '25:30',
+        category: 'Aarti',
+        rating: 4.9,
+        isFeatured: true,
+      ),
+      MediaItem(
+        id: '8',
+        title: 'Shiva Tandav Dance',
+        artist: 'Classical Performances',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/video2.mp4',
+        type: MediaType.video,
+        duration: '18:45',
+        category: 'Dance',
+        rating: 4.7,
+      ),
+      MediaItem(
+        id: '9',
+        title: 'Temple Morning Prayers',
+        artist: 'Sacred Rituals',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1605792657660-596af9009e82?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/video3.mp4',
+        type: MediaType.video,
+        duration: '45:20',
+        category: 'Prayers',
+        rating: 4.8,
+        isFeatured: true,
+      ),
+      MediaItem(
+        id: '10',
+        title: 'Bhakti Yoga Session',
+        artist: 'Spiritual Learning',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/video4.mp4',
+        type: MediaType.video,
+        duration: '32:15',
+        category: 'Yoga',
+        rating: 4.6,
+      ),
+      MediaItem(
+        id: '11',
+        title: 'Festival Celebrations',
+        artist: 'Cultural Events',
+        thumbnailUrl:
+        'https://images.unsplash.com/photo-1605792657660-596af9009e82?w=300&h=300&fit=crop',
+        mediaUrl: 'https://example.com/video5.mp4',
+        type: MediaType.video,
+        duration: '55:30',
+        category: 'Festivals',
+        rating: 4.5,
       ),
     ];
   }
 
-  void onSearch(String query) => searchQuery.value = query;
+  void _loadCategories() {
+    categories.value = [
+      MediaCategory(
+        id: '1',
+        name: 'Mantras',
+        icon: '🕉️',
+        description: 'Sacred Chants',
+      ),
+      MediaCategory(
+        id: '2',
+        name: 'Bhajans',
+        icon: '🎵',
+        description: 'Devotional Songs',
+      ),
+      MediaCategory(
+        id: '3',
+        name: 'Aarti',
+        icon: '🪔',
+        description: 'Prayer Songs',
+      ),
+      MediaCategory(
+        id: '4',
+        name: 'Meditation',
+        icon: '🧘',
+        description: 'Peaceful Music',
+      ),
+      MediaCategory(
+        id: '5',
+        name: 'Instrumental',
+        icon: '🎶',
+        description: 'Classical Music',
+      ),
+      MediaCategory(
+        id: '6',
+        name: 'Yoga',
+        icon: '🧘‍♀️',
+        description: 'Yoga Sessions',
+      ),
+      MediaCategory(
+        id: '7',
+        name: 'Festivals',
+        icon: '🎊',
+        description: 'Celebrations',
+      ),
+      MediaCategory(
+        id: '8',
+        name: 'Prayers',
+        icon: '🙏',
+        description: 'Daily Prayers',
+      ),
+    ];
+  }
 
-  void onServiceTap(PujaService service) {
+  void onSearch(String query) {
+    searchQuery.value = query;
+  }
+
+  void setMediaType(MediaType type) {
+    selectedMediaType.value = type;
+  }
+
+  void playMedia(MediaItem item) {
+    if (item.type == MediaType.video) {
+      Get.to(() => VideoPlayerScreen(mediaItem: item));
+    } else {
+      Get.to(() => AudioPlayerScreen(mediaItem: item));
+    }
+    // Implement media playback logic here
     Get.snackbar(
-      'Service Selected',
-      '${service.name} - ₹${service.price.toInt()}',
+      'Playing ${item.type == MediaType.video ? 'Video' : 'Audio'}',
+      '${item.title} by ${item.artist}',
+      backgroundColor: ThemeColors.primaryColor.withOpacity(0.9),
+      colorText: ThemeColors.white,
+      duration: Duration(seconds: 3),
+      snackPosition: SnackPosition.BOTTOM,
+      margin: EdgeInsets.all(16),
+      borderRadius: 12,
+      icon: Icon(
+        item.type == MediaType.video
+            ? Icons.play_circle_filled
+            : Icons.music_note,
+        color: ThemeColors.white,
+      ),
+    );
+
+    // Here you would typically integrate with audio/video players like:
+    // - just_audio for audio playback
+    // - video_player or chewie for video playback
+  }
+
+  void toggleFavorite(String itemId) {
+    if (favoriteItems.contains(itemId)) {
+      favoriteItems.remove(itemId);
+      Get.snackbar(
+        'Removed from Favorites',
+        'Item removed from your favorites',
+        backgroundColor: ThemeColors.greyColor.withOpacity(0.8),
+        colorText: ThemeColors.white,
+        duration: Duration(seconds: 2),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      favoriteItems.add(itemId);
+      Get.snackbar(
+        'Added to Favorites',
+        'Item added to your favorites',
+        backgroundColor: ThemeColors.accentColor.withOpacity(0.9),
+        colorText: ThemeColors.white,
+        duration: Duration(seconds: 2),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  bool isFavorite(String itemId) => favoriteItems.contains(itemId);
+
+  void onCategoryTap(MediaCategory category) {
+    // Filter by category
+    searchQuery.value = category.name.toLowerCase();
+
+    Get.snackbar(
+      'Category',
+      'Browsing ${category.name}',
       backgroundColor: ThemeColors.primaryColor.withOpacity(0.9),
       colorText: ThemeColors.white,
       duration: Duration(seconds: 2),
     );
   }
+}
 
-  void onCategoryTap(ServiceCategory category) {
-    Get.snackbar(
-      'Category',
-      'Exploring ${category.name}',
-      backgroundColor: ThemeColors.accentColor.withOpacity(0.9),
-      colorText: ThemeColors.white,
-    );
-  }
 
-  void toggleFavorite(String serviceId) {
-    if (favoriteServices.contains(serviceId)) {
-      favoriteServices.remove(serviceId);
-    } else {
-      favoriteServices.add(serviceId);
-    }
-  }
+// model/media_item.dart
+enum MediaType { audio, video }
 
-  bool isFavorite(String serviceId) => favoriteServices.contains(serviceId);
+class MediaItem {
+  final String id;
+  final String title;
+  final String artist;
+  final String thumbnailUrl;
+  final String mediaUrl;
+  final MediaType type;
+  final String duration;
+  final String category;
+  final double rating;
+  final bool isFeatured;
 
-  Future<void> testFunction() async {
-    // showLocationSearchDialog();
-    // // if (result != null) {
-    // //   print("Selected Location: $result");
-    // // }
-  }
+  MediaItem({
+    required this.id,
+    required this.title,
+    required this.artist,
+    required this.thumbnailUrl,
+    required this.mediaUrl,
+    required this.type,
+    required this.duration,
+    required this.category,
+    required this.rating,
+    this.isFeatured = false,
+  });
+}
+
+class MediaCategory {
+  final String id;
+  final String name;
+  final String icon;
+  final String description;
+
+  MediaCategory({
+    required this.id,
+    required this.name,
+    required this.icon,
+    required this.description,
+  });
 }

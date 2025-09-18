@@ -43,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
 
               // Full Name
               CustomTextField(
-                controller: controller.nameController,
+                controller: controller.nameCtrl,
                 hintText: "Full Name",
                 keyboardType: TextInputType.text,
               ),
@@ -51,7 +51,7 @@ class SignUpScreen extends StatelessWidget {
 
               // Phone/Email
               CustomTextField(
-                controller: controller.emailController,
+                controller: controller.emailCtrl,
                 hintText: "Email",
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
 
               // Phone
               CustomTextField(
-                controller: controller.phoneController,
+                controller: controller.phoneCtrl,
                 hintText: "Phone",
                 keyboardType: TextInputType.number,
               ),
@@ -69,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
               // Password
               Obx(
                 () => CustomTextField(
-                  controller: controller.passwordController,
+                  controller: controller.passwordCtrl,
                   hintText: "Password",
                   obscureText: controller.obscurePassword.value,
                   suffixIcon: IconButton(

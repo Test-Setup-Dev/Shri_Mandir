@@ -19,6 +19,7 @@ import 'package:mandir/dialogs/alert_dialog.dart';
 import 'package:mandir/screen/auth/login/login_screen.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
+import 'package:mandir/utils/preference.dart';
 import 'package:mandir/values/strings.dart';
 
 import 'const.dart';
@@ -651,14 +652,14 @@ class Helper {
   }
 
   static Future<void> logOutWithoutAlert() async {
-    // await Preference.setLogin(false);
-    // await Preference.clear();
-    // // await AppDb.instance.clearAllTables();
-    // Helper.refreshCallbacks.clear();
-    // Helper.fastRefreshCallbacks.clear();
-    // await Get.deleteAll();
-    // // Const.reset();
-    // // Get.back();
+    await Preference.setLogin(false);
+    await Preference.clear();
+    // await AppDb.instance.clearAllTables();
+    Helper.refreshCallbacks.clear();
+    Helper.fastRefreshCallbacks.clear();
+    await Get.deleteAll();
+    // Const.reset();
+    // Get.back();
     Get.offAll(() => LoginScreen());
   }
 

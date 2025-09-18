@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
 
               // Phone/Email
               CustomTextField(
-                controller: controller.phoneController,
+                controller: controller.emailCtrl,
                 hintText: "Phone/Email",
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
               // Password
               Obx(
                 () => CustomTextField(
-                  controller: controller.passwordController,
+                  controller: controller.passCtrl,
                   hintText: "Password",
                   obscureText: controller.obscurePassword.value,
                   suffixIcon: IconButton(
@@ -83,7 +83,14 @@ class LoginScreen extends StatelessWidget {
               ),
               16.h.vs,
 
-              CustomButton(text: "Sign In", onPressed: controller.login),
+              CustomButton(
+                text: "Sign In",
+                onPressed:
+                    () => controller.login(
+                      controller.emailCtrl.text,
+                      controller.passCtrl.text,
+                    ),
+              ),
               5.h.vs,
 
               _buildDivider(),
@@ -92,9 +99,9 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SocialButton(icon: 'assets/icons/facebook.png', onTap: (){}),
-                  SocialButton(icon: 'assets/icons/google.png', onTap: (){}),
-                  SocialButton(icon: 'assets/icons/apple.png', onTap: (){}),
+                  SocialButton(icon: 'assets/icons/facebook.png', onTap: () {}),
+                  SocialButton(icon: 'assets/icons/google.png', onTap: () {}),
+                  SocialButton(icon: 'assets/icons/apple.png', onTap: () {}),
                 ],
               ),
               6.h.vs,

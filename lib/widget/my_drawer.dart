@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/home/controller.dart';
+import 'package:mandir/screen/shop/controller.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/widget/widgets.dart';
@@ -51,7 +52,7 @@ class MyDrawer extends StatelessWidget {
             if (Helper.isTester) ...[
               _navItem('assets/icons/hacker.png', 'TEST BUTTON', () {
                 Get.back();
-                final controller = Get.put(HomeController());
+                final controller = Get.put(ShopController());
                 controller.testFunction();
               }),
             ],
@@ -121,7 +122,7 @@ class MyDrawer extends StatelessWidget {
             //   ),
             // ),
             Text(
-              "  ${Preference.user.email.placeholder("+91${Preference.user.mobile ?? '1234567890'}")}",
+              "  ${Preference.user.email.placeholder("+91${Preference.user.phone ?? '1234567890'}")}",
               style: const MyTextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,

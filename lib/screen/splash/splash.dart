@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mandir/screen/auth/login/login_screen.dart';
+import 'package:mandir/screen/dashboard/dashboard_screen.dart';
 import 'package:mandir/screen/home/home.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
@@ -28,9 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 1), () {
       Preference.init().whenComplete(() {
         if (Preference.isLogin) {
-          Get.off(() => HomeScreen());
+          Get.off(() => Dashboard());
         } else {
-          // Get.off(() => HomeScreen());
           Get.off(() => LoginScreen());
         }
       });
