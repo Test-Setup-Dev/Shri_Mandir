@@ -8,5 +8,7 @@ class BaseUrl {
 
   static String get imageBaseUrl => "http://10.36.218.117:8000/";
 
-  static String get baseUrl => "http://192.168.1.7:8000/api/";
+  // static String get baseUrl => "http://192.168.1.7:8000/api/";
+
+  static String get baseUrl => "https://influenza-laravel.onrender.com/api/";
 }

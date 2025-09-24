@@ -52,7 +52,7 @@ class MyDrawer extends StatelessWidget {
             if (Helper.isTester) ...[
               _navItem('assets/icons/hacker.png', 'TEST BUTTON', () {
                 Get.back();
-                final controller = Get.put(ShopController());
+                final controller = Get.put(HomeController());
                 controller.testFunction();
               }),
             ],

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/model/home_data.dart';
+import 'package:mandir/model/media_category.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
 import 'package:mandir/screen/test2.dart';
+import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/widget/banner_carousel.dart';
 import 'package:mandir/widget/my_drawer.dart';
@@ -22,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Obx(
           () =>
-              controller.isLoading.value
+              controller.status.value == Status.PROGRESS
                   ? _buildLoadingState()
                   : Column(
                     children: [

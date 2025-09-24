@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/media_player/audio_player/controller.dart';
 import 'package:mandir/utils/helper.dart';
@@ -11,9 +12,7 @@ class AudioPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AudioPlayerController controller = Get.put(
-      AudioPlayerController(mediaItem: mediaItem),
-    );
+    final controller = Get.put(AudioPlayerController(mediaItem: mediaItem));
 
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,

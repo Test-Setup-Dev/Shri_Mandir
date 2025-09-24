@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:flutter/services.dart';

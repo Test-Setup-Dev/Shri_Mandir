@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/media_player/video_player/controller.dart';
 import 'package:mandir/utils/helper.dart';

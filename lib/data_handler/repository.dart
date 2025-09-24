@@ -58,96 +58,6 @@ class Repository extends ApiProvider {
     }
   }
 
-  // Future<List<dynamic>> searchAstro() {
-  //   return super.getList('getAstrologer');
-  // }
-
-  // Future<List<dynamic>> getAstrologer() {
-  //   return super.getList('getAstrologer');
-  // }
-
-  Future<dynamic> getTestToken() async {
-    return super.getDynamic('getTestToken');
-  }
-
-  Future<dynamic> searchAstro() async {
-    return super.getDynamicUsingGet('astrologer/all');
-  }
-
-  Future<dynamic> getAstrologer() async {
-    return super.getDynamicUsingGet('astrologer/all');
-  }
-
-  Future<dynamic> getPooja() async {
-    return super.getDynamicUsingGet('all-poojas');
-  }
-
-  Future<dynamic> getShopItems() async {
-    return super.getDynamicUsingGet('products/all');
-  }
-
-  Future<dynamic> getLiveAstro() async {
-    return super.getDynamic('liveAstrologer/get');
-  }
-
-  Future<dynamic> updateUser({id}) async {
-    return super.getDynamic('user/update/$id', parameters: {'name': 'ajajaj'});
-  }
-
-  // Future<dynamic> getBanner() {
-  //   return super.getDynamicUsingGet('banners/get-banner');
-  // }
-
-  Future<dynamic> getTransit() async {
-    return super.getDynamicUsingGet('transits/get-trasnsit');
-  }
-
-  Future<List<dynamic>> getFeatures() {
-    return super.getList('f952-3bb7-43fd-b6ba');
-  }
-
-  Future<dynamic> getFAQ() async {
-    return super.getDynamicUsingGet('astrologer/all');
-  }
-
-  // Future<List<Map<String, dynamic>>> getMessages(String chatId) async {
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection('chats')
-  //       .doc(chatId)
-  //       .collection('messages')
-  //       .orderBy('timestamp', descending: false)
-  //       .get();
-  //
-  //   return snapshot.docs.map((doc) => doc.data()).toList();
-  // }
-
-  Future<dynamic> deleteMessages(uid) async {
-    return super.getDynamic('deleteMessage', parameters: {'uid': uid});
-  }
-
-  Future<dynamic> socialLogin(
-    String socialId,
-    String authType,
-    String name,
-    String email,
-    String profilePic,
-  ) async {
-    return super.getDynamic(
-      'socialLogin',
-      parameters: {
-        'socialId': socialId,
-        'authType': authType,
-        'name': name,
-        'email': email,
-        'profilePic': profilePic,
-      },
-    );
-  }
-
-  Future<dynamic> testerLogin(String email) async {
-    return super.getDynamic('testerLogin', parameters: {'email': email});
-  }
-
   Future<dynamic> signup(
     String name,
     String email,
@@ -176,36 +86,129 @@ class Repository extends ApiProvider {
     return super.getDynamicUsingGet('get_all_banner', parameters: {});
   }
 
-  // Future<dynamic> login(String email, String password) async {
-  //   return super.postJson(
-  //     'login'
-  //     // parameters: {'email': email, 'password': password},
-  //     parameters: {'email': email},
+  Future<dynamic> getHomeData() async {
+    return super.getDynamicUsingGet('home-data');
+  }
+
+
+  Future<dynamic> getCategory() async {
+    return super.getDynamicUsingGet('category');
+  }
+
+  // Future<dynamic> getTestToken() async {
+  //   return super.getDynamic('getTestToken');
+  // }
+  //
+  // Future<dynamic> searchAstro() async {
+  //   return super.getDynamicUsingGet('astrologer/all');
+  // }
+  //
+  // Future<dynamic> getAstrologer() async {
+  //   return super.getDynamicUsingGet('astrologer/all');
+  // }
+  //
+  // Future<dynamic> getPooja() async {
+  //   return super.getDynamicUsingGet('all-poojas');
+  // }
+  //
+  // Future<dynamic> getShopItems() async {
+  //   return super.getDynamicUsingGet('products/all');
+  // }
+  //
+  // Future<dynamic> getLiveAstro() async {
+  //   return super.getDynamic('liveAstrologer/get');
+  // }
+  //
+  // Future<dynamic> updateUser({id}) async {
+  //   return super.getDynamic('user/update/$id', parameters: {'name': 'ajajaj'});
+  // }
+  //
+  // // Future<dynamic> getBanner() {
+  // //   return super.getDynamicUsingGet('banners/get-banner');
+  // // }
+  //
+  // Future<dynamic> getTransit() async {
+  //   return super.getDynamicUsingGet('transits/get-trasnsit');
+  // }
+  //
+  // Future<List<dynamic>> getFeatures() {
+  //   return super.getList('f952-3bb7-43fd-b6ba');
+  // }
+  //
+  // Future<dynamic> getFAQ() async {
+  //   return super.getDynamicUsingGet('astrologer/all');
+  // }
+  //
+  // // Future<List<Map<String, dynamic>>> getMessages(String chatId) async {
+  // //   final snapshot = await FirebaseFirestore.instance
+  // //       .collection('chats')
+  // //       .doc(chatId)
+  // //       .collection('messages')
+  // //       .orderBy('timestamp', descending: false)
+  // //       .get();
+  // //
+  // //   return snapshot.docs.map((doc) => doc.data()).toList();
+  // // }
+  //
+  // Future<dynamic> deleteMessages(uid) async {
+  //   return super.getDynamic('deleteMessage', parameters: {'uid': uid});
+  // }
+  //
+  // Future<dynamic> socialLogin(
+  //   String socialId,
+  //   String authType,
+  //   String name,
+  //   String email,
+  //   String profilePic,
+  // ) async {
+  //   return super.getDynamic(
+  //     'socialLogin',
+  //     parameters: {
+  //       'socialId': socialId,
+  //       'authType': authType,
+  //       'name': name,
+  //       'email': email,
+  //       'profilePic': profilePic,
+  //     },
   //   );
   // }
-
-  Future<dynamic> agoraToken(
-    String channelName,
-    String userId,
-    String callType,
-  ) async {
-    return super.postJson(
-      'agora/generate-token',
-      parameters: {
-        "channelName": channelName,
-        "userId": userId,
-        "callType": callType,
-      },
-    );
-  }
-
-  Future<dynamic> validateOtp(String phone, String fcmToken) async {
-    return super.getDynamic('validateOtp', parameters: {'phone': phone});
-  }
-
-  Future<dynamic> sendOtp(String email) async {
-    return super.getDynamic('auth/send-otp', parameters: {'email': email});
-  }
+  //
+  // Future<dynamic> testerLogin(String email) async {
+  //   return super.getDynamic('testerLogin', parameters: {'email': email});
+  // }
+  //
+  //
+  //
+  // // Future<dynamic> login(String email, String password) async {
+  // //   return super.postJson(
+  // //     'login'
+  // //     // parameters: {'email': email, 'password': password},
+  // //     parameters: {'email': email},
+  // //   );
+  // // }
+  //
+  // Future<dynamic> agoraToken(
+  //   String channelName,
+  //   String userId,
+  //   String callType,
+  // ) async {
+  //   return super.postJson(
+  //     'agora/generate-token',
+  //     parameters: {
+  //       "channelName": channelName,
+  //       "userId": userId,
+  //       "callType": callType,
+  //     },
+  //   );
+  // }
+  //
+  // Future<dynamic> validateOtp(String phone, String fcmToken) async {
+  //   return super.getDynamic('validateOtp', parameters: {'phone': phone});
+  // }
+  //
+  // Future<dynamic> sendOtp(String email) async {
+  //   return super.getDynamic('auth/send-otp', parameters: {'email': email});
+  // }
 
   Future<List<int>?> hitUrl(String url) {
     return super.hitUrl(url);
