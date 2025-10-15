@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeColors {
   static const int _primary = 0xFF1B917D;
+  // static const int _primary = 0xFFF25309;
   static const int _r = 255;
   static const int _g = 86;
   static const int _b = 40;

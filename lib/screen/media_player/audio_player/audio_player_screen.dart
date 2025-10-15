@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/model/home_data.dart';
-import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/media_player/audio_player/controller.dart';
 import 'package:mandir/utils/helper.dart';
 
@@ -27,6 +26,11 @@ class AudioPlayerScreen extends StatelessWidget {
               ThemeColors.accentColor.withOpacity(0.1),
             ],
           ),
+          image: DecorationImage(
+            image: NetworkImage(mediaItem.thumbnailUrl),
+            fit: BoxFit.cover,
+            opacity: 0.5,
+          ),
         ),
         child: SafeArea(
           child: Column(
@@ -34,7 +38,7 @@ class AudioPlayerScreen extends StatelessWidget {
               _buildAppBar(controller),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
                   child: Column(
                     children: [
                       4.h.vs,
@@ -247,7 +251,7 @@ class AudioPlayerScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.w),
           ),
           child: Text(
-            mediaItem.category,
+            'mediaItem.category!.name',
             style: TextStyle(
               color: ThemeColors.primaryColor,
               fontSize: 3.w,
@@ -290,11 +294,17 @@ class AudioPlayerScreen extends StatelessWidget {
             children: [
               Text(
                 controller.formatDuration(controller.currentPosition.value),
-                style: TextStyle(color: ThemeColors.greyColor, fontSize: 3.w),
+                style: TextStyle(
+                  color: ThemeColors.primaryColor,
+                  fontSize: 3.w,
+                ),
               ),
               Text(
                 controller.formatDuration(controller.totalDuration.value),
-                style: TextStyle(color: ThemeColors.greyColor, fontSize: 3.w),
+                style: TextStyle(
+                  color: ThemeColors.primaryColor,
+                  fontSize: 3.w,
+                ),
               ),
             ],
           ),
@@ -389,33 +399,32 @@ class AudioPlayerScreen extends StatelessWidget {
     bool isToggle = false,
     RxBool? isActive,
   }) {
-    return Container(
-      width: 12.w,
-      height: 12.w,
-      decoration: BoxDecoration(
-        // color: isToggle && isActive != null
-        //     ? Obx(() => isActive.value
-        //     ? ThemeColors.primaryColor.withOpacity(0.2)
-        //     : Colors.transparent)
-        //     : Colors.transparent,
-        borderRadius: BorderRadius.circular(6.w),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6.w),
-        onTap: onTap,
-        child: Center(
-          child: Icon(
-            icon,
-            // color: isToggle && isActive != null
-            //     ? Obx(() => isActive.value
-            //     ? ThemeColors.primaryColor
-            //     : ThemeColors.greyColor)
-            //     : ThemeColors.greyColor,
-            size: size ?? 6.w,
+    if (isToggle && isActive != null) {
+      return Obx(
+        () => Container(
+          width: 10.w,
+          height: 10.w,
+          decoration: BoxDecoration(
+            color:
+                isActive.value
+                    ? ThemeColors.primaryColor.withAlpha(80)
+                    : Colors.transparent,
+            borderRadius: BorderRadius.circular(6.w),
+          ),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(6.w),
+            onTap: onTap,
+            child: Center(child: Icon(icon, size: size ?? 6.w)),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return InkWell(
+        borderRadius: BorderRadius.circular(6.w),
+        onTap: onTap,
+        child: Center(child: Icon(icon, size: size ?? 6.w)),
+      );
+    }
   }
 
   Widget _buildVolumeControl(AudioPlayerController controller) {
@@ -531,7 +540,8 @@ class AudioPlayerScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'More from ${mediaItem.category}',
+          // 'More from ${mediaItem.category!.name}',
+          'More from {mediaItem.category!.name}',
           style: TextStyle(
             color: ThemeColors.defaultTextColor,
             fontSize: 4.w,
@@ -592,6 +602,7 @@ class AudioPlayerScreen extends StatelessWidget {
             },
           ),
         ),
+        3.h.vs,
       ],
     );
   }

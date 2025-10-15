@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 // import 'package:gaamraam/values/strings.dart';
 import 'package:get/get.dart';
 import 'package:mandir/dialogs/alert_dialog.dart';
+import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/auth/login/login_screen.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
@@ -106,6 +107,15 @@ class Helper {
   static setError(String title, String message) {
     errorTitle.value = title;
     errorMessage.value = message;
+  }
+
+  static String getCategoryName(int categoryId, List<CategoryData> categories) {
+    try {
+      final category = categories.firstWhere((cat) => cat.id == categoryId);
+      return category.name;
+    } catch (e) {
+      return 'Unknown';
+    }
   }
 
   static clearError() {
@@ -904,17 +914,19 @@ class Helper {
 }
 
 extension StringExtensions on String? {
-  String get inCaps => notEmpty && this!.length > 0
-      ? '${this![0].toUpperCase()}${this!.substring(1).toLowerCase()}'
-      : '';
+  String get inCaps =>
+      notEmpty && this!.length > 0
+          ? '${this![0].toUpperCase()}${this!.substring(1).toLowerCase()}'
+          : '';
 
-  String get capitalizeFirstOfEach => notEmpty
-      ? this!
-            .replaceAll(RegExp(' +'), ' ')
-            .split(' ')
-            .map((str) => str.inCaps)
-            .join(' ')
-      : '';
+  String get capitalizeFirstOfEach =>
+      notEmpty
+          ? this!
+              .replaceAll(RegExp(' +'), ' ')
+              .split(' ')
+              .map((str) => str.inCaps)
+              .join(' ')
+          : '';
 
   String get everyFirstDigit => Helper.getEveryFirstDigit(this);
 
@@ -948,14 +960,15 @@ extension StringExtensions on String? {
 
   String get starred => Helper.starred(nullSafe, 6);
 
-  int charCount(String char) => notEmpty
-      ? nullSafe
-            .split('')
-            .fold<int>(
-              0,
-              (previousValue, ch) => previousValue + (ch == char ? 1 : 0),
-            )
-      : 0;
+  int charCount(String char) =>
+      notEmpty
+          ? nullSafe
+              .split('')
+              .fold<int>(
+                0,
+                (previousValue, ch) => previousValue + (ch == char ? 1 : 0),
+              )
+          : 0;
 
   String take(int length) {
     if (this.notEmpty && nullSafe.length > length) {

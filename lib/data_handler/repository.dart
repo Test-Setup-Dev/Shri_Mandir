@@ -69,8 +69,16 @@ class Repository extends ApiProvider {
       parameters: {
         'name': name,
         'email': email,
-        'mobileNo': phone,
+        'phone': phone,
         'password': password,
+        'date_of_birth': "2004-02-12",
+        "city": "Dehradun",
+        "address": "123, Ring Road, Satellite",
+        "pincode": "380015",
+        "state": "Uttarakhand",
+        "country": "India",
+        "gender": "Male",
+        "image": "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341"
       },
     );
   }

@@ -86,7 +86,7 @@ class SignupController extends GetxController {
   void signupSuccess(var json) async {
     Logger.r(tag: 'Signup Logger', value: json);
     try {
-      if (json != null && json['status'] == 'success') {
+      if (json != null && json['status'] == true) {
         User user = User.fromJson(json['user']);
         Preference.setUser(user);
         // if (user.isActive != '1') {

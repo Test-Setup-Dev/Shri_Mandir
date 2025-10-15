@@ -278,7 +278,7 @@ class ApiProvider {
     return _dio
         .get(
           endPoint,
-          data: FormData.fromMap(parameters ?? {}),
+          queryParameters: parameters ?? {},
           options: await _options,
         )
         .then((value) {

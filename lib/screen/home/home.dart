@@ -1,10 +1,11 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/model/home_data.dart';
 import 'package:mandir/model/media_category.dart';
 import 'package:mandir/screen/home/controller.dart';
+import 'package:mandir/screen/home/media_list.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
-import 'package:mandir/screen/test2.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/widget/banner_carousel.dart';
@@ -39,8 +40,6 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               BannerCarousel(banners: controller.banners),
                               3.h.vs,
-                              _buildMediaTabs(),
-                              2.h.vs,
                               _buildMediaGrid(),
                               3.h.vs,
                               _buildFeaturedSection(),
@@ -204,149 +203,102 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMediaTabs() {
-    return Container(
-      height: 6.h,
-      child: Row(
+  Widget _buildMediaGrid() {
+    return Obx(
+      () => Column(
         children: [
-          Expanded(
-            child: Obx(
-              () => GestureDetector(
-                onTap: () => controller.setMediaType(MediaType.audio),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color:
-                        controller.selectedMediaType.value == MediaType.audio
-                            ? ThemeColors.primaryColor
-                            : ThemeColors.white,
-                    borderRadius: BorderRadius.circular(3.w),
-                    border: Border.all(
-                      color:
-                          controller.selectedMediaType.value == MediaType.audio
-                              ? Colors.transparent
-                              : ThemeColors.greyColor.withAlpha(50),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: ThemeColors.greyColor.withAlpha(30),
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.music_note,
-                          color:
-                              controller.selectedMediaType.value ==
-                                      MediaType.audio
-                                  ? ThemeColors.white
-                                  : ThemeColors.greyColor,
-                          size: 4.w,
-                        ),
-                        1.w.hs,
-                        Text(
-                          'Audio',
-                          style: TextStyle(
-                            color:
-                                controller.selectedMediaType.value ==
-                                        MediaType.audio
-                                    ? ThemeColors.white
-                                    : ThemeColors.greyColor,
-                            fontSize: 3.5.w,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+          // Audio Section
+          _buildSectionHeader('Audio Content', () {
+            controller.showAllAudio();
+          }),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 3.w,
+              mainAxisSpacing: 3.w,
+              childAspectRatio: 0.75,
             ),
+            itemCount: min(controller.limitedAudioItems.length, 4),
+            itemBuilder: (context, index) {
+              final mediaItem = controller.limitedAudioItems[index];
+              return _buildMediaCard(mediaItem);
+            },
           ),
-          2.w.hs,
-          Expanded(
-            child: Obx(
-              () => GestureDetector(
-                onTap: () => controller.setMediaType(MediaType.video),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color:
-                        controller.selectedMediaType.value == MediaType.video
-                            ? ThemeColors.primaryColor
-                            : ThemeColors.white,
-                    borderRadius: BorderRadius.circular(3.w),
-                    border: Border.all(
-                      color:
-                          controller.selectedMediaType.value == MediaType.video
-                              ? Colors.transparent
-                              : ThemeColors.greyColor.withAlpha(50),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: ThemeColors.greyColor.withAlpha(30),
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.videocam,
-                          color:
-                              controller.selectedMediaType.value ==
-                                      MediaType.video
-                                  ? ThemeColors.white
-                                  : ThemeColors.greyColor,
-                          size: 4.w,
-                        ),
-                        1.w.hs,
-                        Text(
-                          'Video',
-                          style: TextStyle(
-                            color:
-                                controller.selectedMediaType.value ==
-                                        MediaType.video
-                                    ? ThemeColors.white
-                                    : ThemeColors.greyColor,
-                            fontSize: 3.5.w,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+          3.h.vs,
+
+          Divider(color: ThemeColors.greyColor.withAlpha(100)),
+
+          _buildSectionHeader('Video Content', () {
+            controller.showAllVideo();
+          }),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 3.w,
+              mainAxisSpacing: 3.w,
+              childAspectRatio: 0.75,
             ),
+            itemCount: min(controller.limitedVideoItems.length, 4),
+            itemBuilder: (context, index) {
+              final mediaItem = controller.limitedVideoItems[index];
+              return _buildMediaCard(mediaItem);
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMediaGrid() {
-    return Obx(
-      () => GridView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 3.w,
-          mainAxisSpacing: 3.w,
-          childAspectRatio: 0.75,
-        ),
-        itemCount: controller.filteredMediaItems.length,
-        itemBuilder: (context, index) {
-          final mediaItem = controller.filteredMediaItems[index];
-          return _buildMediaCard(mediaItem);
-        },
+  Widget _buildSectionHeader(String title, VoidCallback onSeeAll) {
+    return Padding(
+      padding: EdgeInsets.only(top: 2.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: ThemeColors.defaultTextColor,
+              fontSize: 4.w,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              List<MediaItem> items =
+                  title.contains('Audio')
+                      ? controller.allMediaItems
+                          .where((item) => item.type == MediaType.audio)
+                          .toList()
+                      : controller.allMediaItems
+                          .where((item) => item.type == MediaType.video)
+                          .toList();
+
+              Get.to(
+                () => MediaListScreen(
+                  title: title,
+                  mediaItems: items,
+                  mediaType:
+                      title.contains('Audio')
+                          ? MediaType.audio
+                          : MediaType.video,
+                ),
+              );
+            },
+            child: Text(
+              'See All',
+              style: TextStyle(
+                color: ThemeColors.primaryColor,
+                fontSize: 3.5.w,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -533,7 +485,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             0.5.w.hs,
                             Text(
-                              mediaItem.rating.toString(),
+                              mediaItem.averageRating.toString(),
                               style: TextStyle(
                                 color: ThemeColors.primaryColor,
                                 fontSize: 2.8.w,

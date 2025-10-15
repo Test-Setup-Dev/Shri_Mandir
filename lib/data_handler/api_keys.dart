@@ -10,5 +10,6 @@ class BaseUrl {
 
   // static String get baseUrl => "http://192.168.1.7:8000/api/";
 
-  static String get baseUrl => "https://influenza-laravel.onrender.com/api/";
+  // static String get baseUrl => "https://influenza-laravel.onrender.com/api/";
+  static String get baseUrl => "https://test.pearl-developer.com/anuweb/public/api/";
 }

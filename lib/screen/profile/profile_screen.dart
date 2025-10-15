@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/profile/controller.dart';
-import 'package:mandir/values/theme_colors.dart';
-import 'package:mandir/values/size_config.dart';
+import 'package:mandir/utils/helper.dart';
+
+import 'personal_info/personal_info_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -14,6 +15,10 @@ class ProfileScreen extends StatelessWidget {
     SizeConfig.initWithContext(context);
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: ThemeColors.primaryColor.withAlpha(200),
+      ),
       body: SafeArea(
         child: Obx(() {
           final user = controller.user.value;
@@ -23,67 +28,28 @@ class ProfileScreen extends StatelessWidget {
                 // Curved Header with Profile Info
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
+                  padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
                   decoration: BoxDecoration(
                     color: ThemeColors.primaryColor.withAlpha(200),
                     borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(4.w),
-                      bottomLeft: Radius.circular(4.w),
+                      bottomRight: Radius.circular(3.w),
+                      bottomLeft: Radius.circular(3.w),
+                    ),
+
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        // user.image ?? "",
+                        'https://images.unsplash.com/photo-1623952146070-f13fc902f769',
+                      ),
+                      fit: BoxFit.cover,
+                      opacity: 0.4,
                     ),
                   ),
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: ThemeColors.white,
-                                width: 3,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: ThemeColors.black.withOpacity(0.2),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: CircleAvatar(
-                              radius: 15.w,
-                              backgroundImage: NetworkImage(user.avatarUrl),
-                              backgroundColor: ThemeColors.white,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              padding: EdgeInsets.all(2.w),
-                              decoration: BoxDecoration(
-                                color: ThemeColors.white,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ThemeColors.black.withOpacity(0.2),
-                                    blurRadius: 5,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: ThemeColors.primaryColor,
-                                size: 5.w,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      2.h.vs,
+                      5.h.vs,
                       Text(
-                        user.name,
+                        user.name ?? 'Unknown',
                         style: TextStyle(
                           fontSize: 6.w,
                           fontWeight: FontWeight.bold,
@@ -114,16 +80,15 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 // Stats Section
                 Transform.translate(
-                  offset: Offset(0, -5.h),
+                  offset: Offset(0, -6.h),
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4.w),
-                    padding: EdgeInsets.all(4.w),
+                    padding: EdgeInsets.all(1.w),
                     decoration: BoxDecoration(
                       color: ThemeColors.white,
                       border: Border.all(
                         color: ThemeColors.primaryColor.withAlpha(120),
                       ),
-                      borderRadius: BorderRadius.circular(4.w),
+                      borderRadius: BorderRadius.circular(50.w),
                       boxShadow: [
                         BoxShadow(
                           color: ThemeColors.greyColor.withOpacity(0.1),
@@ -132,13 +97,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildStatItem('Bookings', '23', Icons.calendar_today),
-                        _buildStatItem('Completed', '18', Icons.check_circle),
-                        _buildStatItem('Points', '2.5K', Icons.star),
-                      ],
+                    child: CircleAvatar(
+                      radius: 15.w,
+                      backgroundImage: NetworkImage(
+                        user.image ??
+                            'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-High-Quality-Image.png',
+                      ),
+                      backgroundColor: ThemeColors.white,
                     ),
                   ),
                 ),
@@ -150,21 +115,21 @@ class ProfileScreen extends StatelessWidget {
                       _buildProfileAction(
                         'Personal Information',
                         Icons.person,
+                        onTap: () => Get.to(() => PersonalInfoScreen()),
+                      ),
+                      _buildProfileAction(
+                        'Donation History',
+                        Icons.payments_outlined,
                         onTap: () {},
                       ),
                       _buildProfileAction(
-                        'My Bookings',
-                        Icons.calendar_month,
-                        onTap: () {},
-                      ),
-                      _buildProfileAction(
-                        'Saved Services',
+                        'Favorite',
                         Icons.favorite,
                         onTap: () {},
                       ),
                       _buildProfileAction(
-                        'Payment Methods',
-                        Icons.payment,
+                        'Donate Now',
+                        Icons.clean_hands_outlined,
                         onTap: () {},
                       ),
                       _buildProfileAction(
@@ -176,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                         'Logout',
                         Icons.logout,
                         isLast: true,
-                        onTap: () {},
+                        onTap: () => Helper.logOut(),
                       ),
                     ],
                   ),

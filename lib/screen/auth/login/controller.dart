@@ -41,8 +41,8 @@ class LoginController extends GetxController {
     // fcmToken.value = await NotificationHelper.getFcmToken().toString();
 
     if (Helper.isTester) {
-      emailCtrl.text = 'Ajjay@example.com';
-      passCtrl.text = 'password123';
+      emailCtrl.text = 'testsetup.dev@gmail.com';
+      passCtrl.text = '123456';
     }
   }
 
@@ -94,7 +94,7 @@ class LoginController extends GetxController {
   void loginSuccess(var json) async {
     Logger.r(tag: 'Logger ajay', value: json);
     try {
-      if (json != null && json['status'] == 'success') {
+      if (json != null && json['status'] == true) {
         User user = User.fromJson(json['user']);
         Preference.setUser(user);
         // if (user.isActive != '1') {
