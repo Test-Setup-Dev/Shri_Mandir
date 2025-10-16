@@ -13,6 +13,7 @@ class User {
   final String? country;
   final String? gender;
   final String? token;
+  final String? fcmToken;
   final String? createdAt;
   final String? updatedAt;
 
@@ -31,6 +32,7 @@ class User {
     this.country,
     this.gender,
     this.token,
+    this.fcmToken,
     this.createdAt,
     this.updatedAt,
   });
@@ -51,6 +53,7 @@ class User {
       country: json['country'] as String?,
       gender: json['gender'] as String?,
       token: json['token'] as String?,
+      fcmToken: json['fcm_token'] as String?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
     );
@@ -72,6 +75,7 @@ class User {
       'country': country,
       'gender': gender,
       'token': token,
+      'fcm_token': fcmToken,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mandir/model/result.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
+import 'package:mandir/utils/notification_helper.dart';
 import 'package:mandir/utils/preference.dart';
 // import 'package:kalpjyotish/modals/notification_model.dart' as my;
 
@@ -63,6 +64,7 @@ class Repository extends ApiProvider {
     String email,
     String phone,
     String password,
+    String fcmToken,
   ) async {
     return super.getDynamic(
       'register',
@@ -78,15 +80,16 @@ class Repository extends ApiProvider {
         "state": "Uttarakhand",
         "country": "India",
         "gender": "Male",
-        "image": "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341"
+        "image": "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341",
+        'fcm_token': fcmToken
       },
     );
   }
 
-  Future<dynamic> login(String email, String password) async {
+  Future<dynamic> login(String email, String password, fcmToken) async {
     return super.getDynamic(
       'login',
-      parameters: {'email': email, 'password': password},
+      parameters: {'email': email, 'password': password, 'fcm_token': fcmToken},
     );
   }
 

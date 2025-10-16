@@ -2,10 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/model/home_data.dart';
-import 'package:mandir/model/media_category.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/home/media_list.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
+import 'package:mandir/screen/old_latter/old_latter_screen.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/widget/banner_carousel.dart';
@@ -209,7 +209,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Audio Section
           _buildSectionHeader('Audio Content', () {
-            controller.showAllAudio();
+            controller.showAllAudioContent.value = true;
           }),
           GridView.builder(
             shrinkWrap: true,
@@ -231,7 +231,7 @@ class HomeScreen extends StatelessWidget {
           Divider(color: ThemeColors.greyColor.withAlpha(100)),
 
           _buildSectionHeader('Video Content', () {
-            controller.showAllVideo();
+            controller.showAllVideoContent.value = true;
           }),
           GridView.builder(
             shrinkWrap: true,
@@ -245,6 +245,28 @@ class HomeScreen extends StatelessWidget {
             itemCount: min(controller.limitedVideoItems.length, 4),
             itemBuilder: (context, index) {
               final mediaItem = controller.limitedVideoItems[index];
+              return _buildMediaCard(mediaItem);
+            },
+          ),
+          3.h.vs,
+
+          Divider(color: ThemeColors.greyColor.withAlpha(100)),
+
+          _buildSectionHeader('Text Content', () {
+            controller.showAllTextContent.value = true;
+          }),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 3.w,
+              mainAxisSpacing: 3.w,
+              childAspectRatio: 0.75,
+            ),
+            itemCount: min(controller.limitedTextItems.length, 4),
+            itemBuilder: (context, index) {
+              final mediaItem = controller.limitedTextItems[index];
               return _buildMediaCard(mediaItem);
             },
           ),
@@ -269,23 +291,27 @@ class HomeScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
+              MediaType type;
+              if (title.contains('Audio')) {
+                type = MediaType.audio;
+              } else if (title.contains('Video')) {
+                type = MediaType.video;
+              } else if (title.contains('Text')) {
+                type = MediaType.text;
+              } else {
+                type = MediaType.audio;
+              }
+
               List<MediaItem> items =
-                  title.contains('Audio')
-                      ? controller.allMediaItems
-                          .where((item) => item.type == MediaType.audio)
-                          .toList()
-                      : controller.allMediaItems
-                          .where((item) => item.type == MediaType.video)
-                          .toList();
+                  controller.allMediaItems
+                      .where((item) => item.type == type)
+                      .toList();
 
               Get.to(
                 () => MediaListScreen(
                   title: title,
                   mediaItems: items,
-                  mediaType:
-                      title.contains('Audio')
-                          ? MediaType.audio
-                          : MediaType.video,
+                  mediaType: type,
                 ),
               );
             },
@@ -367,7 +393,9 @@ class HomeScreen extends StatelessWidget {
                   child: Icon(
                     mediaItem.type == MediaType.video
                         ? Icons.videocam
-                        : Icons.music_note,
+                        : mediaItem.type == MediaType.audio
+                        ? Icons.music_note
+                        : Icons.text_fields,
                     color: ThemeColors.white,
                     size: 3.w,
                   ),
@@ -544,87 +572,95 @@ class HomeScreen extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            padding: EdgeInsets.all(4.w),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [ThemeColors.primaryColor, ThemeColors.accentColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          child: InkWell(
+            onTap: () {
+              Get.to(() => MaharajasInviteScreen());
+            },
+            child: Container(
+              padding: EdgeInsets.all(4.w),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [ThemeColors.primaryColor, ThemeColors.accentColor],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(3.w),
+                boxShadow: [
+                  BoxShadow(
+                    color: ThemeColors.primaryColor.withAlpha(50),
+                    blurRadius: 15,
+                    offset: Offset(0, 5),
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(3.w),
-              boxShadow: [
-                BoxShadow(
-                  color: ThemeColors.primaryColor.withAlpha(50),
-                  blurRadius: 15,
-                  offset: Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Icon(Icons.headphones, color: ThemeColors.white, size: 8.w),
-                1.h.vs,
-                Text(
-                  'Mantras',
-                  style: TextStyle(
-                    color: ThemeColors.white,
-                    fontSize: 3.5.w,
-                    fontWeight: FontWeight.w700,
+              child: Column(
+                children: [
+                  Icon(Icons.headphones, color: ThemeColors.white, size: 8.w),
+                  1.h.vs,
+                  Text(
+                    'Mantras',
+                    style: TextStyle(
+                      color: ThemeColors.white,
+                      fontSize: 3.5.w,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                0.5.h.vs,
-                Text(
-                  'Sacred Chants',
-                  style: TextStyle(
-                    color: ThemeColors.white.withAlpha(90),
-                    fontSize: 2.5.w,
+                  0.5.h.vs,
+                  Text(
+                    'Sacred Chants',
+                    style: TextStyle(
+                      color: ThemeColors.white.withAlpha(90),
+                      fontSize: 2.5.w,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
         3.w.hs,
         Expanded(
-          child: Container(
-            padding: EdgeInsets.all(4.w),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          child: InkWell(
+            onTap: () {},
+            child: Container(
+              padding: EdgeInsets.all(4.w),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(3.w),
+                boxShadow: [
+                  BoxShadow(
+                    color: ThemeColors.accentColor.withAlpha(50),
+                    blurRadius: 15,
+                    offset: Offset(0, 5),
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(3.w),
-              boxShadow: [
-                BoxShadow(
-                  color: ThemeColors.accentColor.withAlpha(50),
-                  blurRadius: 15,
-                  offset: Offset(0, 5),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Icon(Icons.music_video, color: ThemeColors.white, size: 8.w),
-                1.h.vs,
-                Text(
-                  'Bhajans',
-                  style: TextStyle(
-                    color: ThemeColors.white,
-                    fontSize: 3.5.w,
-                    fontWeight: FontWeight.w700,
+              child: Column(
+                children: [
+                  Icon(Icons.music_video, color: ThemeColors.white, size: 8.w),
+                  1.h.vs,
+                  Text(
+                    'Bhajans',
+                    style: TextStyle(
+                      color: ThemeColors.white,
+                      fontSize: 3.5.w,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                0.5.h.vs,
-                Text(
-                  'Devotional Songs',
-                  style: TextStyle(
-                    color: ThemeColors.white.withAlpha(90),
-                    fontSize: 2.5.w,
+                  0.5.h.vs,
+                  Text(
+                    'Devotional Songs',
+                    style: TextStyle(
+                      color: ThemeColors.white.withAlpha(90),
+                      fontSize: 2.5.w,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -666,7 +702,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(MediaCategory category) {
+  Widget _buildCategoryItem(CategoryData category) {
     return GestureDetector(
       onTap: () => controller.onCategoryTap(category),
       child: Container(

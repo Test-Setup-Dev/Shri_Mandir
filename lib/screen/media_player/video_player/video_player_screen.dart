@@ -1103,7 +1103,7 @@ class VideoPlayerScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(1.w),
                 ),
                 child: Text(
-                  'mediaItem.category!.name,',
+                  'mediaItem.category!.name',
                   style: TextStyle(
                     color: ThemeColors.primaryColor,
                     fontSize: 2.8.w,

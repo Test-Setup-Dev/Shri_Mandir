@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "579064117187",
+    "project_id": "mindir-8838c",
+    "storage_bucket": "mindir-8838c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579064117187:android:15605f210d673b2d306f76",
+        "android_client_info": {
+          "package_name": "com.my.mandir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579064117187-rj3o59jp04hd1ksie8rur8v6thb1k883.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTG5LeUFOI6cprH5Jd_ewZp71cA6FgFjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579064117187-rj3o59jp04hd1ksie8rur8v6thb1k883.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

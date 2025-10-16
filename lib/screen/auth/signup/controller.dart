@@ -6,6 +6,7 @@ import 'package:mandir/model/user.dart';
 import 'package:mandir/screen/dashboard/dashboard_screen.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/logger.dart';
+import 'package:mandir/utils/notification_helper.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/utils/toasty.dart';
 import 'dart:async';
@@ -62,12 +63,14 @@ class SignupController extends GetxController {
     status.value = Status.PROGRESS;
 
     try {
+      final fcmToken = await NotifHelper.getFcmToken();
       Repository.instance
           .signup(
             nameCtrl.text,
             emailCtrl.text,
             phoneCtrl.text,
             passwordCtrl.text,
+            fcmToken.toString(),
           )
           .then(signupSuccess);
     } catch (e) {

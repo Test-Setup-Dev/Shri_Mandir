@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/data_handler/repository.dart';
 import 'package:mandir/model/home_data.dart';
-import 'package:mandir/model/media_category.dart';
+import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
 import 'package:mandir/screen/test.dart';
@@ -18,10 +18,11 @@ class HomeController extends GetxController {
 
   var allMediaItems = <MediaItem>[].obs;
   var favoriteItems = <String>[].obs;
-  var categories = <MediaCategory>[].obs;
+  var categories = <CategoryData>[].obs;
 
   var showAllAudioContent = false.obs;
   var showAllVideoContent = false.obs;
+  var showAllTextContent = false.obs;
 
   List<MediaItem> get limitedAudioItems {
     var audioItems =
@@ -35,40 +36,17 @@ class HomeController extends GetxController {
     return showAllVideoContent.value ? videoItems : videoItems.take(5).toList();
   }
 
-  void showAllAudio() {
-    showAllAudioContent.value = true;
-  }
-
-  void showAllVideo() {
-    showAllVideoContent.value = true;
+  List<MediaItem> get limitedTextItems {
+    var textItems =
+        allMediaItems.where((item) => item.type == MediaType.text).toList();
+    return showAllTextContent.value ? textItems : textItems.take(5).toList();
   }
 
   var banners =
       <String>[
         'https://images.unsplash.com/photo-1623952146070-f13fc902f769',
         'https://images.unsplash.com/photo-1622781656198-645b7981b671',
-        'https://images.unsplash.com/photo-1730191567375-e82ce67160df',
-        'https://images.unsplash.com/photo-1706169599121-4182eb12fbef',
-        'https://plus.unsplash.com/premium_photo-1676111266437-027b26837de3',
-        'https://images.unsplash.com/photo-1559595500-e15296bdbb48',
       ].obs;
-
-
-  List<MediaItem> get filteredMediaItems {
-    var filtered = allMediaItems.where((item) {
-      bool matchesType = item.type == selectedMediaType.value;
-      bool matchesSearch =
-          searchQuery.value.isEmpty ||
-              item.title.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
-              item.artist.toLowerCase().contains(searchQuery.value.toLowerCase()) ||
-              item.categoryId.toLowerCase().contains(searchQuery.value.toLowerCase()); // 👈 FIXED
-
-      return matchesType && matchesSearch;
-    }).toList();
-
-    return filtered;
-  }
-
 
   @override
   void onInit() {
@@ -117,31 +95,24 @@ class HomeController extends GetxController {
     }
   }
 
-
   void _loadCategories() async {
     try {
       final response = await Repository.instance.getHomeData(); // same API
       final List<dynamic> data = response['data'];
-      categories.value =
-          data.map((e) => MediaCategory.fromJson(e)).toList();
+      categories.value = data.map((e) => CategoryData.fromJson(e)).toList();
     } catch (e) {
       Logger.ex(baseName: runtimeType, tag: 'CATEGORY EXC', value: e);
     }
   }
 
-
   void onSearch(String query) {
     searchQuery.value = query;
-  }
-
-  void setMediaType(MediaType type) {
-    selectedMediaType.value = type;
   }
 
   void playMedia(MediaItem item) {
     if (item.type == MediaType.video) {
       Get.to(() => VideoPlayerScreen(mediaItem: item));
-    } else {
+    } else if (item.type == MediaType.audio) {
       Get.to(() => AudioPlayerScreen(mediaItem: item));
     }
     Toasty.success(
@@ -165,13 +136,13 @@ class HomeController extends GetxController {
 
   bool isFavorite(String itemId) => favoriteItems.contains(itemId);
 
-  void onCategoryTap(MediaCategory category) {
+  void onCategoryTap(CategoryData category) {
     searchQuery.value = category.name.toLowerCase();
     Toasty.success('Browsing ${category.name}');
+    Get.to(() => CatItemScreen(category: category));
   }
 
   Future<void> testFunction() async {
-    _loadMediaItems();
-    // Get.to(() => JustAjay());
+    print('Test function called: ${limitedTextItems.length}');
   }
 }
