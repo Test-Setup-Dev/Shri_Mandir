@@ -15,9 +15,11 @@ import 'package:flutter/services.dart';
 // import 'package:gaamraam/values/size_config.dart';
 // import 'package:gaamraam/values/strings.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:mandir/dialogs/alert_dialog.dart';
 import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/auth/login/login_screen.dart';
+import 'package:mandir/utils/db/db.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:mandir/utils/preference.dart';
@@ -496,31 +498,30 @@ class Helper {
 
   static int get currentMillis => DateTime.now().microsecondsSinceEpoch;
 
-  //
-  // static String getCurrentDate(String format) {
-  //   final DateFormat formatter = DateFormat(format);
-  //   return formatter.format(DateTime.now());
-  // }
-  //
-  // static String formatDate(DateTime dateTime, String format) {
-  //   final DateFormat formatter = DateFormat(format);
-  //   return formatter.format(dateTime);
-  // }
-  //
-  // static String formatMilliseconds(int milli, String format) {
-  //   final DateFormat formatter = DateFormat(format);
-  //   return formatter.format(DateTime.fromMillisecondsSinceEpoch(milli));
-  // }
-  //
-  // static String format(String dateTime, String format) {
-  //   try {
-  //     final DateFormat formatter = DateFormat(format);
-  //     return formatter.format(DateTime.parse(dateTime.trim()));
-  //   } catch (e) {
-  //     Logger.e(tag: "DATE FORMAT : ", value: e.toString());
-  //     return dateTime.nullSafe;
-  //   }
-  // }
+  static String getCurrentDate(String format) {
+    final DateFormat formatter = DateFormat(format);
+    return formatter.format(DateTime.now());
+  }
+
+  static String formatDate(DateTime dateTime, String format) {
+    final DateFormat formatter = DateFormat(format);
+    return formatter.format(dateTime);
+  }
+
+  static String formatMilliseconds(int milli, String format) {
+    final DateFormat formatter = DateFormat(format);
+    return formatter.format(DateTime.fromMillisecondsSinceEpoch(milli));
+  }
+
+  static String format(String dateTime, String format) {
+    try {
+      final DateFormat formatter = DateFormat(format);
+      return formatter.format(DateTime.parse(dateTime.trim()));
+    } catch (e) {
+      Logger.e(tag: "DATE FORMAT : ", value: e.toString());
+      return dateTime.nullSafe;
+    }
+  }
 
   static DateTime formatDateTime(String dateTime) {
     try {
@@ -664,7 +665,7 @@ class Helper {
   static Future<void> logOutWithoutAlert() async {
     await Preference.setLogin(false);
     await Preference.clear();
-    // await AppDb.instance.clearAllTables();
+    await NotificationDbHelper().clearNotifications();
     Helper.refreshCallbacks.clear();
     Helper.fastRefreshCallbacks.clear();
     await Get.deleteAll();

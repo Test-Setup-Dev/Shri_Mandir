@@ -2,15 +2,18 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mandir/model/local_notification.dart';
+import 'package:mandir/utils/db/db.dart';
+import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class NotifHelper {
   static final FlutterLocalNotificationsPlugin localNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
+    await NotificationDbHelper().database;
     await _initializeLocalNotifications();
     await _requestNotificationPermission();
 
@@ -49,10 +52,11 @@ class NotifHelper {
 
   static Future<void> _initializeLocalNotifications() async {
     const AndroidInitializationSettings androidInitSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const InitializationSettings initSettings =
-    InitializationSettings(android: androidInitSettings);
+    const InitializationSettings initSettings = InitializationSettings(
+      android: androidInitSettings,
+    );
 
     await localNotificationsPlugin.initialize(
       initSettings,
@@ -70,7 +74,8 @@ class NotifHelper {
 
     await localNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
   }
 
@@ -89,16 +94,17 @@ class NotifHelper {
 
     if (notification != null) {
       const AndroidNotificationDetails androidDetails =
-      AndroidNotificationDetails(
-        'default_channel',
-        'Default Notifications',
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true,
-      );
+          AndroidNotificationDetails(
+            'default_channel',
+            'Default Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          );
 
-      const NotificationDetails platformDetails =
-      NotificationDetails(android: androidDetails);
+      const NotificationDetails platformDetails = NotificationDetails(
+        android: androidDetails,
+      );
 
       /// single notification on notification panel
       // await localNotificationsPlugin.show(
@@ -118,26 +124,37 @@ class NotifHelper {
         payload: 'foreground',
       );
 
+      await NotificationDbHelper().insertNotification(
+        LocalNotification(
+          title: notification.title ?? data['title'] ?? 'Notification',
+          body: notification.body ?? data['body'] ?? '',
+          data: data.toString(),
+          timestamp: Helper.getCurrentDate(Helper.DATE_FORMAT_2),
+        ),
+      );
     }
   }
 
-  static Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  static Future<void> _firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+  ) async {
     await Firebase.initializeApp();
 
     Logger.m(tag: '🔥 Background Message', value: message.data);
 
     if (message.notification != null) {
       const AndroidNotificationDetails androidDetails =
-      AndroidNotificationDetails(
-        'default_channel',
-        'Default Notifications',
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true,
-      );
+          AndroidNotificationDetails(
+            'default_channel',
+            'Default Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          );
 
-      const NotificationDetails platformDetails =
-      NotificationDetails(android: androidDetails);
+      const NotificationDetails platformDetails = NotificationDetails(
+        android: androidDetails,
+      );
 
       await NotifHelper.localNotificationsPlugin.show(
         0,
@@ -146,9 +163,17 @@ class NotifHelper {
         platformDetails,
         payload: 'background',
       );
+
+      await NotificationDbHelper().insertNotification(
+        LocalNotification(
+          title: message.notification?.title ?? 'New Notification',
+          body: message.notification?.body ?? '',
+          data: message.data.toString(),
+          timestamp: Helper.getCurrentDate(Helper.DATE_FORMAT_2),
+        ),
+      );
     }
   }
-
 
   static void _handleNotificationClick(RemoteMessage message) {
     Logger.m(tag: '🧭 Notification Opened', value: message.data);

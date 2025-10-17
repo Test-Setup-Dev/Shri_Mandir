@@ -7,6 +7,7 @@ import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
 import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/const.dart';
+import 'package:mandir/utils/db/db.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:mandir/utils/toasty.dart';
@@ -143,6 +144,10 @@ class HomeController extends GetxController {
   }
 
   Future<void> testFunction() async {
-    print('Test function called: ${limitedTextItems.length}');
+    // final notifications = await NotificationDbHelper().getAllNotifications();
+    //
+    // print('Test function called: ${notifications.length} notifications found.');
+
+    Get.to(()=> NotificationScreen2());
   }
 }

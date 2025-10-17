@@ -103,4 +103,5 @@ class NotificationController extends GetxController {
   void refreshNotifications() {
     loadNotifications();
   }
+
 }
