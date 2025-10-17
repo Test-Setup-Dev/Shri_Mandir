@@ -192,7 +192,6 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildNotificationCard(
     NotificationModel notification,
     NotificationController controller,
