@@ -23,35 +23,49 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: ThemeColors.backgroundColor,
       key: Helper.appBarKey,
       drawer: const MyDrawer(),
-      body: SafeArea(
-        child: Obx(
-          () =>
-              controller.status.value == Status.PROGRESS
-                  ? _buildLoadingState()
-                  : Column(
-                    children: [
-                      _buildHeader(),
-                      12.vs,
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BannerCarousel(banners: controller.banners),
-                              3.h.vs,
-                              _buildMediaGrid(),
-                              3.h.vs,
-                              _buildFeaturedSection(),
-                              3.h.vs,
-                              _buildCategoriesSection(),
-                              12.h.vs, // Bottom padding for nav bar
-                            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await controller.loadMediaData();
+        },
+        color: ThemeColors.white,
+        backgroundColor: ThemeColors.colorSecondary.withAlpha(200),
+        child: SafeArea(
+          child: Obx(
+            () =>
+                controller.status.value == Status.PROGRESS
+                    ? _buildLoadingState()
+                    : Column(
+                      children: [
+                        _buildHeader(),
+                        12.vs,
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Obx(
+                                  () => BannerCarousel(
+                                    banners:
+                                        controller.banners
+                                            .map((banner) => '${banner.image}')
+                                            .toList(),
+                                  ),
+                                ),
+                                3.h.vs,
+                                _buildMediaGrid(),
+                                3.h.vs,
+                                _buildFeaturedSection(),
+                                3.h.vs,
+                                _buildCategoriesSection(),
+                                12.h.vs, // Bottom padding for nav bar
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+          ),
         ),
       ),
     );

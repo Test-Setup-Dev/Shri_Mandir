@@ -6,14 +6,15 @@ class BlogController extends GetxController {
   final RxString selectedCategory = 'All'.obs;
   final RxList<BlogModel> blogs = <BlogModel>[].obs;
   final RxList<BlogModel> filteredBlogs = <BlogModel>[].obs;
-  final RxList<String> categories = <String>[
-    'All',
-    'Spirituality',
-    'Festivals',
-    'Traditions',
-    'Rituals',
-    'Culture',
-  ].obs;
+  final RxList<String> categories =
+      <String>[
+        'All',
+        'Spirituality',
+        'Festivals',
+        'Traditions',
+        'Rituals',
+        'Culture',
+      ].obs;
 
   @override
   void onInit() {
@@ -47,7 +48,8 @@ class BlogController extends GetxController {
           id: '2',
           title: 'The Science Behind Meditation',
           subtitle: 'How meditation reshapes the brain and reduces stress',
-          content: 'Meditation has been practiced for centuries and modern science is now proving its benefits...',
+          content:
+              'Meditation has been practiced for centuries and modern science is now proving its benefits...',
           images: [
             'https://images.unsplash.com/photo-1506126613408-eca07ce68773',
             'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
@@ -64,7 +66,8 @@ class BlogController extends GetxController {
           id: '3',
           title: 'Vastu Shastra for Modern Homes',
           subtitle: 'Blending ancient architecture with contemporary living',
-          content: 'Vastu Shastra provides guiding principles that harmonize energy in living spaces...',
+          content:
+              'Vastu Shastra provides guiding principles that harmonize energy in living spaces...',
           images: [
             'https://images.unsplash.com/photo-1505691938895-1758d7feb511',
             'https://images.unsplash.com/photo-1523217582562-09d0def993a6',
@@ -81,7 +84,8 @@ class BlogController extends GetxController {
           id: '4',
           title: 'Ayurveda: The Science of Life',
           subtitle: 'Natural remedies for holistic health and wellness',
-          content: 'Ayurveda emphasizes balance in bodily systems using diet, herbal treatment, and yogic breathing...',
+          content:
+              'Ayurveda emphasizes balance in bodily systems using diet, herbal treatment, and yogic breathing...',
           images: [
             'https://images.unsplash.com/photo-1603398938378-e54eab4a28e6',
             'https://images.unsplash.com/photo-1599058917212-d750089bc07c',
@@ -98,7 +102,8 @@ class BlogController extends GetxController {
           id: '5',
           title: 'The Power of Mantras',
           subtitle: 'How sacred sounds can transform your mind and soul',
-          content: 'Chanting mantras has been a part of spiritual practice across cultures, offering peace and clarity...',
+          content:
+              'Chanting mantras has been a part of spiritual practice across cultures, offering peace and clarity...',
           images: [
             'https://images.unsplash.com/photo-1552058544-f2b08422138a',
             'https://images.unsplash.com/photo-1605721911519-3dfeb3be1ef8',
@@ -128,21 +133,22 @@ class BlogController extends GetxController {
     filterBlogs();
   }
 
-
   void filterBlogs() {
     if (searchQuery.isEmpty && selectedCategory.value == 'All') {
       filteredBlogs.value = blogs;
       return;
     }
 
-    filteredBlogs.value = blogs.where((blog) {
-      final matchesSearch = blog.title
-          .toLowerCase()
-          .contains(searchQuery.toLowerCase());
-      final matchesCategory = selectedCategory.value == 'All' ||
-          blog.tags.contains(selectedCategory.value);
-      return matchesSearch && matchesCategory;
-    }).toList();
+    filteredBlogs.value =
+        blogs.where((blog) {
+          final matchesSearch = blog.title.toLowerCase().contains(
+            searchQuery.toLowerCase(),
+          );
+          final matchesCategory =
+              selectedCategory.value == 'All' ||
+              blog.tags.contains(selectedCategory.value);
+          return matchesSearch && matchesCategory;
+        }).toList();
   }
 
   void toggleBookmark(String blogId) {
@@ -176,9 +182,6 @@ class BlogController extends GetxController {
     // Implement comment functionality
   }
 }
-
-
-
 
 class BlogModel {
   final String id;

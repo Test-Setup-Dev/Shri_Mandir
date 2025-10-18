@@ -100,6 +100,7 @@ class NotifHelper {
             importance: Importance.max,
             priority: Priority.high,
             playSound: true,
+            sound: RawResourceAndroidNotificationSound('temple_bell'),
           );
 
       const NotificationDetails platformDetails = NotificationDetails(
@@ -150,6 +151,7 @@ class NotifHelper {
             importance: Importance.max,
             priority: Priority.high,
             playSound: true,
+            sound: RawResourceAndroidNotificationSound('temple_bell'),
           );
 
       const NotificationDetails platformDetails = NotificationDetails(
@@ -178,5 +180,6 @@ class NotifHelper {
   static void _handleNotificationClick(RemoteMessage message) {
     Logger.m(tag: '🧭 Notification Opened', value: message.data);
     // TODO: Navigate to specific screen if required
+
   }
 }

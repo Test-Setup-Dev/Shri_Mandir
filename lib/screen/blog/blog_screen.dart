@@ -21,13 +21,14 @@ class BlogScreen extends StatelessWidget {
             1.h.vs,
             Expanded(
               child: Obx(
-                () => controller.isLoading.value
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: ThemeColors.primaryColor,
-                        ),
-                      )
-                    : _buildBlogList(),
+                () =>
+                    controller.isLoading.value
+                        ? Center(
+                          child: CircularProgressIndicator(
+                            color: ThemeColors.primaryColor,
+                          ),
+                        )
+                        : _buildBlogList(),
               ),
             ),
           ],
@@ -158,57 +159,62 @@ class BlogScreen extends StatelessWidget {
               ],
             ),
           ),
-          2.h.vs,
-          Container(
-            height: 10.w,
-            margin: EdgeInsets.symmetric(vertical: 1.h),
-            child: Obx(
-              () => ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: controller.categories.length,
-                itemBuilder: (context, index) {
-                  final category = controller.categories[index];
-                  final isSelected =
-                      controller.selectedCategory.value == category;
-                  return GestureDetector(
-                    onTap: () => controller.selectCategory(category),
-                    child: Container(
-                      margin: EdgeInsets.only(right: 2.w),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 4.w,
-                        vertical: 1.w,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? ThemeColors.primaryColor
-                            : ThemeColors.white,
-                        borderRadius: BorderRadius.circular(2.w),
-                        border: Border.all(
-                          color: isSelected
-                              ? Colors.transparent
-                              : ThemeColors.greyColor,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          category,
-                          style: TextStyle(
-                            color: isSelected
-                                ? ThemeColors.white
-                                : ThemeColors.defaultTextColor,
-                            fontSize: 3.w,
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+          // 2.h.vs,
+          /// todo: Blog Filter
+          // Container(
+          //   height: 10.w,
+          //   margin: EdgeInsets.symmetric(vertical: 1.h),
+          //   child: Obx(
+          //     () => ListView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: controller.categories.length,
+          //       itemBuilder: (context, index) {
+          //         final category = controller.categories[index];
+          //         final isSelected =
+          //             controller.selectedCategory.value == category;
+          //         return GestureDetector(
+          //           onTap: () => controller.selectCategory(category),
+          //           child: Container(
+          //             margin: EdgeInsets.only(right: 2.w),
+          //             padding: EdgeInsets.symmetric(
+          //               horizontal: 4.w,
+          //               vertical: 1.w,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               color:
+          //               controller.selectedCategory.value == category
+          //                       ? ThemeColors.primaryColor
+          //                       : ThemeColors.white,
+          //               borderRadius: BorderRadius.circular(2.w),
+          //               border: Border.all(
+          //                 color:
+          //                     isSelected
+          //                         ? Colors.transparent
+          //                         : ThemeColors.greyColor,
+          //               ),
+          //             ),
+          //             child: Center(
+          //               child: Text(
+          //                 category,
+          //                 style: TextStyle(
+          //                   color:
+          //                       isSelected
+          //                           ? ThemeColors.white
+          //                           : ThemeColors.defaultTextColor,
+          //                   fontSize: 3.w,
+          //                   fontWeight:
+          //                       isSelected
+          //                           ? FontWeight.bold
+          //                           : FontWeight.normal,
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -253,10 +259,12 @@ class BlogScreen extends StatelessWidget {
                         return CachedNetworkImage(
                           imageUrl: blog.images[imageIndex],
                           fit: BoxFit.cover,
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          placeholder:
+                              (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          errorWidget:
+                              (context, url, error) => const Icon(Icons.error),
                         );
                       },
                     ),
@@ -341,28 +349,31 @@ class BlogScreen extends StatelessWidget {
                           Spacer(),
                           Wrap(
                             spacing: 2.w,
-                            children: blog.tags
-                                .map(
-                                  (tag) => Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 2.w,
-                                      vertical: 1.w,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: ThemeColors.primaryColor
-                                          .withAlpha(30),
-                                      borderRadius: BorderRadius.circular(1.w),
-                                    ),
-                                    child: Text(
-                                      tag,
-                                      style: TextStyle(
-                                        fontSize: 2.8.w,
-                                        color: ThemeColors.primaryColor,
+                            children:
+                                blog.tags
+                                    .map(
+                                      (tag) => Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 2.w,
+                                          vertical: 1.w,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: ThemeColors.primaryColor
+                                              .withAlpha(30),
+                                          borderRadius: BorderRadius.circular(
+                                            1.w,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          tag,
+                                          style: TextStyle(
+                                            fontSize: 2.8.w,
+                                            color: ThemeColors.primaryColor,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                                    )
+                                    .toList(),
                           ),
                         ],
                       ),

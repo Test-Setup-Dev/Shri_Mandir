@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/data_handler/repository.dart';
+import 'package:mandir/model/banner.dart';
 import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
@@ -24,6 +25,7 @@ class HomeController extends GetxController {
   var showAllAudioContent = false.obs;
   var showAllVideoContent = false.obs;
   var showAllTextContent = false.obs;
+  var banners = <Banners>[].obs;
 
   List<MediaItem> get limitedAudioItems {
     var audioItems =
@@ -43,23 +45,46 @@ class HomeController extends GetxController {
     return showAllTextContent.value ? textItems : textItems.take(5).toList();
   }
 
-  var banners =
-      <String>[
-        'https://images.unsplash.com/photo-1623952146070-f13fc902f769',
-        'https://images.unsplash.com/photo-1622781656198-645b7981b671',
-      ].obs;
-
   @override
   void onInit() {
     super.onInit();
     loadMediaData();
   }
 
-  void loadMediaData() {
+  Future<void> loadMediaData() async {
     status.value = Status.PROGRESS;
     _loadMediaItems();
     _loadCategories();
+    _loadMediaBanners();
     status.value = Status.COMPLETED;
+  }
+
+  void _loadMediaBanners() async {
+    status.value = Status.PROGRESS;
+
+    try {
+      final response = await Repository.instance.getBanner();
+      Logger.m(tag: "Banner Data", value: response.toString());
+
+      if (response != null &&
+          response is Map &&
+          response['status'] == true &&
+          response['banners'] != null &&
+          response['banners'] is List) {
+        final List<Banners> bannerList =
+            (response['banners'] as List)
+                .map((e) => Banners.fromJson(e))
+                .toList();
+
+        banners.value = bannerList;
+      } else {
+        Logger.e(tag: "Banner Data Error", value: "Invalid response format");
+      }
+    } catch (e) {
+      Logger.ex(baseName: runtimeType, tag: 'LOAD HOME DATA EXC', value: e);
+    } finally {
+      status.value = Status.COMPLETED;
+    }
   }
 
   void _loadMediaItems() async {
@@ -148,6 +173,8 @@ class HomeController extends GetxController {
     //
     // print('Test function called: ${notifications.length} notifications found.');
 
-    Get.to(()=> NotificationScreen2());
+    // Get.to(()=> NotificationScreen2());
+    // _loadMediaBanners();
+    await Repository.instance.sendNotification();
   }
 }

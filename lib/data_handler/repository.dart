@@ -80,8 +80,19 @@ class Repository extends ApiProvider {
         "state": "Uttarakhand",
         "country": "India",
         "gender": "Male",
-        "image": "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341",
-        'fcm_token': fcmToken
+        "image":
+            "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341",
+        'fcm_token': fcmToken,
+      },
+    );
+  }
+
+  Future<dynamic> sendNotification() async {
+    return super.getDynamic(
+      'sendnotification',
+      parameters: {
+        "title": "Hello User",
+        "body": "Your notification Firebase!"
       },
     );
   }
@@ -94,13 +105,12 @@ class Repository extends ApiProvider {
   }
 
   Future<dynamic> getBanner() async {
-    return super.getDynamicUsingGet('get_all_banner', parameters: {});
+    return super.getDynamicUsingGet('admin/banners', parameters: {});
   }
 
   Future<dynamic> getHomeData() async {
     return super.getDynamicUsingGet('home-data');
   }
-
 
   Future<dynamic> getCategory() async {
     return super.getDynamicUsingGet('category');
