@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: ThemeColors.backgroundColor,
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: ThemeColors.primaryColor.withAlpha(200),
+        backgroundColor: ThemeColors.primaryColor.withAlpha(50),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -35,14 +35,17 @@ class ProfileScreen extends StatelessWidget {
                       bottomRight: Radius.circular(3.w),
                       bottomLeft: Radius.circular(3.w),
                     ),
-
                     image: DecorationImage(
                       image: NetworkImage(
                         // user.image ?? "",
                         'https://images.unsplash.com/photo-1623952146070-f13fc902f769',
                       ),
                       fit: BoxFit.cover,
-                      opacity: 0.4,
+                      colorFilter: ColorFilter.mode(
+                        ThemeColors.colorSecondary.withAlpha(100),
+                        BlendMode.srcOver,
+                      ),
+                      // opacity: 0.6,
                     ),
                   ),
                   child: Column(

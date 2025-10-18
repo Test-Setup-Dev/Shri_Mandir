@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mandir/screen/blog/blog_screen.dart';
+import 'package:mandir/screen/donation/donation_screen.dart';
 import 'package:mandir/screen/home/home.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
 import 'package:mandir/screen/profile/profile_screen.dart';
@@ -54,7 +55,7 @@ class _DashboardState extends State<Dashboard> {
               case 2:
                 return BlogScreen();
               case 3:
-                return NotificationScreen();
+                return DonationScreen();
               case 4:
                 return ProfileScreen();
               default:

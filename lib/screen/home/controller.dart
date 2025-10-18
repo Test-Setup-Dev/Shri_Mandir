@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mandir/data_handler/repository.dart';
 import 'package:mandir/model/banner.dart';
 import 'package:mandir/model/home_data.dart';
+import 'package:mandir/screen/donation/donation_screen.dart';
 import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
@@ -173,7 +174,7 @@ class HomeController extends GetxController {
     //
     // print('Test function called: ${notifications.length} notifications found.');
 
-    // Get.to(()=> NotificationScreen2());
+    Get.to(() => DonationScreen());
     // _loadMediaBanners();
     await Repository.instance.sendNotification();
   }

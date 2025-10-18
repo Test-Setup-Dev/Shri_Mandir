@@ -14,6 +14,10 @@ class BlogScreen extends StatelessWidget {
     SizeConfig.initWithContext(context);
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: ThemeColors.primaryColor,
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -41,11 +45,12 @@ class BlogScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(2.w),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [ThemeColors.white, ThemeColors.offWhite],
-        ),
+        color: ThemeColors.primaryColor,
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [ThemeColors.white, ThemeColors.offWhite],
+        // ),
         boxShadow: [
           BoxShadow(
             color: ThemeColors.greyColor.withAlpha(50),
@@ -79,7 +84,7 @@ class BlogScreen extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.menu,
-                    color: ThemeColors.defaultTextColor,
+                    color: ThemeColors.primaryColor,
                     size: 6.w,
                   ),
                 ),
@@ -91,7 +96,7 @@ class BlogScreen extends StatelessWidget {
                   Text(
                     'Blog Section',
                     style: TextStyle(
-                      color: ThemeColors.defaultTextColor,
+                      color: ThemeColors.white,
                       fontSize: 4.5.w,
                       fontWeight: FontWeight.w700,
                     ),
@@ -99,7 +104,7 @@ class BlogScreen extends StatelessWidget {
                   Text(
                     'Explore articles and insights',
                     style: TextStyle(
-                      color: ThemeColors.greyColor,
+                      color: ThemeColors.whiteBlue,
                       fontSize: 2.5.w,
                       fontWeight: FontWeight.w400,
                     ),
@@ -136,7 +141,7 @@ class BlogScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.search, color: ThemeColors.greyColor, size: 5.w),
+                Icon(Icons.search, color: ThemeColors.primaryColor, size: 5.w),
                 3.w.hs,
                 Expanded(
                   child: TextField(
@@ -148,7 +153,7 @@ class BlogScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Search blogs...',
                       hintStyle: TextStyle(
-                        color: ThemeColors.greyColor,
+                        color: ThemeColors.primaryColor,
                         fontSize: 3.5.w,
                       ),
                       border: InputBorder.none,

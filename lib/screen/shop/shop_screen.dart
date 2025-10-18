@@ -16,6 +16,10 @@ class ShopScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,
       key: Helper.appBarKey,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: ThemeColors.primaryColor,
+      ),
       drawer: const MyDrawer(),
       body: SafeArea(
         child: Obx(
@@ -76,11 +80,12 @@ class ShopScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [ThemeColors.white, ThemeColors.offWhite],
-        ),
+        color: ThemeColors.primaryColor,
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [ThemeColors.white, ThemeColors.offWhite],
+        // ),
         boxShadow: [
           BoxShadow(
             color: ThemeColors.greyColor.withAlpha(50),
@@ -114,7 +119,7 @@ class ShopScreen extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.menu,
-                    color: ThemeColors.defaultTextColor,
+                    color: ThemeColors.primaryColor,
                     size: 6.w,
                   ),
                 ),
@@ -126,7 +131,7 @@ class ShopScreen extends StatelessWidget {
                   Text(
                     'appName'.t,
                     style: TextStyle(
-                      color: ThemeColors.defaultTextColor,
+                      color: ThemeColors.white,
                       fontSize: 4.5.w,
                       fontWeight: FontWeight.w700,
                     ),
@@ -134,7 +139,7 @@ class ShopScreen extends StatelessWidget {
                   Text(
                     'Deliver Services at Your Doorstep',
                     style: TextStyle(
-                      color: ThemeColors.greyColor,
+                      color: ThemeColors.whiteBlue,
                       fontSize: 2.5.w,
                       fontWeight: FontWeight.w400,
                     ),
@@ -161,7 +166,7 @@ class ShopScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.search, color: ThemeColors.greyColor, size: 5.w),
+                Icon(Icons.search, color: ThemeColors.primaryColor, size: 5.w),
                 3.w.hs,
                 Expanded(
                   child: TextField(
@@ -172,7 +177,7 @@ class ShopScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Search for Dosha Nivaran Puja',
                       hintStyle: TextStyle(
-                        color: ThemeColors.greyColor,
+                        color: ThemeColors.primaryColor,
                         fontSize: 3.5.w,
                       ),
                       border: InputBorder.none,
