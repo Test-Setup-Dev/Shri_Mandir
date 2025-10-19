@@ -92,7 +92,25 @@ class Repository extends ApiProvider {
       'sendnotification',
       parameters: {
         "title": "Hello User",
-        "body": "Your notification Firebase!"
+        "body": "Your notification Firebase!",
+      },
+    );
+  }
+
+  Future<dynamic> createOrder(amount) async {
+    return super.getDynamic(
+      'donation/create-order',
+      parameters: {"amount": amount},
+    );
+  }
+
+  Future<dynamic> verifyPayment(paymentId, orderId, signature) async {
+    return super.getDynamic(
+      'donation/verify-payment',
+      parameters: {
+        "razorpay_payment_id": paymentId ?? '',
+        "razorpay_order_id": orderId ?? '',
+        "razorpay_signature": signature ?? '',
       },
     );
   }

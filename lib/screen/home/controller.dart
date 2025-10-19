@@ -57,7 +57,9 @@ class HomeController extends GetxController {
     _loadMediaItems();
     _loadCategories();
     _loadMediaBanners();
-    status.value = Status.COMPLETED;
+    Future.delayed(Duration(seconds: 2)).then((value) {
+      status.value = Status.COMPLETED;
+    });
   }
 
   void _loadMediaBanners() async {
@@ -84,7 +86,7 @@ class HomeController extends GetxController {
     } catch (e) {
       Logger.ex(baseName: runtimeType, tag: 'LOAD HOME DATA EXC', value: e);
     } finally {
-      status.value = Status.COMPLETED;
+      // status.value = Status.COMPLETED;
     }
   }
 
@@ -118,7 +120,7 @@ class HomeController extends GetxController {
     } catch (e) {
       Logger.ex(baseName: runtimeType, tag: 'LOAD HOME DATA EXC', value: e);
     } finally {
-      status.value = Status.COMPLETED;
+      // status.value = Status.COMPLETED;
     }
   }
 
@@ -174,8 +176,11 @@ class HomeController extends GetxController {
     //
     // print('Test function called: ${notifications.length} notifications found.');
 
-    Get.to(() => DonationScreen());
+    // Get.to(() => DonationScreen());
+    // Get.to(() => RazorPayScreen());
     // _loadMediaBanners();
-    await Repository.instance.sendNotification();
+    // await Repository.instance.sendNotification();
+    // await Repository.instance.createOrder(500);
+    // await Repository.instance.verifyPayment('fsdfasd', 'kjgjkg', 'kjhjkh');
   }
 }

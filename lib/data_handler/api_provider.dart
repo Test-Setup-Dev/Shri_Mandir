@@ -54,7 +54,7 @@ class ApiProvider {
     return Options(
       headers: {
         'authorization':
-            Preference.isUserAvailable ? Preference.user.token : "",
+            Preference.isUserAvailable ? "Bearer ${Preference.user.token}" : "",
         // 'tmz': Preference.isUserAvailable ? Preference.user.timeZone : 'UTC',
         'pn': Const.packageName,
         'vc': Const.versionCode,

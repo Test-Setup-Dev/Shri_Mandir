@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mandir/screen/blog/controller.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mandir/widget/my_drawer.dart';
 
 class BlogScreen extends StatelessWidget {
   BlogScreen({super.key});
@@ -14,6 +15,8 @@ class BlogScreen extends StatelessWidget {
     SizeConfig.initWithContext(context);
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,
+      key: Helper.appBarKey,
+      drawer: const MyDrawer(),
       appBar: AppBar(
         toolbarHeight: 0,
         backgroundColor: ThemeColors.primaryColor,

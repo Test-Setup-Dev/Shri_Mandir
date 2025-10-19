@@ -11,6 +11,7 @@ import 'package:mandir/utils/helper.dart';
 import 'package:mandir/widget/banner_carousel.dart';
 import 'package:mandir/widget/my_drawer.dart';
 import 'package:mandir/widget/widgets.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -76,21 +77,93 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildLoadingState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(color: ThemeColors.primaryColor),
-          2.h.vs,
-          Text(
-            'Loading media content...',
-            style: TextStyle(
-              color: ThemeColors.defaultTextColor,
-              fontSize: 4.w,
+    return Shimmer(
+      duration: const Duration(seconds: 2),
+      interval: const Duration(seconds: 1),
+      color: ThemeColors.greyColor.withAlpha(80),
+      colorOpacity: 0.3,
+      enabled: true,
+      direction: const ShimmerDirection.fromLTRB(),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(4.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🔹 Banner shimmer
+            Container(
+              height: 18.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(3.w),
+              ),
             ),
-          ),
-        ],
+            3.h.vs,
+
+            // 🔹 Audio section shimmer
+            _buildSectionShimmer(title: "Audio Content"),
+
+            // 🔹 Video section shimmer
+            _buildSectionShimmer(title: "Video Content"),
+
+            // 🔹 Text section shimmer
+            _buildSectionShimmer(title: "Text Content"),
+
+            // 🔹 Category shimmer grid
+            3.h.vs,
+            Container(height: 3.h, width: 40.w, color: Colors.grey[300]),
+            2.h.vs,
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                crossAxisSpacing: 3.w,
+                mainAxisSpacing: 3.w,
+                childAspectRatio: 0.9,
+              ),
+              itemCount: 8,
+              itemBuilder:
+                  (_, __) => Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2.5.w),
+                    ),
+                  ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  /// Reusable shimmer for section grids
+  Widget _buildSectionShimmer({required String title}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(height: 3.h, width: 35.w, color: Colors.grey[300]),
+        2.h.vs,
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 3.w,
+            mainAxisSpacing: 3.w,
+            childAspectRatio: 0.75,
+          ),
+          itemCount: 4,
+          itemBuilder:
+              (_, __) => Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(3.w),
+                ),
+              ),
+        ),
+        3.h.vs,
+      ],
     );
   }
 
@@ -173,7 +246,10 @@ class HomeScreen extends StatelessWidget {
                   onTap: () {
                     Get.to(() => NotificationScreen());
                   },
-                  child: assetImage('assets/icons/notification_outline.png', color: ThemeColors.white),
+                  child: assetImage(
+                    'assets/icons/notification_outline.png',
+                    color: ThemeColors.white,
+                  ),
                 ),
               ),
             ],
@@ -446,27 +522,31 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                top: 10.w,
-                left: 16.w,
-                child: GestureDetector(
-                  onTap: () => controller.playMedia(mediaItem),
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(2.w),
-                      decoration: BoxDecoration(
-                        color: ThemeColors.whiteBlue.withAlpha(200),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.play_arrow,
-                        color: ThemeColors.primaryColor,
-                        size: 6.w,
+              if (mediaItem.type == MediaType.audio ||
+                  mediaItem.type == MediaType.video)
+                Positioned(
+                  top: 10.w,
+                  left: 16.w,
+                  child: GestureDetector(
+                    onTap: () => controller.playMedia(mediaItem),
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.all(2.w),
+                        decoration: BoxDecoration(
+                          color: ThemeColors.whiteBlue.withAlpha(200),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          mediaItem.type == MediaType.video
+                              ? Icons.play_arrow
+                              : Icons.music_note,
+                          color: ThemeColors.primaryColor,
+                          size: 6.w,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
           Expanded(

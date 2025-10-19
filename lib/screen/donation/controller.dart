@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/helper.dart';
+import 'package:mandir/utils/preference.dart';
 import 'package:mandir/utils/toasty.dart';
 
 class DonationController extends GetxController {
   final customAmountController = TextEditingController();
 
-final presetAmounts = [50, 100, 200, 500, 1000, 2000].obs;
+  final presetAmounts = [50, 100, 200, 500, 1000, 2000].obs;
   var selectedAmount = 0.obs;
 
   void selectAmount(int amount) {
@@ -112,9 +114,35 @@ final presetAmounts = [50, 100, 200, 500, 1000, 2000].obs;
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  final payController = RazorpayController();
+                  final orderResponse = await payController.createOrder(
+                    customAmountController.text.isNotEmpty
+                        ? int.parse(customAmountController.text)
+                        : selectedAmount.value,
+                  );
+                  if (orderResponse != null &&
+                      orderResponse['status'] == true) {
+                    payController.startPayment(
+                      amount: orderResponse['amount'].toString(),
+                      name: orderResponse['name'] ?? 'Shri Mandir',
+                      description: 'Donation for Shri Mandir',
+                      email:
+                          orderResponse['email'] ?? Preference.user.email ?? '',
+                      contact: Preference.user.phone ?? '',
+                      orderId: orderResponse['order_id'],
+                      razorpayKey: orderResponse['razorpay_key'],
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Failed to create order'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                   _initiateDonation(amount, context);
+                  Get.back();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ThemeColors.primaryColor,

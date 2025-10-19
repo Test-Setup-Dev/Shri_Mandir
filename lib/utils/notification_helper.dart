@@ -39,6 +39,16 @@ class NotifHelper {
 
     // Optional: subscribe to topic
     await FirebaseMessaging.instance.subscribeToTopic('Mindir_topic');
+
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
   }
 
   static Future<String?> getFcmToken() async {
@@ -180,6 +190,5 @@ class NotifHelper {
   static void _handleNotificationClick(RemoteMessage message) {
     Logger.m(tag: '🧭 Notification Opened', value: message.data);
     // TODO: Navigate to specific screen if required
-
   }
 }
