@@ -50,11 +50,11 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Obx(
-                                  () => BannerCarousel(
+                                      () => BannerCarousel(
                                     banners:
-                                        controller.banners
-                                            .map((banner) => '${banner.image}')
-                                            .toList(),
+                                    controller.banners
+                                        .map((banner) => '${banner.image}')
+                                        .toList(),
                                   ),
                                 ),
                                 3.h.vs,
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                                 _buildFeaturedSection(),
                                 3.h.vs,
                                 _buildCategoriesSection(),
-                                12.h.vs, // Bottom padding for nav bar
+                                12.h.vs,
                               ],
                             ),
                           ),

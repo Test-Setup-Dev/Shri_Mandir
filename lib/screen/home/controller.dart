@@ -175,7 +175,7 @@ class HomeController extends GetxController {
   Future<void> testFunction() async {
 
     // Get.to(() => DonationScreen());
-    print(Preference.user.token);
-    // await Repository.instance.getBlogs();
+    // print(Preference.user.token);
+    await Repository.instance.getDonations();
   }
 }

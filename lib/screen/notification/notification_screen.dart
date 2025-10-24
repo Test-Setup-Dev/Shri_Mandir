@@ -418,7 +418,6 @@
 //   }
 // }
 
-
 import 'package:get/get.dart';
 import 'package:mandir/model/local_notification.dart';
 import 'package:flutter/material.dart';
@@ -435,59 +434,45 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ThemeColors.offWhite,
       appBar: AppBar(
-        elevation: 0,
-        foregroundColor: ThemeColors.black,
-        surfaceTintColor: ThemeColors.offWhite,
-        title: Text(
-          "Notifications",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 2.5.h),
-        ),
-        actions: [
-          Obx(
-                () =>
-            controller.notifications.isNotEmpty
-                ? TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: ThemeColors.primaryColor,
-              ),
-              onPressed: () async {
-                _showClearAllDialog(context);
-              },
-              child: Text(
-                "Clear All",
-                style: TextStyle(fontSize: 1.8.h),
-              ),
-            )
-                : const SizedBox(),
-          ),
-        ],
+        toolbarHeight: 0,
+        backgroundColor: ThemeColors.primaryColor,
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(color: ThemeColors.primaryColor),
-          );
-        }
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(),
+            1.h.vs,
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: ThemeColors.primaryColor,
+                  ),
+                );
+              }
 
-        if (controller.notifications.isEmpty) {
-          return _buildEmptyState();
-        }
+              if (controller.notifications.isEmpty) {
+                return Center(heightFactor: .5.h, child: _buildEmptyState());
+              }
 
-        return RefreshIndicator(
-          color: ThemeColors.primaryColor,
-          onRefresh: () async {
-            await controller.loadNotifications();
-          },
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            itemCount: controller.notifications.length,
-            itemBuilder: (context, index) {
-              final notif = controller.notifications[index];
-              return _buildNotificationItem(context, notif, index);
-            },
-          ),
-        );
-      }),
+              return RefreshIndicator(
+                color: ThemeColors.primaryColor,
+                onRefresh: () async {
+                  await controller.loadNotifications();
+                },
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                  itemCount: controller.notifications.length,
+                  itemBuilder: (context, index) {
+                    final notif = controller.notifications[index];
+                    return _buildNotificationItem(context, notif, index);
+                  },
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
     );
   }
 
@@ -531,10 +516,10 @@ class NotificationScreen extends StatelessWidget {
   }
 
   Widget _buildNotificationItem(
-      BuildContext context,
-      LocalNotification notif,
-      int index,
-      ) {
+    BuildContext context,
+    LocalNotification notif,
+    int index,
+  ) {
     return Dismissible(
       key: Key(notif.id.toString()),
       direction: DismissDirection.endToStart,
@@ -575,15 +560,15 @@ class NotificationScreen extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.5.h),
         decoration: BoxDecoration(
           color:
-          notif.read
-              ? ThemeColors.white
-              : ThemeColors.primaryColor.withOpacity(0.05),
+              notif.read
+                  ? ThemeColors.white
+                  : ThemeColors.primaryColor.withOpacity(0.05),
           borderRadius: BorderRadius.circular(4.w),
           border: Border.all(
             color:
-            notif.read
-                ? ThemeColors.greyColor.withOpacity(0.2)
-                : ThemeColors.primaryColor.withOpacity(0.3),
+                notif.read
+                    ? ThemeColors.greyColor.withOpacity(0.2)
+                    : ThemeColors.primaryColor.withOpacity(0.3),
             width: 0.3.w,
           ),
           boxShadow: [
@@ -642,9 +627,9 @@ class NotificationScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 1.8.h,
                                   fontWeight:
-                                  notif.read
-                                      ? FontWeight.w500
-                                      : FontWeight.w700,
+                                      notif.read
+                                          ? FontWeight.w500
+                                          : FontWeight.w700,
                                   color: ThemeColors.defaultTextColor,
                                 ),
                               ),
@@ -701,48 +686,48 @@ class NotificationScreen extends StatelessWidget {
                     },
                     itemBuilder:
                         (context) => [
-                      PopupMenuItem(
-                        value: 'toggle',
-                        child: Row(
-                          children: [
-                            Icon(
-                              notif.read
-                                  ? Icons.mark_email_unread_outlined
-                                  : Icons.mark_email_read_outlined,
-                              size: 1.8.h,
-                              color: ThemeColors.defaultTextColor,
+                          PopupMenuItem(
+                            value: 'toggle',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  notif.read
+                                      ? Icons.mark_email_unread_outlined
+                                      : Icons.mark_email_read_outlined,
+                                  size: 1.8.h,
+                                  color: ThemeColors.defaultTextColor,
+                                ),
+                                3.w.hs,
+                                Text(
+                                  notif.read
+                                      ? 'Mark as Unread'
+                                      : 'Mark as Read',
+                                  style: TextStyle(fontSize: 1.8.h),
+                                ),
+                              ],
                             ),
-                            3.w.hs,
-                            Text(
-                              notif.read
-                                  ? 'Mark as Unread'
-                                  : 'Mark as Read',
-                              style: TextStyle(fontSize: 1.8.h),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.delete_outline,
+                                  size: 1.8.h,
+                                  color: Colors.red,
+                                ),
+                                3.w.hs,
+                                Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 1.8.h,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.delete_outline,
-                              size: 1.8.h,
-                              color: Colors.red,
-                            ),
-                            3.w.hs,
-                            Text(
-                              'Delete',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 1.8.h,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                          ),
+                        ],
                   ),
                 ],
               ),
@@ -780,53 +765,130 @@ class NotificationScreen extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4.w),
-        ),
-        title: Text(
-          'Clear All Notifications?',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 2.5.h),
-        ),
-        content: Text(
-          'This will permanently delete all notifications. This action cannot be undone.',
-          style: TextStyle(fontSize: 1.8.h),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: ThemeColors.textPrimaryColor,
-                fontSize: 1.8.h,
-              ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.w),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await controller.clearAll();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "All notifications cleared",
-                    style: TextStyle(fontSize: 2.h),
-                  ),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2.5.w),
+            title: Text(
+              'Clear All Notifications?',
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 2.5.h),
+            ),
+            content: Text(
+              'This will permanently delete all notifications. This action cannot be undone.',
+              style: TextStyle(fontSize: 1.8.h),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: ThemeColors.textPrimaryColor,
+                    fontSize: 1.8.h,
                   ),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: ThemeColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(2.w),
               ),
-            ),
-            child: Text('Clear All', style: TextStyle(fontSize: 1.8.h)),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await controller.clearAll();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "All notifications cleared",
+                        style: TextStyle(fontSize: 2.h),
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2.5.w),
+                      ),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: ThemeColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(2.w),
+                  ),
+                ),
+                child: Text('Clear All', style: TextStyle(fontSize: 1.8.h)),
+              ),
+            ],
+          ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: EdgeInsets.all(4.w),
+      decoration: BoxDecoration(
+        color: ThemeColors.primaryColor,
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: [ThemeColors.white, ThemeColors.offWhite],
+        // ),
+        boxShadow: [
+          BoxShadow(
+            color: ThemeColors.primaryColor.withAlpha(50),
+            blurRadius: 10,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 12.w,
+                height: 12.w,
+                decoration: BoxDecoration(
+                  color: ThemeColors.white,
+                  borderRadius: BorderRadius.circular(6.w),
+                  border: Border.all(color: ThemeColors.greyColor),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ThemeColors.greyColor.withAlpha(50),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: ThemeColors.primaryColor,
+                    size: 6.w,
+                  ),
+                ),
+              ),
+              15.hs,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Notifications',
+                    style: TextStyle(
+                      color: ThemeColors.white,
+                      fontSize: 4.5.w,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    'Notifications List',
+                    style: TextStyle(
+                      color: ThemeColors.whiteBlue,
+                      fontSize: 2.5.w,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

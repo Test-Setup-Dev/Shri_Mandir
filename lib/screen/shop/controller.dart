@@ -31,7 +31,6 @@ class ShopController extends GetxController {
 
   void loadHomeData() {
     isLoading.value = true;
-    _loadServiceCategories();
     _loadPujaServices();
     _loadSpecialEvents();
     isLoading.value = false;
@@ -43,58 +42,6 @@ class ShopController extends GetxController {
 
   }
 
-  void _loadServiceCategories() {
-    serviceCategories.value = [
-      ServiceCategory(
-        id: '1',
-        name: 'Panchang',
-        icon: '📅',
-        description: 'Daily Hindu Calendar',
-      ),
-      ServiceCategory(
-        id: '2',
-        name: 'Library',
-        icon: '📚',
-        description: 'Sacred Texts',
-      ),
-      ServiceCategory(
-        id: '3',
-        name: 'Kundali',
-        icon: '⭐',
-        description: 'Horoscope Services',
-      ),
-      ServiceCategory(
-        id: '4',
-        name: 'Wallpaper',
-        icon: '🖼️',
-        description: 'Divine Images',
-      ),
-      ServiceCategory(
-        id: '5',
-        name: 'Astrology',
-        icon: '🔮',
-        description: 'Vedic Consultation',
-      ),
-      ServiceCategory(
-        id: '6',
-        name: 'Rushifal',
-        icon: '🌟',
-        description: 'Predictions',
-      ),
-      ServiceCategory(
-        id: '7',
-        name: 'Gemstones',
-        icon: '💎',
-        description: 'Sacred Stones',
-      ),
-      ServiceCategory(
-        id: '8',
-        name: 'Yantra',
-        icon: '🕉️',
-        description: 'Sacred Designs',
-      ),
-    ];
-  }
 
   void _loadPujaServices() {
     pujaServices.value = [

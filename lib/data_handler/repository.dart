@@ -130,6 +130,10 @@ class Repository extends ApiProvider {
     return super.getDynamic('blogs');
   }
 
+  Future<dynamic> getDonations() async {
+    return super.getDynamic('donations');
+  }
+
   Future<dynamic> getHomeData() async {
     return super.getDynamic('home-data');
   }

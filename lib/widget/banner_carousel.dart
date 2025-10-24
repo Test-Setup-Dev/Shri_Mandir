@@ -52,10 +52,10 @@ class BannerCarousel extends StatelessWidget {
 
     return CarouselSlider(
       options: CarouselOptions(
-        height: 25.h,
+        height: 28.h,
         autoPlay: true,
         enlargeCenterPage: true,
-        viewportFraction: 0.9,
+        viewportFraction: 0.95,
         aspectRatio: 16 / 9,
         autoPlayCurve: Curves.easeInBack,
         enableInfiniteScroll: true,
