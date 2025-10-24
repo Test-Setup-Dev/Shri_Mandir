@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/data_handler/api_keys.dart';
+import 'package:mandir/screen/donation/donation_screen.dart';
 import 'package:mandir/screen/profile/controller.dart';
 import 'package:mandir/utils/helper.dart';
 
@@ -126,19 +128,41 @@ class ProfileScreen extends StatelessWidget {
                         onTap: () {},
                       ),
                       _buildProfileAction(
+                        'Donate Now',
+                        Icons.clean_hands_outlined,
+                        onTap: ()=> Get.to(()=> DonationScreen()),
+                      ),
+                      _buildProfileAction(
                         'Favorite',
                         Icons.favorite,
                         onTap: () {},
                       ),
-                      _buildProfileAction(
-                        'Donate Now',
-                        Icons.clean_hands_outlined,
-                        onTap: () {},
-                      ),
+
                       _buildProfileAction(
                         'Help & Support',
                         Icons.help_outline,
                         onTap: () {},
+                      ),
+                      _buildProfileAction(
+                        'Privacy Policy',
+                        Icons.lock_outline,
+                        onTap:
+                            () =>
+                                Helper.openUrl('${BaseUrl.baseUrl}privacy-policy-page'),
+                      ),
+                      _buildProfileAction(
+                        'Terms & Conditions',
+                        Icons.info_outline,
+                        onTap:
+                            () =>
+                                Helper.openUrl('${BaseUrl.baseUrl}conditions'),
+                      ),
+                      _buildProfileAction(
+                        'About Us',
+                        Icons.people_rounded,
+                        onTap:
+                            () =>
+                                Helper.openUrl('${BaseUrl.baseUrl}about-us-page'),
                       ),
                       _buildProfileAction(
                         'Logout',

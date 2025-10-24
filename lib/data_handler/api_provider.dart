@@ -211,7 +211,7 @@ class ApiProvider {
     }
   }
 
-  Future<dynamic> getDynamic(
+  Future<dynamic> postDynamic(
     String endPoint, {
     bool enableParamsLogs = true,
     bool enableResponseLogs = true,
@@ -255,7 +255,7 @@ class ApiProvider {
         });
   }
 
-  Future<dynamic> getDynamicUsingGet(
+  Future<dynamic> getDynamic(
     String endPoint, {
     bool enableParamsLogs = true,
     bool enableResponseLogs = true,

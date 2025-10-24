@@ -6,14 +6,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// import 'package:gaamraam/dialogs/alert_dialog.dart';
-// import 'package:gaamraam/screen/auth/login/login_screen.dart';
-// import 'package:gaamraam/utils/const.dart';
-// import 'package:gaamraam/utils/logger.dart';
-// import 'package:gaamraam/utils/preference.dart';
-// import 'package:gaamraam/values/size_config.dart';
-// import 'package:gaamraam/values/strings.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mandir/dialogs/alert_dialog.dart';
@@ -24,16 +16,14 @@ import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/values/strings.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'const.dart';
 
 // import 'package:intl/intl.dart';
 // import 'package:permission_handler/permission_handler.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
-// export '../utils/const.dart';
-// export '../utils/logger.dart';
-// export '../utils/preference.dart';
-// export '../values/dimen.dart';
 export '../values/size_config.dart';
 export '../values/theme_colors.dart';
 
@@ -407,30 +397,30 @@ class Helper {
     return str.toUpperCase();
   }
 
-  // static void openUrl(String url,
-  //     {bool includeHttp = false,
-  //     void Function()? success,
-  //     void Function(String s)? onError,
-  //     LaunchMode launchMode = LaunchMode.inAppWebView}) async {
-  //   if (url.notEmpty) {
-  //     try {
-  //       if (includeHttp && !url.startsWith('https://')) {
-  //         url = 'https://$url';
-  //       }
-  //
-  //       await launchUrlString(url, mode: launchMode).then((value) {
-  //         Logger.m(tag: 'OPEN URL', value: value);
-  //       });
-  //
-  //       if (success != null) success.call();
-  //     } catch (e) {
-  //       Logger.m(tag: 'openUrl', value: "'$url' Can't be launch! $e");
-  //       if (onError != null) onError.call(e.toString());
-  //     }
-  //   } else {
-  //     if (onError != null) onError.call("Can't launch url!");
-  //   }
-  // }
+  static void openUrl(String url,
+      {bool includeHttp = false,
+      void Function()? success,
+      void Function(String s)? onError,
+      LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+    if (url.notEmpty) {
+      try {
+        if (includeHttp && !url.startsWith('https://')) {
+          url = 'https://$url';
+        }
+
+        await launchUrlString(url, mode: launchMode).then((value) {
+          Logger.m(tag: 'OPEN URL', value: value);
+        });
+
+        if (success != null) success.call();
+      } catch (e) {
+        Logger.m(tag: 'openUrl', value: "'$url' Can't be launch! $e");
+        if (onError != null) onError.call(e.toString());
+      }
+    } else {
+      if (onError != null) onError.call("Can't launch url!");
+    }
+  }
 
   static String getTimeAgo(dynamic time) {
     if (time == null) {

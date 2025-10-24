@@ -322,7 +322,6 @@ class HomeScreen extends StatelessWidget {
             },
           ),
           3.h.vs,
-
           Divider(color: ThemeColors.greyColor.withAlpha(100)),
 
           _buildSectionHeader('Video Content', () {

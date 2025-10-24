@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/helper.dart';
+import 'package:mandir/utils/logger.dart';
+import 'package:mandir/utils/payment/payment_handler.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/utils/toasty.dart';
 
 class DonationController extends GetxController {
   final customAmountController = TextEditingController();
 
-  final presetAmounts = [50, 100, 200, 500, 1000, 2000].obs;
-  var selectedAmount = 0.obs;
+  RxList<int> presetAmounts = [50, 100, 200, 500, 1000, 2000].obs;
+  RxInt selectedAmount = 50.obs;
 
   void selectAmount(int amount) {
+    Logger.m(tag: 'Selected Amount', value: amount.toString());
     selectedAmount.value = amount;
     if (amount > 0) {
       customAmountController.clear();
     }
   }
 
-  void processDonation(BuildContext context) {
+  void processDonation() {
     final amount =
         selectedAmount.value > 0
             ? selectedAmount.value
@@ -31,7 +34,7 @@ class DonationController extends GetxController {
 
     // Show confirmation dialog
     showDialog(
-      context: context,
+      context: Get.context!,
       builder:
           (context) => AlertDialog(
             shape: RoundedRectangleBorder(
@@ -125,7 +128,7 @@ class DonationController extends GetxController {
                       orderResponse['status'] == true) {
                     payController.startPayment(
                       amount: orderResponse['amount'].toString(),
-                      name: orderResponse['name'] ?? 'Shri Mandir',
+                      name: orderResponse['name'] ?? 'appName'.t,
                       description: 'Donation for Shri Mandir',
                       email:
                           orderResponse['email'] ?? Preference.user.email ?? '',
@@ -134,14 +137,9 @@ class DonationController extends GetxController {
                       razorpayKey: orderResponse['razorpay_key'],
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Failed to create order'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
+                    Toasty.failed('Failed to create order');
                   }
-                  _initiateDonation(amount, context);
+                  _initiateDonation(amount);
                   Get.back();
                 },
                 style: ElevatedButton.styleFrom(
@@ -158,7 +156,7 @@ class DonationController extends GetxController {
     );
   }
 
-  void _initiateDonation(int amount, BuildContext context) {
+  void _initiateDonation(int amount) {
     // Here you would integrate your payment gateway
     // For now, showing success message
 

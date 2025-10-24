@@ -145,68 +145,68 @@ class DonationScreen extends StatelessWidget {
               itemCount: controller.presetAmounts.length,
               itemBuilder: (context, index) {
                 final amount = controller.presetAmounts[index];
-                final isSelected = controller.selectedAmount.value == amount;
-
-                return _buildAmountCard(amount, isSelected);
+                return Obx(() {
+                  final isSelected = controller.selectedAmount.value == amount;
+                  return GestureDetector(
+                    onTap: () => controller.selectAmount(amount),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      decoration: BoxDecoration(
+                        color:
+                            isSelected
+                                ? ThemeColors.primaryColor
+                                : ThemeColors.white,
+                        borderRadius: BorderRadius.circular(4.w),
+                        border: Border.all(
+                          color:
+                              isSelected
+                                  ? ThemeColors.primaryColor
+                                  : ThemeColors.greyColor.withOpacity(0.3),
+                          width: isSelected ? 0.5.w : 0.3.w,
+                        ),
+                        boxShadow: [
+                          if (isSelected)
+                            BoxShadow(
+                              color: ThemeColors.primaryColor.withOpacity(0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '₹$amount',
+                            style: TextStyle(
+                              fontSize: 2.5.h,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  isSelected
+                                      ? ThemeColors.white
+                                      : ThemeColors.defaultTextColor,
+                            ),
+                          ),
+                          0.3.h.vs,
+                          Text(
+                            _getAmountLabel(amount),
+                            style: TextStyle(
+                              fontSize: 1.4.h,
+                              color:
+                                  isSelected
+                                      ? ThemeColors.white.withOpacity(0.9)
+                                      : ThemeColors.textPrimaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
               },
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildAmountCard(int amount, bool isSelected) {
-    return GestureDetector(
-      onTap: () => controller.selectAmount(amount),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: isSelected ? ThemeColors.primaryColor : ThemeColors.white,
-          borderRadius: BorderRadius.circular(4.w),
-          border: Border.all(
-            color:
-                isSelected
-                    ? ThemeColors.primaryColor
-                    : ThemeColors.greyColor.withOpacity(0.3),
-            width: isSelected ? 0.5.w : 0.3.w,
-          ),
-          boxShadow: [
-            if (isSelected)
-              BoxShadow(
-                color: ThemeColors.primaryColor.withOpacity(0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '₹$amount',
-              style: TextStyle(
-                fontSize: 2.5.h,
-                fontWeight: FontWeight.bold,
-                color:
-                    isSelected
-                        ? ThemeColors.white
-                        : ThemeColors.defaultTextColor,
-              ),
-            ),
-            0.3.h.vs,
-            Text(
-              _getAmountLabel(amount),
-              style: TextStyle(
-                fontSize: 1.4.h,
-                color:
-                    isSelected
-                        ? ThemeColors.white.withOpacity(0.9)
-                        : ThemeColors.textPrimaryColor,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -432,12 +432,7 @@ class DonationScreen extends StatelessWidget {
         width: double.infinity,
         height: 6.h,
         child: ElevatedButton(
-          onPressed:
-              isEnabled
-                  ? () {
-                    controller.processDonation(context);
-                  }
-                  : null,
+          onPressed: isEnabled ? () => controller.processDonation() : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: ThemeColors.primaryColor,
             foregroundColor: ThemeColors.white,

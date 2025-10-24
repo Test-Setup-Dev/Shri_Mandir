@@ -12,6 +12,7 @@ import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/db/db.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
+import 'package:mandir/utils/preference.dart';
 import 'package:mandir/utils/toasty.dart';
 
 class HomeController extends GetxController {
@@ -172,15 +173,9 @@ class HomeController extends GetxController {
   }
 
   Future<void> testFunction() async {
-    // final notifications = await NotificationDbHelper().getAllNotifications();
-    //
-    // print('Test function called: ${notifications.length} notifications found.');
 
     // Get.to(() => DonationScreen());
-    // Get.to(() => RazorPayScreen());
-    // _loadMediaBanners();
-    // await Repository.instance.sendNotification();
-    // await Repository.instance.createOrder(500);
-    // await Repository.instance.verifyPayment('fsdfasd', 'kjgjkg', 'kjhjkh');
+    print(Preference.user.token);
+    // await Repository.instance.getBlogs();
   }
 }

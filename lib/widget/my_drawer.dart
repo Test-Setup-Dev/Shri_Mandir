@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/home/controller.dart';
-import 'package:mandir/screen/shop/controller.dart';
-import 'package:mandir/utils/const.dart';
+import 'package:mandir/screen/notification/notification_screen.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/widget/widgets.dart';
+import '../screen/profile/personal_info/personal_info_screen.dart';
 import '../utils/helper.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -28,7 +28,7 @@ class MyDrawer extends StatelessWidget {
 
             _navItem('assets/icons/user_bold.png', 'Profile', () {
               Get.back();
-              // Get.to(() => ProfileScreen());
+              Get.to(() => PersonalInfoScreen());
             }),
 
             _navItem(
@@ -36,13 +36,13 @@ class MyDrawer extends StatelessWidget {
               'Notification',
               () {
                 Get.back();
-                //   Get.to(() => NotificationScreen());
+                Get.to(() => NotificationScreen());
               },
             ),
-            _navItem('assets/icons/lock.png', 'Change Password', () {
-              Get.back();
-              //   Get.to(() => ChangePassword());
-            }),
+            // _navItem('assets/icons/lock.png', 'Change Password', () {
+            //   Get.back();
+            //   //   Get.to(() => ChangePassword());
+            // }),
             _navItem('assets/icons/logout_outline.png', 'Log Out', () {
               Get.back();
               Helper.logOut();

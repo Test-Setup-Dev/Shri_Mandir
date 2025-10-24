@@ -55,7 +55,7 @@ class Repository extends ApiProvider {
         'stack': stack,
         'information': information,
       };
-      super.getDynamic('reportError', parameters: error);
+      super.postDynamic('reportError', parameters: error);
     }
   }
 
@@ -66,7 +66,7 @@ class Repository extends ApiProvider {
     String password,
     String fcmToken,
   ) async {
-    return super.getDynamic(
+    return super.postDynamic(
       'register',
       parameters: {
         'name': name,
@@ -88,7 +88,7 @@ class Repository extends ApiProvider {
   }
 
   Future<dynamic> sendNotification() async {
-    return super.getDynamic(
+    return super.postDynamic(
       'sendnotification',
       parameters: {
         "title": "Hello User",
@@ -98,14 +98,14 @@ class Repository extends ApiProvider {
   }
 
   Future<dynamic> createOrder(amount) async {
-    return super.getDynamic(
+    return super.postDynamic(
       'donation/create-order',
       parameters: {"amount": amount},
     );
   }
 
   Future<dynamic> verifyPayment(paymentId, orderId, signature) async {
-    return super.getDynamic(
+    return super.postDynamic(
       'donation/verify-payment',
       parameters: {
         "razorpay_payment_id": paymentId ?? '',
@@ -116,58 +116,62 @@ class Repository extends ApiProvider {
   }
 
   Future<dynamic> login(String email, String password, fcmToken) async {
-    return super.getDynamic(
+    return super.postDynamic(
       'login',
       parameters: {'email': email, 'password': password, 'fcm_token': fcmToken},
     );
   }
 
   Future<dynamic> getBanner() async {
-    return super.getDynamicUsingGet('admin/banners', parameters: {});
+    return super.getDynamic('admin/banners', parameters: {});
+  }
+
+  Future<dynamic> getBlogs() async {
+    return super.getDynamic('blogs');
   }
 
   Future<dynamic> getHomeData() async {
-    return super.getDynamicUsingGet('home-data');
+    return super.getDynamic('home-data');
   }
 
   Future<dynamic> getCategory() async {
-    return super.getDynamicUsingGet('category');
+    return super.getDynamic('category');
   }
 
   // Future<dynamic> getTestToken() async {
-  //   return super.getDynamic('getTestToken');
+  //   return super.postDynamic('getTestToken');
   // }
   //
   // Future<dynamic> searchAstro() async {
-  //   return super.getDynamicUsingGet('astrologer/all');
+  //   return super.getDynamic('astrologer/all');
   // }
   //
   // Future<dynamic> getAstrologer() async {
-  //   return super.getDynamicUsingGet('astrologer/all');
+  //   return super.getDynamic('astrologer/all');
   // }
   //
   // Future<dynamic> getPooja() async {
-  //   return super.getDynamicUsingGet('all-poojas');
+  //   return super.getDynamic('all-poojas');
   // }
   //
   // Future<dynamic> getShopItems() async {
-  //   return super.getDynamicUsingGet('products/all');
+  //   return super.getDynamic('products/all');
   // }
   //
   // Future<dynamic> getLiveAstro() async {
-  //   return super.getDynamic('liveAstrologer/get');
+  //   return super.postDynamic('liveAstrologer/get');
   // }
   //
   // Future<dynamic> updateUser({id}) async {
-  //   return super.getDynamic('user/update/$id', parameters: {'name': 'ajajaj'});
+  //   return super.postDynamic('user/update/$id', parameters: {'name': 'ajajaj'});
   // }
   //
   // // Future<dynamic> getBanner() {
-  // //   return super.getDynamicUsingGet('banners/get-banner');
+  // //   return super.getDynamic('banners/get-banner');
   // // }
   //
   // Future<dynamic> getTransit() async {
-  //   return super.getDynamicUsingGet('transits/get-trasnsit');
+  //   return super.getDynamic('transits/get-trasnsit');
   // }
   //
   // Future<List<dynamic>> getFeatures() {
@@ -175,7 +179,7 @@ class Repository extends ApiProvider {
   // }
   //
   // Future<dynamic> getFAQ() async {
-  //   return super.getDynamicUsingGet('astrologer/all');
+  //   return super.getDynamic('astrologer/all');
   // }
   //
   // // Future<List<Map<String, dynamic>>> getMessages(String chatId) async {
@@ -190,7 +194,7 @@ class Repository extends ApiProvider {
   // // }
   //
   // Future<dynamic> deleteMessages(uid) async {
-  //   return super.getDynamic('deleteMessage', parameters: {'uid': uid});
+  //   return super.postDynamic('deleteMessage', parameters: {'uid': uid});
   // }
   //
   // Future<dynamic> socialLogin(
@@ -200,7 +204,7 @@ class Repository extends ApiProvider {
   //   String email,
   //   String profilePic,
   // ) async {
-  //   return super.getDynamic(
+  //   return super.postDynamic(
   //     'socialLogin',
   //     parameters: {
   //       'socialId': socialId,
@@ -213,7 +217,7 @@ class Repository extends ApiProvider {
   // }
   //
   // Future<dynamic> testerLogin(String email) async {
-  //   return super.getDynamic('testerLogin', parameters: {'email': email});
+  //   return super.postDynamic('testerLogin', parameters: {'email': email});
   // }
   //
   //
@@ -242,11 +246,11 @@ class Repository extends ApiProvider {
   // }
   //
   // Future<dynamic> validateOtp(String phone, String fcmToken) async {
-  //   return super.getDynamic('validateOtp', parameters: {'phone': phone});
+  //   return super.postDynamic('validateOtp', parameters: {'phone': phone});
   // }
   //
   // Future<dynamic> sendOtp(String email) async {
-  //   return super.getDynamic('auth/send-otp', parameters: {'email': email});
+  //   return super.postDynamic('auth/send-otp', parameters: {'email': email});
   // }
 
   Future<List<int>?> hitUrl(String url) {
@@ -254,7 +258,7 @@ class Repository extends ApiProvider {
   }
 
   Future<dynamic> saveFcmToken(String fcmToken) async {
-    return super.getDynamic(
+    return super.postDynamic(
       'notification/save-token',
       parameters: {
         'userId': Preference.user.id,

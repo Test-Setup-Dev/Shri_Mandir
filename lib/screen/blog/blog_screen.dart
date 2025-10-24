@@ -12,7 +12,6 @@ class BlogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig.initWithContext(context);
     return Scaffold(
       backgroundColor: ThemeColors.backgroundColor,
       key: Helper.appBarKey,
@@ -21,24 +20,27 @@ class BlogScreen extends StatelessWidget {
         toolbarHeight: 0,
         backgroundColor: ThemeColors.primaryColor,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            1.h.vs,
-            Expanded(
-              child: Obx(
-                () =>
-                    controller.isLoading.value
-                        ? Center(
-                          child: CircularProgressIndicator(
-                            color: ThemeColors.primaryColor,
-                          ),
-                        )
-                        : _buildBlogList(),
+      body: RefreshIndicator(
+        onRefresh: controller.loadBlogs,
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildHeader(),
+              1.h.vs,
+              Expanded(
+                child: Obx(
+                  () =>
+                      controller.isLoading.value
+                          ? Center(
+                            child: CircularProgressIndicator(
+                              color: ThemeColors.primaryColor,
+                            ),
+                          )
+                          : _buildBlogList(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -288,6 +290,9 @@ class BlogScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 5.w,
                             backgroundImage: NetworkImage(blog.authorImage),
+                            backgroundColor: ThemeColors.primaryColor.withAlpha(
+                              60,
+                            ),
                           ),
                           2.w.hs,
                           Column(
@@ -311,16 +316,18 @@ class BlogScreen extends StatelessWidget {
                             ],
                           ),
                           Spacer(),
-                          IconButton(
-                            onPressed: () => controller.toggleBookmark(blog.id),
-                            icon: Icon(
-                              blog.isBookmarked
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_outline,
-                              color: ThemeColors.primaryColor,
-                              size: 6.w,
-                            ),
-                          ),
+
+                          /// todo: add bookmark functionality
+                          // IconButton(
+                          //   onPressed: () => controller.toggleBookmark(blog.id),
+                          //   icon: Icon(
+                          //     blog.isBookmarked
+                          //         ? Icons.bookmark
+                          //         : Icons.bookmark_outline,
+                          //     color: ThemeColors.primaryColor,
+                          //     size: 6.w,
+                          //   ),
+                          // ),
                         ],
                       ),
                       2.h.vs,
@@ -343,17 +350,18 @@ class BlogScreen extends StatelessWidget {
                       2.h.vs,
                       Row(
                         children: [
-                          _buildInteractionButton(
-                            Icons.favorite_outline,
-                            blog.likes.toString(),
-                            () => controller.likeBlog(blog.id),
-                          ),
-                          3.w.hs,
-                          _buildInteractionButton(
-                            Icons.comment_outlined,
-                            blog.comments.toString(),
-                            () {},
-                          ),
+                          /// todo: add like and comment functionality
+                          //   _buildInteractionButton(
+                          //     Icons.favorite_outline,
+                          //     blog.likes.toString(),
+                          //     () => controller.likeBlog(blog.id),
+                          //   ),
+                          //   3.w.hs,
+                          //   _buildInteractionButton(
+                          //     Icons.comment_outlined,
+                          //     blog.comments.toString(),
+                          //     () {},
+                          //   ),
                           Spacer(),
                           Wrap(
                             spacing: 2.w,
