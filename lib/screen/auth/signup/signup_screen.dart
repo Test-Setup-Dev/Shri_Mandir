@@ -94,9 +94,9 @@ class SignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SocialButton(icon: 'assets/icons/facebook.png', onTap: (){}),
-                  SocialButton(icon: 'assets/icons/google.png', onTap: (){}),
-                  SocialButton(icon: 'assets/icons/apple.png', onTap: (){}),
+                  SocialButton(icon: 'assets/icons/facebook.png', onTap: () {}),
+                  SocialButton(icon: 'assets/icons/google.png', onTap: () {}),
+                  SocialButton(icon: 'assets/icons/apple.png', onTap: () {}),
                 ],
               ),
               8.h.vs,
@@ -134,10 +134,10 @@ class SignUpScreen extends StatelessWidget {
           width: 10.w,
           height: 10.w,
           decoration: BoxDecoration(
-            color: ThemeColors.testColor.withAlpha(150),
+            color: ThemeColors.purple.withAlpha(150),
             borderRadius: BorderRadius.circular(2.w),
+            image: DecorationImage(image: AssetImage('assets/icons/logo.png')),
           ),
-          child: Image(image: AssetImage('assets/icons/logo.png')),
         ),
         2.w.hs,
         Text(

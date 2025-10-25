@@ -122,6 +122,10 @@ class Repository extends ApiProvider {
     );
   }
 
+  Future<dynamic> forgetPassword(String email) async {
+    return super.postDynamic('forget-Password', parameters: {'email': email});
+  }
+
   Future<dynamic> getBanner() async {
     return super.getDynamic('admin/banners', parameters: {});
   }
@@ -132,6 +136,10 @@ class Repository extends ApiProvider {
 
   Future<dynamic> getDonations() async {
     return super.getDynamic('donations');
+  }
+
+  Future<dynamic> getTopDonor() async {
+    return super.getDynamic('today-top-donors');
   }
 
   Future<dynamic> getHomeData() async {

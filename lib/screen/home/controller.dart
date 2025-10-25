@@ -4,6 +4,7 @@ import 'package:mandir/data_handler/repository.dart';
 import 'package:mandir/model/banner.dart';
 import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/donation/donation_screen.dart';
+import 'package:mandir/screen/donation/top_donor/top_donor_screen.dart';
 import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
@@ -174,8 +175,8 @@ class HomeController extends GetxController {
 
   Future<void> testFunction() async {
 
-    // Get.to(() => DonationScreen());
+    Get.to(() => TopDonorsScreen());
     // print(Preference.user.token);
-    await Repository.instance.getDonations();
+    // await Repository.instance.getTopDonor();
   }
 }

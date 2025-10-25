@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/screen/auth/forgot_pass/forgot_pass_screen.dart';
 import 'package:mandir/screen/auth/login/controller.dart';
 import 'package:mandir/screen/auth/signup/signup_screen.dart';
 import 'package:mandir/utils/helper.dart';
@@ -71,7 +72,7 @@ class LoginScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => ForgetPasswordScreen()),
                   child: Text(
                     "Forgotten Password?",
                     style: TextStyle(
@@ -137,21 +138,12 @@ class LoginScreen extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 8.w,
-          height: 8.w,
+          width: 10.w,
+          height: 10.w,
           decoration: BoxDecoration(
-            color: ThemeColors.primaryColor,
+            color: ThemeColors.purple.withAlpha(150),
             borderRadius: BorderRadius.circular(2.w),
-          ),
-          child: Center(
-            child: Text(
-              "L",
-              style: TextStyle(
-                color: ThemeColors.white,
-                fontSize: 4.5.w,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            image: DecorationImage(image: AssetImage('assets/icons/logo.png')),
           ),
         ),
         2.w.hs,

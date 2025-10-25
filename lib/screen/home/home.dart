@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/model/home_data.dart';
+import 'package:mandir/screen/donation/top_donor/top_donor_screen.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/home/media_list.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
@@ -652,7 +653,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           child: Text(
-            'Featured Collections',
+            'Top Donors',
             style: TextStyle(
               color: ThemeColors.white,
               fontSize: 3.w,
@@ -667,102 +668,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildFeaturedCards() {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              Get.to(() => MaharajasInviteScreen());
-            },
-            child: Container(
-              padding: EdgeInsets.all(4.w),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [ThemeColors.primaryColor, ThemeColors.accentColor],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(3.w),
-                boxShadow: [
-                  BoxShadow(
-                    color: ThemeColors.primaryColor.withAlpha(50),
-                    blurRadius: 15,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Icon(Icons.headphones, color: ThemeColors.white, size: 8.w),
-                  1.h.vs,
-                  Text(
-                    'Mantras',
-                    style: TextStyle(
-                      color: ThemeColors.white,
-                      fontSize: 3.5.w,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  0.5.h.vs,
-                  Text(
-                    'Sacred Chants',
-                    style: TextStyle(
-                      color: ThemeColors.white.withAlpha(90),
-                      fontSize: 2.5.w,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        3.w.hs,
-        Expanded(
-          child: InkWell(
-            onTap: () {},
-            child: Container(
-              padding: EdgeInsets.all(4.w),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(3.w),
-                boxShadow: [
-                  BoxShadow(
-                    color: ThemeColors.accentColor.withAlpha(50),
-                    blurRadius: 15,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Icon(Icons.music_video, color: ThemeColors.white, size: 8.w),
-                  1.h.vs,
-                  Text(
-                    'Bhajans',
-                    style: TextStyle(
-                      color: ThemeColors.white,
-                      fontSize: 3.5.w,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  0.5.h.vs,
-                  Text(
-                    'Devotional Songs',
-                    style: TextStyle(
-                      color: ThemeColors.white.withAlpha(90),
-                      fontSize: 2.5.w,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+    return TopDonorBannerCarousel(
+      banners: [TopDonorsScreen()],
     );
   }
 

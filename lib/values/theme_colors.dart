@@ -74,12 +74,18 @@ class ThemeColors {
   static Color verifiedColor = const Color(0xFF10B981);
   static Color unVerifiedColor = const Color(0xFFF59E0B);
 
-  static const Color testColor = Color.fromRGBO(93, 45, 182, 1.0);
+  static const Color purple = Color.fromRGBO(93, 45, 182, 1.0);
   static const Color transparentColor = Colors.transparent;
 
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.bottomLeft,
     colors: <Color>[primaryColor, primaryColor],
     tileMode: TileMode.clamp,
+  );
+
+  static LinearGradient gradient2 = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Colors.white, Colors.grey.shade50],
   );
 }

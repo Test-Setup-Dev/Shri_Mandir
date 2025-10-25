@@ -33,9 +33,7 @@ class DonationHistoryScreen extends StatelessWidget {
       body: Obx(() {
         if (controller.isLoading.value && controller.donations.isEmpty) {
           return Center(
-            child: CircularProgressIndicator(
-              color: ThemeColors.primaryColor,
-            ),
+            child: CircularProgressIndicator(color: ThemeColors.primaryColor),
           );
         }
 
@@ -69,10 +67,7 @@ class DonationHistoryScreen extends StatelessWidget {
                   ),
                   child: Text(
                     'Retry',
-                    style: TextStyle(
-                      color: ThemeColors.white,
-                      fontSize: 5.w,
-                    ),
+                    style: TextStyle(color: ThemeColors.white, fontSize: 5.w),
                   ),
                 ),
               ],
@@ -85,17 +80,13 @@ class DonationHistoryScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.history,
-                  size: 60.w,
-                  color: ThemeColors.greyColor,
-                ),
+                Icon(Icons.history, size: 15.w, color: ThemeColors.greyColor),
                 2.vs,
                 Text(
                   'No donations yet',
                   style: TextStyle(
                     color: ThemeColors.textPrimaryColor,
-                    fontSize: 16.w,
+                    fontSize: 5.w,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -104,7 +95,7 @@ class DonationHistoryScreen extends StatelessWidget {
                   'Your donation history will appear here',
                   style: TextStyle(
                     color: ThemeColors.greyColor,
-                    fontSize: 12.w,
+                    fontSize: 3.w,
                   ),
                 ),
               ],
@@ -189,42 +180,34 @@ class _DonationCard extends StatelessWidget {
             ),
           ),
           3.w.hs,
-          // Donation Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  controller.formatAmount(donation.amount, donation.currency),
-                  style: TextStyle(
-                    color: ThemeColors.defaultTextColor,
-                    fontSize: 5.w,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                0.5.vs,
-                Text(
-                  controller.formatDate(donation.createdAt),
+                  'Thanks to Donate ${'appName'.t}',
                   style: TextStyle(
                     color: ThemeColors.textPrimaryColor,
                     fontSize: 3.w,
                   ),
                 ),
-
+                1.h.vs,
+                Text(
+                  controller.formatDate(donation.createdAt),
+                  style: TextStyle(
+                    color: ThemeColors.textPrimaryColor.withAlpha(100),
+                    fontSize: 2.4.w,
+                  ),
+                ),
               ],
             ),
           ),
-          // Status Icon
-          Container(
-            padding: EdgeInsets.all(2.w),
-            decoration: BoxDecoration(
-              color: ThemeColors.verifiedColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.check_circle,
-              color: ThemeColors.verifiedColor,
-              size: 5.w,
+          Text(
+            controller.formatAmount(donation.amount, donation.currency),
+            style: TextStyle(
+              color: ThemeColors.primaryColor,
+              fontSize: 3.5.w,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

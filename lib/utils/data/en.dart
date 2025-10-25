@@ -1,6 +1,7 @@
 const Map<String, String> en = {
   // "appName": "Tathagat",
-  "appName": "Sri Mandir",
+  // "appName": "Sri Mandir",
+  "appName": "SantanLok",
   "login": "Log In",
   "signup": "Sign Up",
   "cancel": "Cancel",
