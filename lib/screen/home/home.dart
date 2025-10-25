@@ -51,11 +51,11 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Obx(
-                                      () => BannerCarousel(
+                                  () => BannerCarousel(
                                     banners:
-                                    controller.banners
-                                        .map((banner) => '${banner.image}')
-                                        .toList(),
+                                        controller.banners
+                                            .map((banner) => '${banner.image}')
+                                            .toList(),
                                   ),
                                 ),
                                 3.h.vs,
@@ -644,13 +644,13 @@ class HomeScreen extends StatelessWidget {
               colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
             ),
             borderRadius: BorderRadius.circular(3.w),
-            boxShadow: [
-              BoxShadow(
-                color: ThemeColors.accentColor.withAlpha(50),
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: ThemeColors.accentColor.withAlpha(50),
+            //     blurRadius: 8,
+            //     offset: const Offset(0, 2),
+            //   ),
+            // ],
           ),
           child: Text(
             'Top Donors',
@@ -662,16 +662,11 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         2.h.vs,
-        _buildFeaturedCards(),
+        const TopDonorsScreen(),
       ],
     );
   }
 
-  Widget _buildFeaturedCards() {
-    return TopDonorBannerCarousel(
-      banners: [TopDonorsScreen()],
-    );
-  }
 
   Widget _buildCategoriesSection() {
     return Column(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:mandir/screen/auth/forgot_pass/controller.dart';
+import 'package:mandir/utils/helper.dart';
 import 'package:mandir/values/theme_colors.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -12,6 +13,19 @@ class ForgetPasswordScreen extends StatelessWidget {
     final controller = Get.put(ForgetPasswordController());
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ThemeColors.primaryColor,
+        elevation: 0,
+        title: Text('Forget Password', style: TextStyle(fontSize: 5.w),),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: ThemeColors.white,
+            size: 6.w,
+          ),
+          onPressed: () => Get.back(),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),

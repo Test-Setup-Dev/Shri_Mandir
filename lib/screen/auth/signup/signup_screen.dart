@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mandir/screen/auth/login/login_screen.dart';
 import 'package:mandir/screen/auth/signup/controller.dart';
 import 'package:mandir/utils/helper.dart';
+import 'package:mandir/widget/gender_button.dart';
 import 'package:mandir/widget/widgets.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -40,7 +41,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               5.h.vs,
-
               // Full Name
               CustomTextField(
                 controller: controller.nameCtrl,
@@ -83,6 +83,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // 1.h.vs,
+              // GenderToggleButton(),
               4.h.vs,
 
               CustomButton(text: "Sign Up", onPressed: controller.signup),

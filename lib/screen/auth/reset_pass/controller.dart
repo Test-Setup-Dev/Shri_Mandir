@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:mandir/data_handler/repository.dart';
+import 'package:mandir/screen/auth/login/login_screen.dart';
+import 'package:mandir/utils/logger.dart';
 import 'dart:convert';
-
-import 'package:mandir/screen/auth/reset_pass/reset_pass_screen.dart';
-
+import 'package:mandir/utils/toasty.dart';
 
 // Controller
 class ResetPasswordController extends GetxController {
@@ -17,9 +18,6 @@ class ResetPasswordController extends GetxController {
   var isLoading = false.obs;
   var isPasswordVisible = false.obs;
   var isConfirmPasswordVisible = false.obs;
-  var errorMessage = ''.obs;
-
-  final dio = Dio();
 
   // Constructor with optional email parameter
   ResetPasswordController({String? email}) {
@@ -43,53 +41,21 @@ class ResetPasswordController extends GetxController {
 
     try {
       isLoading.value = true;
-      errorMessage.value = '';
 
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-
-      var data = json.encode({
-        "email": emailController.text.trim(),
-        "otp": otpController.text.trim(),
-        "password": passwordController.text,
-        "password_confirmation": confirmPasswordController.text
-      });
-
-      var response = await dio.request(
-        'https://test.pearl-developer.com/anuweb/public/api/reset-Password',
-        options: Options(
-          method: 'POST',
-          headers: headers,
-        ),
-        data: data,
+      var response = await Repository.instance.resetPassword(
+        emailController.text.trim(),
+        otpController.text.trim(),
+        passwordController.text,
       );
 
-      if (response.statusCode == 200) {
-        Get.snackbar(
-          'Success',
-          'Password reset successfully',
-          backgroundColor: AppTheme.success,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.TOP,
-          icon: const Icon(Icons.check_circle, color: Colors.white),
-          margin: const EdgeInsets.all(AppTheme.spacing),
-          borderRadius: AppTheme.borderRadius,
-        );
-
-        // Navigate back to login or home
-        Get.offAllNamed('/login'); // Update with your route
+      if (response['status'] == true) {
+        Toasty.success(response['message'] ?? 'Password reset successfully');
+        Get.offAll(() => LoginScreen());
       } else {
-        errorMessage.value = response.statusMessage ?? 'Something went wrong';
-      }
-    } on DioException catch (e) {
-      if (e.response != null) {
-        errorMessage.value = e.response?.data['message'] ?? 'Failed to reset password';
-      } else {
-        errorMessage.value = 'Network error. Please check your connection';
+        Toasty.success(response['message'] ?? 'Something went wrong');
       }
     } catch (e) {
-      errorMessage.value = 'An unexpected error occurred';
+      Logger.e(tag: 'ResetPassword', value: e);
     } finally {
       isLoading.value = false;
     }
@@ -119,8 +85,8 @@ class ResetPasswordController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'Please enter password';
     }
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
     }
     return null;
   }

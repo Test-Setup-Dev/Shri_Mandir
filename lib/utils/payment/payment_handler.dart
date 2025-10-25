@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/data_handler/repository.dart';
+import 'package:mandir/screen/donation/history/controller.dart';
+import 'package:mandir/screen/donation/top_donor/controller.dart';
 import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:mandir/utils/toasty.dart';
@@ -60,9 +62,7 @@ class RazorpayController {
   }
 
   void _handlePaymentSuccessResponse(PaymentSuccessResponse response) async {
-    Toasty.info('Payment successful! Verifying...');
     Logger.m(tag: 'Payment Success', value: response.paymentId ?? '');
-
     try {
       final verifyResponse = await Repository.instance.verifyPayment(
         response.paymentId,
@@ -71,7 +71,8 @@ class RazorpayController {
       );
 
       if (verifyResponse != null && verifyResponse['status'] == true) {
-        Toasty.success('Payment verified successfully');
+        // Toasty.success('Payment verified successfully');
+        await TopDonorsController().fetchTopDonors();
       } else {
         Logger.e(tag: 'Payment Error', value: 'Signature verification failed');
       }
@@ -98,7 +99,6 @@ class RazorpayHelper {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccessResponse);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWalletSelected);
   }
-
 
   void openCheckout(Map<String, dynamic> options) {
     _razorpay.open(options);

@@ -4,29 +4,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 
 import 'package:mandir/screen/auth/reset_pass/controller.dart';
-
-
-class AppTheme {
-  // Colors
-  static const Color primary = Color(0xFF2563EB);
-  static const Color primaryDark = Color(0xFF1E40AF);
-  static const Color secondary = Color(0xFF10B981);
-  static const Color background = Color(0xFFF8F9FA);
-  static const Color cardBackground = Colors.white;
-  static const Color textPrimary = Color(0xFF1A1A1A);
-  static const Color textSecondary = Color(0xFF6B7280);
-  static const Color error = Color(0xFFEF4444);
-  static const Color success = Color(0xFF10B981);
-
-  // Sizes
-  static const double borderRadius = 16.0;
-  static const double cardElevation = 8.0;
-  static const double spacing = 16.0;
-  static const double spacingLarge = 24.0;
-  static const double buttonHeight = 56.0;
-  static const double iconSize = 24.0;
-}
-
+import 'package:mandir/utils/helper.dart';
 
 // Custom Text Field Widget
 class CustomTextField extends StatelessWidget {
@@ -34,13 +12,14 @@ class CustomTextField extends StatelessWidget {
   final String label;
   final IconData prefixIcon;
   final bool obscureText;
+  final bool readOnly;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final int? maxLength;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.prefixIcon,
@@ -49,14 +28,15 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.suffixIcon,
     this.maxLength,
-  }) : super(key: key);
+    this.readOnly = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
-        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+        color: ThemeColors.white,
+        borderRadius: BorderRadius.circular(4.w),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -71,39 +51,44 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         validator: validator,
         maxLength: maxLength,
-        style: const TextStyle(
-          fontSize: 16,
+        readOnly: readOnly,
+        style: TextStyle(
+          fontSize: 4.w,
           fontWeight: FontWeight.w500,
-          color: AppTheme.textPrimary,
+          color: ThemeColors.defaultTextColor,
         ),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: const TextStyle(color: AppTheme.textSecondary),
-          prefixIcon: Icon(prefixIcon, color: AppTheme.primary),
+          labelStyle: TextStyle(color: ThemeColors.textPrimaryColor),
+          prefixIcon: Icon(
+            prefixIcon,
+            color: ThemeColors.primaryColor,
+            size: 6.w,
+          ),
           suffixIcon: suffixIcon,
           counterText: '',
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+            borderRadius: BorderRadius.circular(4.w),
             borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+            borderRadius: BorderRadius.circular(4.w),
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
-            borderSide: const BorderSide(color: AppTheme.primary, width: 2),
+            borderRadius: BorderRadius.circular(4.w),
+            borderSide: BorderSide(color: ThemeColors.primaryColor, width: 2),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
-            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            borderRadius: BorderRadius.circular(4.w),
+            borderSide: BorderSide(color: ThemeColors.accentColor, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppTheme.borderRadius),
-            borderSide: const BorderSide(color: AppTheme.error, width: 2),
+            borderRadius: BorderRadius.circular(4.w),
+            borderSide: BorderSide(color: ThemeColors.accentColor, width: 2),
           ),
           filled: true,
-          fillColor: AppTheme.cardBackground,
+          fillColor: ThemeColors.white,
         ),
       ),
     );
@@ -114,93 +99,62 @@ class CustomTextField extends StatelessWidget {
 class ResetPasswordScreen extends StatelessWidget {
   final String? email;
 
-  const ResetPasswordScreen({Key? key, this.email}) : super(key: key);
+  const ResetPasswordScreen({super.key, this.email});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ResetPasswordController(email: email));
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: ThemeColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: ThemeColors.primaryColor,
         elevation: 0,
+        title: Text('Reset Password', style: TextStyle(fontSize: 5.w),),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppTheme.textPrimary),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: ThemeColors.white,
+            size: 6.w,
+          ),
           onPressed: () => Get.back(),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppTheme.spacingLarge),
+          padding: EdgeInsets.all(6.w),
           child: Form(
             key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
 
-                // Icon
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppTheme.primary, AppTheme.primaryDark],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.primary.withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.lock_reset_rounded,
-                    size: 40,
-                    color: Colors.white,
-                  ),
-                ),
-
-                const SizedBox(height: 30),
+                SizedBox(height: 7.w),
 
                 // Title
-                const Text(
+                Text(
                   'Reset Password',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 8.w,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -1,
-                    color: AppTheme.textPrimary,
+                    color: ThemeColors.defaultTextColor,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 3.w),
 
                 // Subtitle
-                const Text(
+                Text(
                   'Enter the OTP sent to your email and create a new password',
                   style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.textSecondary,
+                    fontSize: 4.w,
+                    color: ThemeColors.textPrimaryColor,
                     height: 1.5,
                   ),
                 ),
 
-                const SizedBox(height: 40),
-
-                // Email Field
-                CustomTextField(
-                  controller: controller.emailController,
-                  label: 'Email Address',
-                  prefixIcon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: controller.validateEmail,
-                ),
-
-                const SizedBox(height: AppTheme.spacing),
+                SizedBox(height: 10.w),
 
                 // OTP Field
                 CustomTextField(
@@ -212,118 +166,98 @@ class ResetPasswordScreen extends StatelessWidget {
                   maxLength: 6,
                 ),
 
-                const SizedBox(height: AppTheme.spacing),
+                SizedBox(height: 4.w),
 
                 // Password Field
-                Obx(() => CustomTextField(
-                  controller: controller.passwordController,
-                  label: 'New Password',
-                  prefixIcon: Icons.lock_outline,
-                  obscureText: !controller.isPasswordVisible.value,
-                  validator: controller.validatePassword,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isPasswordVisible.value
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: AppTheme.textSecondary,
+                Obx(
+                  () => CustomTextField(
+                    controller: controller.passwordController,
+                    label: 'New Password',
+                    prefixIcon: Icons.lock_outline,
+                    obscureText: !controller.isPasswordVisible.value,
+                    validator: controller.validatePassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isPasswordVisible.value
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: ThemeColors.textPrimaryColor,
+                        size: 6.w,
+                      ),
+                      onPressed: controller.togglePasswordVisibility,
                     ),
-                    onPressed: controller.togglePasswordVisibility,
                   ),
-                )),
+                ),
 
-                const SizedBox(height: AppTheme.spacing),
+                SizedBox(height: 4.w),
 
                 // Confirm Password Field
-                Obx(() => CustomTextField(
-                  controller: controller.confirmPasswordController,
-                  label: 'Confirm Password',
-                  prefixIcon: Icons.lock_outline,
-                  obscureText: !controller.isConfirmPasswordVisible.value,
-                  validator: controller.validateConfirmPassword,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isConfirmPasswordVisible.value
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: AppTheme.textSecondary,
+                Obx(
+                  () => CustomTextField(
+                    controller: controller.confirmPasswordController,
+                    label: 'Confirm Password',
+                    prefixIcon: Icons.lock_outline,
+                    obscureText: !controller.isConfirmPasswordVisible.value,
+                    validator: controller.validateConfirmPassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isConfirmPasswordVisible.value
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: ThemeColors.textPrimaryColor,
+                        size: 6.w,
+                      ),
+                      onPressed: controller.toggleConfirmPasswordVisibility,
                     ),
-                    onPressed: controller.toggleConfirmPasswordVisibility,
                   ),
-                )),
+                ),
 
-                const SizedBox(height: AppTheme.spacing),
 
-                // Error Message
-                Obx(() {
-                  if (controller.errorMessage.value.isNotEmpty) {
-                    return Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.error.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.error.withOpacity(0.3)),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.error_outline, color: AppTheme.error),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              controller.errorMessage.value,
-                              style: const TextStyle(
-                                color: AppTheme.error,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                }),
-
-                const SizedBox(height: 30),
+                40.vs,
 
                 // Submit Button
-                Obx(() => SizedBox(
-                  width: double.infinity,
-                  height: AppTheme.buttonHeight,
-                  child: ElevatedButton(
-                    onPressed: controller.isLoading.value
-                        ? null
-                        : controller.resetPassword,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.borderRadius),
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    height: 14.w,
+                    child: ElevatedButton(
+                      onPressed:
+                          controller.isLoading.value
+                              ? null
+                              : controller.resetPassword,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeColors.primaryColor,
+                        foregroundColor: ThemeColors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.w),
+                        ),
+                        disabledBackgroundColor: ThemeColors.greyColor
+                            .withOpacity(0.3),
                       ),
-                      disabledBackgroundColor: Colors.grey.shade300,
-                    ),
-                    child: controller.isLoading.value
-                        ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2.5,
-                      ),
-                    )
-                        : const Text(
-                      'Reset Password',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                      ),
+                      child:
+                          controller.isLoading.value
+                              ? SizedBox(
+                                width: 6.w,
+                                height: 6.w,
+                                child: CircularProgressIndicator(
+                                  color: ThemeColors.white,
+                                  strokeWidth: 2.5,
+                                ),
+                              )
+                              : Text(
+                                'Reset Password',
+                                style: TextStyle(
+                                  fontSize: 4.w,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
                     ),
                   ),
-                )),
+                ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 6.w),
 
                 // Resend OTP
                 Center(
@@ -331,11 +265,11 @@ class ResetPasswordScreen extends StatelessWidget {
                     onPressed: () {
                       // Handle resend OTP
                     },
-                    child: const Text(
+                    child: Text(
                       'Didn\'t receive OTP? Resend',
                       style: TextStyle(
-                        color: AppTheme.primary,
-                        fontSize: 14,
+                        color: ThemeColors.primaryColor,
+                        fontSize: 3.5.w,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

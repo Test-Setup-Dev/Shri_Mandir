@@ -78,33 +78,3 @@ class BannerCarousel extends StatelessWidget {
     );
   }
 }
-
-class TopDonorBannerCarousel extends StatelessWidget {
-  final List<Widget>? banners;
-
-  const TopDonorBannerCarousel({super.key, required this.banners});
-
-  @override
-  Widget build(BuildContext context) {
-    if (banners!.isEmpty) {
-      return SizedBox(
-        height: 25.h,
-        child: Center(child: Text("No banners found")),
-      );
-    }
-
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 23.h,
-        autoPlay: true,
-        enlargeCenterPage: true,
-        viewportFraction: 0.99,
-        aspectRatio: 16 / 9,
-        autoPlayCurve: Curves.easeInBack,
-        enableInfiniteScroll: true,
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
-      ),
-      items: banners,
-    );
-  }
-}

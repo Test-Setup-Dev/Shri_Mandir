@@ -6,12 +6,12 @@ class TopDonorsController extends GetxController {
   var donors = <Donor>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchTopDonors();
+    await fetchTopDonors();
   }
 
-  void fetchTopDonors() async {
+  Future<void> fetchTopDonors() async {
     // Simulating API response (replace with Dio call later)
 
     final apiResponse = await Repository.instance.getTopDonor();

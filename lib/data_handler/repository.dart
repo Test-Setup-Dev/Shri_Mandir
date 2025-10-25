@@ -79,7 +79,7 @@ class Repository extends ApiProvider {
         "pincode": "380015",
         "state": "Uttarakhand",
         "country": "India",
-        "gender": "Male",
+        "gender": "male",
         "image":
             "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341",
         'fcm_token': fcmToken,
@@ -124,6 +124,22 @@ class Repository extends ApiProvider {
 
   Future<dynamic> forgetPassword(String email) async {
     return super.postDynamic('forget-Password', parameters: {'email': email});
+  }
+
+  Future<dynamic> resetPassword(
+    String email,
+    String otp,
+    String password,
+  ) async {
+    return super.postDynamic(
+      'reset-Password',
+      parameters: {
+        "email": email,
+        "otp": otp,
+        "password": password,
+        "password_confirmation": password,
+      },
+    );
   }
 
   Future<dynamic> getBanner() async {

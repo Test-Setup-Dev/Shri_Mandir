@@ -29,10 +29,11 @@ class ForgetPasswordController extends GetxController {
         'testsetup.dev@gmail.com',
       );
 
-      Get.to(()=> ResetPasswordScreen());
-      if (response.statusCode == 200 && response['status'] == true) {
-        Toasty.success('Password reset OTP sent to your email');
-        emailController.clear();
+      if (response['status'] == true) {
+        Get.to(() => ResetPasswordScreen(email: emailController.text));
+        Toasty.success(
+          response['message'] ?? 'Password reset OTP sent to your email',
+        );
       } else {
         errorMessage.value = response.statusMessage ?? 'Something went wrong';
       }

@@ -1,8 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/donation/top_donor/controller.dart';
 import 'package:mandir/utils/helper.dart';
-import 'package:mandir/widget/banner_carousel.dart';
 
 class Donor {
   final String name;
@@ -30,6 +30,7 @@ class Donor {
   }
 }
 
+
 class DonorCard extends StatelessWidget {
   final Donor donor;
   final int rank;
@@ -45,170 +46,165 @@ class DonorCard extends StatelessWidget {
       case 3:
         return const Color(0xFFCD7F32); // Bronze
       default:
-        return Colors.grey;
+        return ThemeColors.greyColor;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Stack(
-              children: [
-                Hero(
-                  tag: 'donor_${donor.email}',
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          _getRankColor().withOpacity(0.3),
-                          _getRankColor().withOpacity(0.1),
-                        ],
-                      ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
+      decoration: BoxDecoration(
+        color: ThemeColors.whiteBlue,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Stack(
+            children: [
+              Hero(
+                tag: 'donor_${donor.email}',
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        _getRankColor().withOpacity(0.3),
+                        _getRankColor().withOpacity(0.1),
+                      ],
                     ),
-                    padding: const EdgeInsets.all(4),
-                    child: ClipOval(
-                      child: Image.network(
-                        donor.image,
-                        width: 70,
-                        height: 70,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            width: 70,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blue.shade300,
-                                  Colors.purple.shade300,
-                                ],
-                              ),
+                  ),
+                  padding: EdgeInsets.all(1.w),
+                  child: ClipOval(
+                    child: Image.network(
+                      donor.image,
+                      width: 18.w,
+                      height: 18.w,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 18.w,
+                          height: 18.w,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                ThemeColors.primaryColor.shade300,
+                                ThemeColors.colorSecondary.shade300,
+                              ],
                             ),
-                            child: const Icon(
-                              Icons.person,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                          );
-                        },
+                          ),
+                          child: Icon(
+                            Icons.person,
+                            size: 9.w,
+                            color: ThemeColors.white,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: 7.w,
+                  height: 7.w,
+                  decoration: BoxDecoration(
+                    color: _getRankColor(),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: ThemeColors.white, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#$rank',
+                      style: TextStyle(
+                        fontSize: 2.5.w,
+                        fontWeight: FontWeight.bold,
+                        color: ThemeColors.white,
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: _getRankColor(),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: _getRankColor().withOpacity(0.4),
-                          blurRadius: 8,
-                          spreadRadius: 2,
+              ),
+            ],
+          ),
+          SizedBox(width: 4.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  donor.name,
+                  style: TextStyle(
+                    fontSize: 4.5.w,
+                    fontWeight: FontWeight.bold,
+                    color: ThemeColors.defaultTextColor,
+                  ),
+                ),
+                SizedBox(height: 1.w),
+                Row(
+                  children: [
+                    Icon(Icons.email, size: 3.5.w, color: ThemeColors.textPrimaryColor),
+                    SizedBox(width: 1.w),
+                    Expanded(
+                      child: Text(
+                        donor.email,
+                        style: TextStyle(
+                          fontSize: 3.w,
+                          color: ThemeColors.textPrimaryColor,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1.w),
+                Row(
+                  children: [
+                    Icon(Icons.location_on, size: 3.5.w, color: ThemeColors.textPrimaryColor),
+                    SizedBox(width: 1.w),
+                    Text(
+                      donor.city,
+                      style: TextStyle(
+                        fontSize: 3.w,
+                        color: ThemeColors.textPrimaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.w),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.w),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        ThemeColors.primaryColor.shade100,
+                        ThemeColors.primaryColor.shade50,
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        '#$rank',
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '₹${donor.todayTotalDonation}',
+                    style: TextStyle(
+                      fontSize: 4.w,
+                      fontWeight: FontWeight.bold,
+                      color: ThemeColors.primaryColor,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    donor.name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Icon(Icons.email, size: 14, color: Colors.grey),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          donor.email,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        size: 14,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        donor.city,
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.green[50],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      '₹${donor.todayTotalDonation}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green[700],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 class TopDonorsScreen extends StatelessWidget {
   const TopDonorsScreen({super.key});
@@ -217,26 +213,28 @@ class TopDonorsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(TopDonorsController());
 
-    return Container(
-      color: Colors.red,
-      child: Obx(() {
-        if (controller.donors.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    return Obx(() {
+      if (controller.donors.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
-        return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.donors.length,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          itemBuilder: (context, index) {
-            final donor = controller.donors[index];
-            return SizedBox(
-              width: 50.h,
-              child: DonorCard(donor: donor, rank: index + 1),
-            );
-          },
-        );
-      }),
-    );
+      return CarouselSlider.builder(
+        itemCount: controller.donors.length,
+        itemBuilder: (context, index, realIndex) {
+          final donor = controller.donors[index];
+          return DonorCard(donor: donor, rank: index + 1);
+        },
+        options: CarouselOptions(
+          height: 23.h,
+          enlargeCenterPage: true,
+          viewportFraction: 0.99,
+          aspectRatio: 16 / 9,
+          autoPlay: true,
+          autoPlayInterval: const Duration(seconds: 3),
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          enableInfiniteScroll: true,
+        ),
+      );
+    });
   }
 }
