@@ -87,6 +87,14 @@ class Repository extends ApiProvider {
     );
   }
 
+  Future<dynamic> updateProfile(userData) async {
+    return super.postDynamic('profile-update', parameters: userData);
+  }
+
+  Future<dynamic> userSupport() async {
+    return super.getDynamic('user-support');
+  }
+
   Future<dynamic> sendNotification() async {
     return super.postDynamic(
       'sendnotification',

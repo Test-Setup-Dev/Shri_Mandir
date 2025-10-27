@@ -13,9 +13,12 @@ class CatItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final audioItems = category.mediaItems.where((e) => e.type == MediaType.audio).toList();
-    final videoItems = category.mediaItems.where((e) => e.type == MediaType.video).toList();
-    final textItems = category.mediaItems.where((e) => e.type == MediaType.text).toList();
+    final audioItems =
+        category.mediaItems.where((e) => e.type == MediaType.audio).toList();
+    final videoItems =
+        category.mediaItems.where((e) => e.type == MediaType.video).toList();
+    final textItems =
+        category.mediaItems.where((e) => e.type == MediaType.text).toList();
 
     return DefaultTabController(
       length: 3,
@@ -41,7 +44,8 @@ class CatItemScreen extends StatelessWidget {
                 children: [
                   _buildMediaList(audioItems),
                   _buildMediaList(videoItems),
-                  _buildMediaList(textItems),
+                  // _buildTextContent(textItems),
+                  _buildText(textItems),
                 ],
               ),
             ),
@@ -126,15 +130,23 @@ class CatItemScreen extends StatelessWidget {
     if (items.isEmpty) {
       return const Center(child: Text('No items found'));
     }
-    return ListView.builder(
+    return GridView.builder(
+      padding: EdgeInsets.all(4.w),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 3.w,
+        mainAxisSpacing: 3.w,
+        childAspectRatio: 0.75,
+      ),
       itemCount: items.length,
-      itemBuilder: (context, index) => _buildMediaCard(items[index]),
+      itemBuilder: (context, index) {
+        return _buildMediaCard(items[index]);
+      },
     );
   }
 
   Widget _buildMediaCard(MediaItem mediaItem) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
         color: ThemeColors.white,
         borderRadius: BorderRadius.circular(3.w),
@@ -146,7 +158,7 @@ class CatItemScreen extends StatelessWidget {
           BoxShadow(
             color: ThemeColors.greyColor.withAlpha(50),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -157,7 +169,7 @@ class CatItemScreen extends StatelessWidget {
             children: [
               Container(
                 height: 12.h,
-                width: double.infinity,
+                width: 45.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(3.w),
@@ -171,13 +183,15 @@ class CatItemScreen extends StatelessWidget {
                     imageUrl: mediaItem.thumbnailUrl,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        Image.asset('assets/icons/image_not_found.png'),
-                    errorWidget: (context, url, error) => Container(
-                      width: double.infinity,
-                      color: ThemeColors.greyColor,
-                      child: Image.asset('assets/icons/alert_round.png'),
-                    ),
+                    placeholder:
+                        (context, url) =>
+                            Image.asset('assets/icons/image_not_found.png'),
+                    errorWidget:
+                        (context, url, error) => Container(
+                          width: 45.w,
+                          color: ThemeColors.greyColor,
+                          child: Image.asset('assets/icons/alert_round.png'),
+                        ),
                   ),
                 ),
               ),
@@ -187,9 +201,10 @@ class CatItemScreen extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(1.w),
                   decoration: BoxDecoration(
-                    color: mediaItem.type == MediaType.video
-                        ? ThemeColors.accentColor
-                        : ThemeColors.primaryColor,
+                    color:
+                        mediaItem.type == MediaType.video
+                            ? ThemeColors.accentColor
+                            : ThemeColors.primaryColor,
                     borderRadius: BorderRadius.circular(1.w),
                   ),
                   child: Icon(
@@ -205,7 +220,7 @@ class CatItemScreen extends StatelessWidget {
                 top: 2.w,
                 left: 2.w,
                 child: Obx(
-                      () => GestureDetector(
+                  () => GestureDetector(
                     onTap: () => controller.toggleFavorite(mediaItem.id),
                     child: Container(
                       padding: EdgeInsets.all(1.5.w),
@@ -217,9 +232,10 @@ class CatItemScreen extends StatelessWidget {
                         controller.isFavorite(mediaItem.id)
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: controller.isFavorite(mediaItem.id)
-                            ? ThemeColors.accentColor
-                            : ThemeColors.greyColor,
+                        color:
+                            controller.isFavorite(mediaItem.id)
+                                ? ThemeColors.accentColor
+                                : ThemeColors.greyColor,
                         size: 4.w,
                       ),
                     ),
@@ -228,7 +244,7 @@ class CatItemScreen extends StatelessWidget {
               ),
               Positioned(
                 top: 10.w,
-                left: 40.w,
+                left: 16.w,
                 child: GestureDetector(
                   onTap: () => controller.playMedia(mediaItem),
                   child: Center(
@@ -249,85 +265,361 @@ class CatItemScreen extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.all(3.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  mediaItem.title,
-                  style: TextStyle(
-                    color: ThemeColors.defaultTextColor,
-                    fontSize: 3.2.w,
-                    fontWeight: FontWeight.w600,
-                    height: 1.2,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(3.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    mediaItem.title,
+                    style: TextStyle(
+                      color: ThemeColors.defaultTextColor,
+                      fontSize: 3.2.w,
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                1.h.vs,
-                Text(
-                  mediaItem.artist,
-                  style: TextStyle(
-                    color: ThemeColors.greyColor,
-                    fontSize: 2.8.w,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time,
+                  1.h.vs,
+                  Text(
+                    mediaItem.artist,
+                    style: TextStyle(
                       color: ThemeColors.greyColor,
-                      size: 3.w,
+                      fontSize: 2.8.w,
                     ),
-                    1.w.hs,
-                    Text(
-                      mediaItem.duration,
-                      style: TextStyle(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time,
                         color: ThemeColors.greyColor,
-                        fontSize: 2.5.w,
+                        size: 3.w,
                       ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 2.w,
-                        vertical: 0.5.w,
+                      1.w.hs,
+                      Text(
+                        mediaItem.duration,
+                        style: TextStyle(
+                          color: ThemeColors.greyColor,
+                          fontSize: 2.5.w,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: ThemeColors.primaryColor.withAlpha(50),
-                        borderRadius: BorderRadius.circular(1.w),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: ThemeColors.primaryColor,
-                            size: 3.w,
-                          ),
-                          0.5.w.hs,
-                          Text(
-                            mediaItem.averageRating.toString(),
-                            style: TextStyle(
+                      Spacer(),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 2.w,
+                          vertical: 0.5.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ThemeColors.primaryColor.withAlpha(50),
+                          borderRadius: BorderRadius.circular(1.w),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star,
                               color: ThemeColors.primaryColor,
-                              fontSize: 2.8.w,
-                              fontWeight: FontWeight.w600,
+                              size: 3.w,
                             ),
-                          ),
-                        ],
+                            0.5.w.hs,
+                            Text(
+                              mediaItem.averageRating.toString(),
+                              style: TextStyle(
+                                color: ThemeColors.primaryColor,
+                                fontSize: 2.8.w,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+
+  Widget _buildText(List<MediaItem> items) {
+    if (items.isEmpty) {
+      return const Center(child: Text('No items found'));
+    }
+
+    return ListView.builder(
+      itemCount: items.length,
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      itemBuilder: (context, index) {
+        MediaItem mediaItem = items[index];
+
+        return GestureDetector(
+          onTap: () {
+            _showScrollTextDialog(context, mediaItem);
+          },
+          child: Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.w),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/icons/old_letter.png'),
+                  fit: BoxFit.fill,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: ThemeColors.oldLatterLight5.withAlpha(120),
+                    blurRadius: 10.w,
+                    offset: Offset(0.w, 0.w),
+                    // offset: Offset(4.w, 4.w),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  22.vs,
+                  // Title in Script Font
+                  Text(
+                    mediaItem.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Satisfy',
+                      // or 'GreatVibes', 'DancingScript'
+                      fontSize: 5.w,
+                      fontWeight: FontWeight.w500,
+                      color: ThemeColors.oldLatter,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.1),
+                          offset: Offset(1, 1),
+                          blurRadius: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 1.h),
+
+                  // Author
+                  Text(
+                    '- ${mediaItem.artist} -',
+                    style: TextStyle(
+                      fontFamily: 'Satisfy',
+                      fontSize: 3.w,
+                      fontStyle: FontStyle.italic,
+                      color: ThemeColors.oldLatterLight3,
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // Text Preview
+                  if (mediaItem.content != null &&
+                      mediaItem.content!.isNotEmpty)
+                    Container(
+                      // color: Colors.red,
+                      constraints: BoxConstraints(maxHeight: 15.h),
+                      width: 60.w,
+                      child: SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Text(
+                          mediaItem.content!
+                              .where((line) => line.trim().isNotEmpty)
+                              .take(6)
+                              .join('\n'),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Satisfy',
+                            fontSize: 2.8.w,
+                            height: 1.8,
+                            color: ThemeColors.oldLatterLight,
+                            letterSpacing: 0.5,
+                          ),
+                          maxLines: 6,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ),
+                    ),
+
+                  SizedBox(height: 2.h),
+
+                  // Read More Indicator
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '~ Tap to Read ~',
+                        style: TextStyle(
+                          fontFamily: 'Satisfy',
+                          fontSize: 2.5.w,
+                          color: ThemeColors.oldLatterLight3,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 2.h),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showScrollTextDialog(BuildContext context, MediaItem mediaItem) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.all(1.w),
+            child: Container(
+              width: double.infinity,
+              constraints: BoxConstraints(maxHeight: 85.h),
+              decoration: BoxDecoration(
+                // color: Colors.red,
+                image: DecorationImage(
+                  // image: AssetImage('assets/icons/old_letter.png'),
+                  image: AssetImage('assets/icons/old_latter.png'),
+                  fit: BoxFit.fill,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: ThemeColors.oldLatterLight5.withAlpha(120),
+                    blurRadius: 20,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+
+                  80.vs,
+
+                  // Title
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Text(
+                      mediaItem.title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Satisfy',
+                        fontSize: 6.w,
+                        fontWeight: FontWeight.w600,
+                        color: ThemeColors.oldLatter,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: Offset(1, 1),
+                            blurRadius: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 1.h),
+
+                  // Author
+                  Text(
+                    '~ ${mediaItem.artist} ~',
+                    style: TextStyle(
+                      fontFamily: 'Satisfy',
+                      fontSize: 3.5.w,
+                      fontStyle: FontStyle.italic,
+                      color: ThemeColors.oldLatterLight3,
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // Divider
+                  Container(
+                    width: 30.w,
+                    height: 1,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          ThemeColors.oldLatterLight3,
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // Content
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child:
+                      mediaItem.content != null
+                          ? Column(
+                        children:
+                        mediaItem.content!
+                            .map(
+                              (line) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 1.2.h,
+                            ),
+                            child: SizedBox(
+                              width: 60.w,
+                              child: Text(
+                                line,
+                                textAlign:
+                                line.trim().isEmpty
+                                    ? TextAlign.center
+                                    : TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Satisfy',
+                                  fontSize: 3.2.w,
+                                  height: 1.8,
+                                  color:
+                                  line.trim().isEmpty
+                                      ? Colors.transparent
+                                      : ThemeColors
+                                      .oldLatterLight,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                            .toList(),
+                      )
+                          : Center(
+                        child: Text(
+                          'No content available',
+                          style: TextStyle(
+                            fontFamily: 'Satisfy',
+                            fontSize: 3.5.w,
+                            color: ThemeColors.oldLatterLight3,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 7.h),
+                ],
+              ),
+            ),
+          ),
     );
   }
 }

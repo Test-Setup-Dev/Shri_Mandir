@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:mandir/screen/notification/notification_screen.dart';
+import 'package:mandir/screen/support/support_screen.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/widget/widgets.dart';
 import '../screen/profile/personal_info/personal_info_screen.dart';
@@ -39,10 +40,10 @@ class MyDrawer extends StatelessWidget {
                 Get.to(() => NotificationScreen());
               },
             ),
-            // _navItem('assets/icons/lock.png', 'Change Password', () {
-            //   Get.back();
-            //   //   Get.to(() => ChangePassword());
-            // }),
+            _navItem('assets/icons/support_person.png', 'Support', () {
+              Get.back();
+                Get.to(() => SupportScreen());
+            }),
             _navItem('assets/icons/logout_outline.png', 'Log Out', () {
               Get.back();
               Helper.logOut();

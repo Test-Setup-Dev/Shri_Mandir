@@ -43,6 +43,15 @@ class ThemeColors {
 
   static const Color black = Colors.black;
   static const Color white = Colors.white;
+
+
+  static const Color oldLatter = Color(0xFF5C4033);
+  static const Color oldLatterLight = Color(0xFF6B5B4D);
+  static const Color oldLatterLight3 = Color(0xFF8B7355);
+  static const Color oldLatterLight4 = Color(0xFFF5E6D3);
+  static const Color oldLatterLight5 = Color(0xFF987633);
+
+
   static const Color blue = Color(0xFF1F4FBD);
 
   // Changed from dark theme - now using white for cards/containers

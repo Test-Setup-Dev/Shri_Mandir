@@ -8,6 +8,7 @@ import 'package:mandir/screen/donation/top_donor/top_donor_screen.dart';
 import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
+import 'package:mandir/screen/support/support_screen.dart';
 import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/db/db.dart';
@@ -15,6 +16,8 @@ import 'package:mandir/utils/helper.dart';
 import 'package:mandir/utils/logger.dart';
 import 'package:mandir/utils/preference.dart';
 import 'package:mandir/utils/toasty.dart';
+
+import '../profile/profile_update/profile_update_screen.dart';
 
 class HomeController extends GetxController {
   var searchQuery = ''.obs;
@@ -175,8 +178,9 @@ class HomeController extends GetxController {
 
   Future<void> testFunction() async {
 
-    Get.to(() => TopDonorsScreen());
+    Get.to(() => ProfileUpdateScreen());
+    // Get.to(() => SupportScreen());
     // print(Preference.user.token);
-    // await Repository.instance.getTopDonor();
+    // await Repository.instance.userSupport();
   }
 }
