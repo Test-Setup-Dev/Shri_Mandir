@@ -2,34 +2,67 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mandir/screen/donation/top_donor/controller.dart';
+import 'package:mandir/utils/const.dart';
 import 'package:mandir/utils/helper.dart';
 
-class Donor {
-  final String name;
-  final String email;
-  final String image;
-  final String city;
-  final String todayTotalDonation;
+class TopDonorsScreen extends StatelessWidget {
+  const TopDonorsScreen({super.key});
 
-  Donor({
-    required this.name,
-    required this.email,
-    required this.image,
-    required this.city,
-    required this.todayTotalDonation,
-  });
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(TopDonorsController());
 
-  factory Donor.fromJson(Map<String, dynamic> json) {
-    return Donor(
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
-      image: json['image'] ?? '',
-      city: json['city'] ?? '',
-      todayTotalDonation: json['today_total_donation'] ?? '0.00',
-    );
+    return Obx(() {
+      if (controller.status == Status.PROGRESS) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (controller.donors.isEmpty) {
+        return SizedBox.shrink();
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.w),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
+              ),
+              borderRadius: BorderRadius.circular(3.w),
+            ),
+            child: Text(
+              'Top Donors',
+              style: TextStyle(
+                color: ThemeColors.white,
+                fontSize: 3.w,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          2.h.vs,
+          CarouselSlider.builder(
+            itemCount: controller.donors.length,
+            itemBuilder: (context, index, realIndex) {
+              final donor = controller.donors[index];
+              return DonorCard(donor: donor, rank: index + 1);
+            },
+            options: CarouselOptions(
+              height: 23.h,
+              enlargeCenterPage: true,
+              viewportFraction: 0.99,
+              aspectRatio: 16 / 9,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              enableInfiniteScroll: true,
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
-
 
 class DonorCard extends StatelessWidget {
   final Donor donor;
@@ -147,7 +180,11 @@ class DonorCard extends StatelessWidget {
                 SizedBox(height: 1.w),
                 Row(
                   children: [
-                    Icon(Icons.email, size: 3.5.w, color: ThemeColors.textPrimaryColor),
+                    Icon(
+                      Icons.email,
+                      size: 3.5.w,
+                      color: ThemeColors.textPrimaryColor,
+                    ),
                     SizedBox(width: 1.w),
                     Expanded(
                       child: Text(
@@ -164,7 +201,11 @@ class DonorCard extends StatelessWidget {
                 SizedBox(height: 1.w),
                 Row(
                   children: [
-                    Icon(Icons.location_on, size: 3.5.w, color: ThemeColors.textPrimaryColor),
+                    Icon(
+                      Icons.location_on,
+                      size: 3.5.w,
+                      color: ThemeColors.textPrimaryColor,
+                    ),
                     SizedBox(width: 1.w),
                     Text(
                       donor.city,
@@ -177,7 +218,10 @@ class DonorCard extends StatelessWidget {
                 ),
                 SizedBox(height: 2.w),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.w),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 3.w,
+                    vertical: 1.5.w,
+                  ),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -205,36 +249,28 @@ class DonorCard extends StatelessWidget {
   }
 }
 
+class Donor {
+  final String name;
+  final String email;
+  final String image;
+  final String city;
+  final String todayTotalDonation;
 
-class TopDonorsScreen extends StatelessWidget {
-  const TopDonorsScreen({super.key});
+  Donor({
+    required this.name,
+    required this.email,
+    required this.image,
+    required this.city,
+    required this.todayTotalDonation,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(TopDonorsController());
-
-    return Obx(() {
-      if (controller.donors.isEmpty) {
-        return const Center(child: CircularProgressIndicator());
-      }
-
-      return CarouselSlider.builder(
-        itemCount: controller.donors.length,
-        itemBuilder: (context, index, realIndex) {
-          final donor = controller.donors[index];
-          return DonorCard(donor: donor, rank: index + 1);
-        },
-        options: CarouselOptions(
-          height: 23.h,
-          enlargeCenterPage: true,
-          viewportFraction: 0.99,
-          aspectRatio: 16 / 9,
-          autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 3),
-          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          enableInfiniteScroll: true,
-        ),
-      );
-    });
+  factory Donor.fromJson(Map<String, dynamic> json) {
+    return Donor(
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      image: json['image'] ?? '',
+      city: json['city'] ?? '',
+      todayTotalDonation: json['today_total_donation'] ?? '0.00',
+    );
   }
 }

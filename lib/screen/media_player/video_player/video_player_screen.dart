@@ -1096,21 +1096,21 @@ class VideoPlayerScreen extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.w),
-                decoration: BoxDecoration(
-                  color: ThemeColors.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(1.w),
-                ),
-                child: Text(
-                  'mediaItem.category!.name',
-                  style: TextStyle(
-                    color: ThemeColors.primaryColor,
-                    fontSize: 2.8.w,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.w),
+              //   decoration: BoxDecoration(
+              //     color: ThemeColors.primaryColor.withOpacity(0.1),
+              //     borderRadius: BorderRadius.circular(1.w),
+              //   ),
+              //   child: Text(
+              //     'mediaItem.category!.name',
+              //     style: TextStyle(
+              //       color: ThemeColors.primaryColor,
+              //       fontSize: 2.8.w,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           1.h.vs,

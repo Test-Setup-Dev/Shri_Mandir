@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:mandir/model/home_data.dart';
 import 'package:mandir/screen/home/controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mandir/screen/old_latter/old_latter_screen.dart';
 import 'package:mandir/utils/helper.dart';
 
 class CatItemScreen extends StatelessWidget {
-  final CategoryData category;
+  final Category category;
   final HomeController controller = Get.put(HomeController());
 
   CatItemScreen({super.key, required this.category});
@@ -103,7 +104,7 @@ class CatItemScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  category.name,
+                  category.name ?? '',
                   style: TextStyle(
                     color: ThemeColors.white,
                     fontSize: 4.5.w,
@@ -349,7 +350,6 @@ class CatItemScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildText(List<MediaItem> items) {
     if (items.isEmpty) {
       return const Center(child: Text('No items found'));
@@ -363,7 +363,7 @@ class CatItemScreen extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            _showScrollTextDialog(context, mediaItem);
+            Get.to(() => OldLatterScreen(mediaItem: mediaItem));
           },
           child: Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -371,8 +371,9 @@ class CatItemScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 8),
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.w),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
-                  image: AssetImage('assets/icons/old_letter.png'),
+                  image: AssetImage('assets/icons/old_screen.png'),
                   fit: BoxFit.fill,
                 ),
                 boxShadow: [
@@ -396,7 +397,7 @@ class CatItemScreen extends StatelessWidget {
                       // or 'GreatVibes', 'DancingScript'
                       fontSize: 5.w,
                       fontWeight: FontWeight.w500,
-                      color: ThemeColors.oldLatter,
+                      color: ThemeColors.white,
                       shadows: [
                         Shadow(
                           color: Colors.black.withOpacity(0.1),
@@ -416,7 +417,7 @@ class CatItemScreen extends StatelessWidget {
                       fontFamily: 'Satisfy',
                       fontSize: 3.w,
                       fontStyle: FontStyle.italic,
-                      color: ThemeColors.oldLatterLight3,
+                      color: ThemeColors.white,
                     ),
                   ),
 
@@ -439,9 +440,9 @@ class CatItemScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Satisfy',
-                            fontSize: 2.8.w,
+                            fontSize: 3.5.w,
                             height: 1.8,
-                            color: ThemeColors.oldLatterLight,
+                            color: ThemeColors.white,
                             letterSpacing: 0.5,
                           ),
                           maxLines: 6,
@@ -461,7 +462,7 @@ class CatItemScreen extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Satisfy',
                           fontSize: 2.5.w,
-                          color: ThemeColors.oldLatterLight3,
+                          color: ThemeColors.white,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
@@ -475,151 +476,6 @@ class CatItemScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  void _showScrollTextDialog(BuildContext context, MediaItem mediaItem) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => Dialog(
-            backgroundColor: Colors.transparent,
-            insetPadding: EdgeInsets.all(1.w),
-            child: Container(
-              width: double.infinity,
-              constraints: BoxConstraints(maxHeight: 85.h),
-              decoration: BoxDecoration(
-                // color: Colors.red,
-                image: DecorationImage(
-                  // image: AssetImage('assets/icons/old_letter.png'),
-                  image: AssetImage('assets/icons/old_latter.png'),
-                  fit: BoxFit.fill,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: ThemeColors.oldLatterLight5.withAlpha(120),
-                    blurRadius: 20,
-                    offset: Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-
-                  80.vs,
-
-                  // Title
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: Text(
-                      mediaItem.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Satisfy',
-                        fontSize: 6.w,
-                        fontWeight: FontWeight.w600,
-                        color: ThemeColors.oldLatter,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withOpacity(0.2),
-                            offset: Offset(1, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 1.h),
-
-                  // Author
-                  Text(
-                    '~ ${mediaItem.artist} ~',
-                    style: TextStyle(
-                      fontFamily: 'Satisfy',
-                      fontSize: 3.5.w,
-                      fontStyle: FontStyle.italic,
-                      color: ThemeColors.oldLatterLight3,
-                    ),
-                  ),
-
-                  SizedBox(height: 2.h),
-
-                  // Divider
-                  Container(
-                    width: 30.w,
-                    height: 1,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          ThemeColors.oldLatterLight3,
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 2.h),
-
-                  // Content
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child:
-                      mediaItem.content != null
-                          ? Column(
-                        children:
-                        mediaItem.content!
-                            .map(
-                              (line) => Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 1.2.h,
-                            ),
-                            child: SizedBox(
-                              width: 60.w,
-                              child: Text(
-                                line,
-                                textAlign:
-                                line.trim().isEmpty
-                                    ? TextAlign.center
-                                    : TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Satisfy',
-                                  fontSize: 3.2.w,
-                                  height: 1.8,
-                                  color:
-                                  line.trim().isEmpty
-                                      ? Colors.transparent
-                                      : ThemeColors
-                                      .oldLatterLight,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                            .toList(),
-                      )
-                          : Center(
-                        child: Text(
-                          'No content available',
-                          style: TextStyle(
-                            fontFamily: 'Satisfy',
-                            fontSize: 3.5.w,
-                            color: ThemeColors.oldLatterLight3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 7.h),
-                ],
-              ),
-            ),
-          ),
     );
   }
 }

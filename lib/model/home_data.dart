@@ -1,33 +1,5 @@
-import 'dart:convert';
-
-/// Top-level model
-class HomeResponse {
-  final String status;
-  final String message;
-  final List<CategoryData> data;
-
-  HomeResponse({
-    required this.status,
-    required this.message,
-    required this.data,
-  });
-
-  factory HomeResponse.fromJson(Map<String, dynamic> json) {
-    return HomeResponse(
-      status: json['status'] ?? '',
-      message: json['message'] ?? '',
-      data: (json['data'] as List<dynamic>? ?? [])
-          .map((e) => CategoryData.fromJson(e))
-          .toList(),
-    );
-  }
-
-  static HomeResponse fromRawJson(String str) =>
-      HomeResponse.fromJson(json.decode(str));
-}
-
 /// Category model
-class CategoryData {
+class Category {
   final int id;
   final String name;
   final String icon;
@@ -36,7 +8,7 @@ class CategoryData {
   final String updatedAt;
   final List<MediaItem> mediaItems;
 
-  CategoryData({
+  Category({
     required this.id,
     required this.name,
     required this.icon,
@@ -46,20 +18,20 @@ class CategoryData {
     required this.mediaItems,
   });
 
-  factory CategoryData.fromJson(Map<String, dynamic> json) {
-    return CategoryData(
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
       icon: json['icon'] ?? '',
       description: json['description'] ?? '',
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',
-      mediaItems: (json['media_items'] as List<dynamic>? ?? [])
-          .map((e) => MediaItem.fromJson(e, categoryId: json['id']))
-          .toList(),
+      mediaItems:
+          (json['media_items'] as List<dynamic>? ?? [])
+              .map((e) => MediaItem.fromJson(e, categoryId: json['id']))
+              .toList(),
     );
   }
-
 }
 
 /// Media item model
@@ -76,7 +48,7 @@ class MediaItem {
   final bool isFeatured;
   final List<String>? content;
 
-  CategoryData? category;
+  Category? category;
 
   MediaItem({
     required this.id,
@@ -102,12 +74,12 @@ class MediaItem {
       mediaUrl: json['mediaUrl'] ?? '',
       type: _mediaTypeFromString(json['type']),
       duration: json['duration'] ?? '',
-      categoryId: categoryId?.toString() ?? json['categorie_id']?.toString() ?? '',
+      categoryId:
+          categoryId?.toString() ?? json['categorie_id']?.toString() ?? '',
       averageRating: (json['average_rating'] ?? 0).toDouble(),
       isFeatured: (json['isFeatured'] == 1),
-      content: json['content'] != null
-          ? List<String>.from(json['content'])
-          : null,
+      content:
+          json['content'] != null ? List<String>.from(json['content']) : null,
     );
   }
 
@@ -123,7 +95,6 @@ class MediaItem {
         return MediaType.audio;
     }
   }
-
 }
 
 enum MediaType { audio, video, text }

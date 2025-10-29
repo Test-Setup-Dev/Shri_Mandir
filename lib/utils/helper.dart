@@ -18,7 +18,7 @@ import 'package:mandir/utils/preference.dart';
 import 'package:mandir/values/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
+import 'package:mandir/model/home_data.dart' as itemCategory;
 import 'const.dart';
 
 // import 'package:intl/intl.dart';
@@ -101,10 +101,13 @@ class Helper {
     errorMessage.value = message;
   }
 
-  static String getCategoryName(int categoryId, List<CategoryData> categories) {
+  static String getCategoryName(
+    int categoryId,
+    List<itemCategory.Category> categories,
+  ) {
     try {
       final category = categories.firstWhere((cat) => cat.id == categoryId);
-      return category.name;
+      return category.name ?? '';
     } catch (e) {
       return 'Unknown';
     }
@@ -397,11 +400,13 @@ class Helper {
     return str.toUpperCase();
   }
 
-  static void openUrl(String url,
-      {bool includeHttp = false,
-      void Function()? success,
-      void Function(String s)? onError,
-      LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+  static void openUrl(
+    String url, {
+    bool includeHttp = false,
+    void Function()? success,
+    void Function(String s)? onError,
+    LaunchMode launchMode = LaunchMode.inAppWebView,
+  }) async {
     if (url.notEmpty) {
       try {
         if (includeHttp && !url.startsWith('https://')) {

@@ -8,6 +8,7 @@ import 'package:mandir/screen/donation/top_donor/top_donor_screen.dart';
 import 'package:mandir/screen/home/cat_item_screen.dart';
 import 'package:mandir/screen/media_player/audio_player/audio_player_screen.dart';
 import 'package:mandir/screen/media_player/video_player/video_player_screen.dart';
+import 'package:mandir/screen/old_latter/old_latter_screen.dart';
 import 'package:mandir/screen/support/support_screen.dart';
 import 'package:mandir/screen/test.dart';
 import 'package:mandir/utils/const.dart';
@@ -26,7 +27,7 @@ class HomeController extends GetxController {
 
   var allMediaItems = <MediaItem>[].obs;
   var favoriteItems = <String>[].obs;
-  var categories = <CategoryData>[].obs;
+  var categories = <Category>[].obs;
 
   var showAllAudioContent = false.obs;
   var showAllVideoContent = false.obs;
@@ -133,7 +134,7 @@ class HomeController extends GetxController {
     try {
       final response = await Repository.instance.getHomeData(); // same API
       final List<dynamic> data = response['data'];
-      categories.value = data.map((e) => CategoryData.fromJson(e)).toList();
+      categories.value = data.map((e) => Category.fromJson(e)).toList();
     } catch (e) {
       Logger.ex(baseName: runtimeType, tag: 'CATEGORY EXC', value: e);
     }
@@ -170,15 +171,15 @@ class HomeController extends GetxController {
 
   bool isFavorite(String itemId) => favoriteItems.contains(itemId);
 
-  void onCategoryTap(CategoryData category) {
-    searchQuery.value = category.name.toLowerCase();
+  void onCategoryTap(Category category) {
+    searchQuery.value = category.name!.toLowerCase();
     Toasty.success('Browsing ${category.name}');
     Get.to(() => CatItemScreen(category: category));
   }
 
   Future<void> testFunction() async {
 
-    Get.to(() => ProfileUpdateScreen());
+
     // Get.to(() => SupportScreen());
     // print(Preference.user.token);
     // await Repository.instance.userSupport();

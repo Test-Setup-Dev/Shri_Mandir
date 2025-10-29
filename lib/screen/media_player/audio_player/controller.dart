@@ -309,22 +309,22 @@ class AudioPlayerController extends GetxController {
 
   /// Playlist
   void addToPlaylist() {
-    Toasty.success('${mediaItem.title} added to your playlist');
+    Toasty.success('this feature is not available');
   }
 
   /// Share
   void shareTrack() {
-    Toasty.success('Sharing ${mediaItem.title}');
+    Toasty.success('this feature is not available');
   }
 
   /// Download
   void downloadTrack() {
-    Toasty.success('Downloading ${mediaItem.title}');
+    Toasty.success('this feature is not available');
   }
 
   /// Sleep Timer (example only)
   void setSleepTimer() {
-    Toasty.success('Sleep timer set for 30 minutes');
+    Toasty.success('this feature is not available');
   }
 
   @override

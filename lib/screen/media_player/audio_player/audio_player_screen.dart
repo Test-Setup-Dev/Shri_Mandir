@@ -244,21 +244,22 @@ class AudioPlayerScreen extends StatelessWidget {
           ),
         ),
         0.5.h.vs,
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
-          decoration: BoxDecoration(
-            color: ThemeColors.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(2.w),
-          ),
-          child: Text(
-            'mediaItem.category!.name',
-            style: TextStyle(
-              color: ThemeColors.primaryColor,
-              fontSize: 3.w,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        // Container(
+        //   padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
+        //   decoration: BoxDecoration(
+        //     color: ThemeColors.primaryColor.withOpacity(0.1),
+        //     borderRadius: BorderRadius.circular(2.w),
+        //   ),
+        //   child: Text(
+        //     'mediaItem.category!.name',
+        //     // mediaItem.category!.name,
+        //     style: TextStyle(
+        //       color: ThemeColors.primaryColor,
+        //       fontSize: 3.w,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

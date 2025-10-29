@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                                 3.h.vs,
                                 _buildMediaGrid(),
                                 3.h.vs,
-                                _buildFeaturedSection(),
+                                TopDonorsScreen(),
                                 3.h.vs,
                                 _buildCategoriesSection(),
                                 12.h.vs,
@@ -425,248 +425,221 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildMediaCard(MediaItem mediaItem) {
-    return Container(
-      decoration: BoxDecoration(
-        color: ThemeColors.white,
-        borderRadius: BorderRadius.circular(3.w),
-        border: Border.all(
-          color: ThemeColors.greyColor.withAlpha(50),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
+    return InkWell(
+      onTap: () {
+        if (mediaItem.type == MediaType.text) {
+          Get.to(() => OldLatterScreen(mediaItem: mediaItem));
+        }
+      },
+      overlayColor: WidgetStateColor.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: ThemeColors.white,
+          borderRadius: BorderRadius.circular(3.w),
+          border: Border.all(
             color: ThemeColors.greyColor.withAlpha(50),
-            blurRadius: 10,
-            offset: Offset(0, 4),
+            width: 1,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 12.h,
-                width: 45.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(3.w),
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(3.w),
-                  ),
-                  child: Image.network(
-                    mediaItem.thumbnailUrl,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder:
-                        (context, error, stackTrace) => Container(
-                          width: 45.w,
-                          color: ThemeColors.greyColor,
-                          child: Image(
-                            image: AssetImage('assets/icons/alert_round.png'),
-                          ),
-                        ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 2.w,
-                right: 2.w,
-                child: Container(
-                  padding: EdgeInsets.all(1.w),
+          boxShadow: [
+            BoxShadow(
+              color: ThemeColors.greyColor.withAlpha(50),
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 12.h,
+                  width: 45.w,
                   decoration: BoxDecoration(
-                    color:
-                        mediaItem.type == MediaType.video
-                            ? ThemeColors.accentColor
-                            : ThemeColors.primaryColor,
-                    borderRadius: BorderRadius.circular(1.w),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(3.w),
+                    ),
                   ),
-                  child: Icon(
-                    mediaItem.type == MediaType.video
-                        ? Icons.videocam
-                        : mediaItem.type == MediaType.audio
-                        ? Icons.music_note
-                        : Icons.text_fields,
-                    color: ThemeColors.white,
-                    size: 3.w,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 2.w,
-                left: 2.w,
-                child: Obx(
-                  () => GestureDetector(
-                    onTap: () => controller.toggleFavorite(mediaItem.id),
-                    child: Container(
-                      padding: EdgeInsets.all(1.5.w),
-                      decoration: BoxDecoration(
-                        color: ThemeColors.white.withAlpha(50),
-                        borderRadius: BorderRadius.circular(1.5.w),
-                      ),
-                      child: Icon(
-                        controller.isFavorite(mediaItem.id)
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color:
-                            controller.isFavorite(mediaItem.id)
-                                ? ThemeColors.accentColor
-                                : ThemeColors.greyColor,
-                        size: 4.w,
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(3.w),
+                    ),
+                    child: Image.network(
+                      mediaItem.thumbnailUrl,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (context, error, stackTrace) => Container(
+                            width: 45.w,
+                            color: ThemeColors.greyColor,
+                            child: Image(
+                              image: AssetImage('assets/icons/alert_round.png'),
+                            ),
+                          ),
                     ),
                   ),
                 ),
-              ),
-              if (mediaItem.type == MediaType.audio ||
-                  mediaItem.type == MediaType.video)
                 Positioned(
-                  top: 10.w,
-                  left: 16.w,
-                  child: GestureDetector(
-                    onTap: () => controller.playMedia(mediaItem),
-                    child: Center(
+                  top: 2.w,
+                  right: 2.w,
+                  child: Container(
+                    padding: EdgeInsets.all(1.w),
+                    decoration: BoxDecoration(
+                      color:
+                          mediaItem.type == MediaType.video
+                              ? ThemeColors.accentColor
+                              : ThemeColors.primaryColor,
+                      borderRadius: BorderRadius.circular(1.w),
+                    ),
+                    child: Icon(
+                      mediaItem.type == MediaType.video
+                          ? Icons.videocam
+                          : mediaItem.type == MediaType.audio
+                          ? Icons.music_note
+                          : Icons.text_fields,
+                      color: ThemeColors.white,
+                      size: 3.w,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 2.w,
+                  left: 2.w,
+                  child: Obx(
+                    () => GestureDetector(
+                      onTap: () => controller.toggleFavorite(mediaItem.id),
                       child: Container(
-                        padding: EdgeInsets.all(2.w),
+                        padding: EdgeInsets.all(1.5.w),
                         decoration: BoxDecoration(
-                          color: ThemeColors.whiteBlue.withAlpha(200),
-                          shape: BoxShape.circle,
+                          color: ThemeColors.white.withAlpha(50),
+                          borderRadius: BorderRadius.circular(1.5.w),
                         ),
                         child: Icon(
-                          mediaItem.type == MediaType.video
-                              ? Icons.play_arrow
-                              : Icons.music_note,
-                          color: ThemeColors.primaryColor,
-                          size: 6.w,
+                          controller.isFavorite(mediaItem.id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color:
+                              controller.isFavorite(mediaItem.id)
+                                  ? ThemeColors.accentColor
+                                  : ThemeColors.greyColor,
+                          size: 4.w,
                         ),
                       ),
                     ),
                   ),
                 ),
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(3.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    mediaItem.title,
-                    style: TextStyle(
-                      color: ThemeColors.defaultTextColor,
-                      fontSize: 3.2.w,
-                      fontWeight: FontWeight.w600,
-                      height: 1.2,
+                if (mediaItem.type == MediaType.audio ||
+                    mediaItem.type == MediaType.video)
+                  Positioned(
+                    top: 10.w,
+                    left: 16.w,
+                    child: GestureDetector(
+                      onTap: () => controller.playMedia(mediaItem),
+                      child: Center(
+                        child: Container(
+                          padding: EdgeInsets.all(2.w),
+                          decoration: BoxDecoration(
+                            color: ThemeColors.whiteBlue.withAlpha(200),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            mediaItem.type == MediaType.video
+                                ? Icons.play_arrow
+                                : Icons.music_note,
+                            color: ThemeColors.primaryColor,
+                            size: 6.w,
+                          ),
+                        ),
+                      ),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  1.h.vs,
-                  Text(
-                    mediaItem.artist,
-                    style: TextStyle(
-                      color: ThemeColors.greyColor,
-                      fontSize: 2.8.w,
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(3.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      mediaItem.title,
+                      style: TextStyle(
+                        color: ThemeColors.defaultTextColor,
+                        fontSize: 3.2.w,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
+                    1.h.vs,
+                    Text(
+                      mediaItem.artist,
+                      style: TextStyle(
                         color: ThemeColors.greyColor,
-                        size: 3.w,
+                        fontSize: 2.8.w,
                       ),
-                      1.w.hs,
-                      Text(
-                        mediaItem.duration,
-                        style: TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
                           color: ThemeColors.greyColor,
-                          fontSize: 2.5.w,
+                          size: 3.w,
                         ),
-                      ),
-                      Spacer(),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 2.w,
-                          vertical: 0.5.w,
+                        1.w.hs,
+                        Text(
+                          mediaItem.duration,
+                          style: TextStyle(
+                            color: ThemeColors.greyColor,
+                            fontSize: 2.5.w,
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: ThemeColors.primaryColor.withAlpha(50),
-                          borderRadius: BorderRadius.circular(1.w),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: ThemeColors.primaryColor,
-                              size: 3.w,
-                            ),
-                            0.5.w.hs,
-                            Text(
-                              mediaItem.averageRating.toString(),
-                              style: TextStyle(
+                        Spacer(),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 2.w,
+                            vertical: 0.5.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: ThemeColors.primaryColor.withAlpha(50),
+                            borderRadius: BorderRadius.circular(1.w),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.star,
                                 color: ThemeColors.primaryColor,
-                                fontSize: 2.8.w,
-                                fontWeight: FontWeight.w600,
+                                size: 3.w,
                               ),
-                            ),
-                          ],
+                              0.5.w.hs,
+                              Text(
+                                mediaItem.averageRating.toString(),
+                                style: TextStyle(
+                                  color: ThemeColors.primaryColor,
+                                  fontSize: 2.8.w,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-
-  Widget _buildFeaturedSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.w),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [ThemeColors.accentColor, ThemeColors.primaryColor],
-            ),
-            borderRadius: BorderRadius.circular(3.w),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: ThemeColors.accentColor.withAlpha(50),
-            //     blurRadius: 8,
-            //     offset: const Offset(0, 2),
-            //   ),
-            // ],
-          ),
-          child: Text(
-            'Top Donors',
-            style: TextStyle(
-              color: ThemeColors.white,
-              fontSize: 3.w,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        2.h.vs,
-        const TopDonorsScreen(),
-      ],
-    );
-  }
-
 
   Widget _buildCategoriesSection() {
     return Column(
@@ -702,7 +675,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(CategoryData category) {
+  Widget _buildCategoryItem(Category category) {
     return GestureDetector(
       onTap: () => controller.onCategoryTap(category),
       child: Container(
@@ -721,10 +694,10 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(category.icon, style: TextStyle(fontSize: 6.w)),
+            Text(category.icon ?? '', style: TextStyle(fontSize: 6.w)),
             1.h.vs,
             Text(
-              category.name,
+              category.name ?? '',
               style: TextStyle(
                 color: ThemeColors.defaultTextColor,
                 fontSize: 2.8.w,

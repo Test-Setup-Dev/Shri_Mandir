@@ -360,19 +360,19 @@ class VideoPlayerController extends GetxController {
   }
 
   void addToPlaylist() {
-    Toasty.success('Added to Playlist');
+    Toasty.success('this feature is not available');
   }
 
   void downloadVideo() {
-    Toasty.success('Download Started');
+    Toasty.success('this feature is not available');
   }
 
   void shareVideo() {
-    Toasty.success('Share link copied to clipboard');
+    Toasty.success('this feature is not available');
   }
 
   void reportVideo() {
-    Toasty.success('Video Reported');
+    Toasty.success('this feature is not available');
   }
 
   @override
