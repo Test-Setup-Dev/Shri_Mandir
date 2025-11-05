@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mandir/utils/helper.dart';
 
 enum Gender { male, female, other }
 
@@ -18,35 +19,59 @@ class GenderToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.initWithContext(context);
+
     return Obx(() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: Gender.values.map((gender) {
-          final isSelected = controller.selectedGender.value == gender;
-          return GestureDetector(
-            onTap: () => controller.selectGender(gender),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.blue : Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isSelected ? Colors.blue : Colors.grey.shade400,
-                  width: 1.5,
+        children:
+            Gender.values.map((gender) {
+              final bool isSelected = controller.selectedGender.value == gender;
+
+              return GestureDetector(
+                onTap: () => controller.selectGender(gender),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 2.w),
+                  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                  width: 20.w,
+                  decoration: BoxDecoration(
+                    color:
+                        isSelected
+                            ? ThemeColors.primaryColor
+                            : ThemeColors.offWhite,
+                    borderRadius: BorderRadius.circular(3.w),
+                    border: Border.all(
+                      color:
+                          isSelected
+                              ? ThemeColors.primaryColor
+                              : ThemeColors.greyColor,
+                      width: 0.4.w,
+                    ),
+                    boxShadow: [
+                      if (isSelected)
+                        BoxShadow(
+                          color: ThemeColors.primaryColor.withOpacity(0.25),
+                          blurRadius: 4,
+                          offset: const Offset(0, 3),
+                        ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      gender.name.capitalizeFirst ?? '',
+                      style: TextStyle(
+                        color:
+                            isSelected
+                                ? ThemeColors.white
+                                : ThemeColors.defaultTextColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 3.w,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: Text(
-                gender.name.capitalizeFirst ?? '',
-                style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.black87,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          );
-        }).toList(),
+              );
+            }).toList(),
       );
     });
   }

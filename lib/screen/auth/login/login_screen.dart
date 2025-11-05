@@ -82,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              16.h.vs,
+              10.h.vs,
 
               CustomButton(
                 text: "Sign In",

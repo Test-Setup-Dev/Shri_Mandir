@@ -67,9 +67,10 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 60.w,
             height: 60.w,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 image: AssetImage('assets/icons/logo.png'),
+                // image: AssetImage('assets/icons/white_logo.png'),
                 fit: BoxFit.fitWidth,
               ),
             ),

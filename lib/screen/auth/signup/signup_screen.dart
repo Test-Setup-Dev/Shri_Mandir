@@ -89,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
               4.h.vs,
 
               CustomButton(text: "Sign Up", onPressed: controller.signup),
-              5.h.vs,
+              4.h.vs,
 
               _buildDivider(),
               3.h.vs,
@@ -102,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
                   SocialButton(icon: 'assets/icons/apple.png', onTap: () {}),
                 ],
               ),
-              8.h.vs,
+              5.h.vs,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
